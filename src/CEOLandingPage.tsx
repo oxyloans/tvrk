@@ -11,7 +11,8 @@ const TVRK_LOGO = "https://i.ibb.co/XrT06DxX/tvrklogo.png";
 
 // Exact production URL requested by you — no missing `www`, no trailing-slash dependency.
 const CLONE_URL = "https://www.askoxy.ai/radhAI";
-
+const OXY_FOUNDATION_PATH = "/oxy-foundation";
+const BRIDGITAL_NATION_PATH = "/bridgital-nation";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v4TFTYwW/insta-card.png";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -20,6 +21,7 @@ const OXYFINSERV_LOGO =
 const OFFICE_ADDRESS =
   "CC-02, Block-C, Indu Fortune Fields, The Annexe, Phase 13, KPHB, Hyderabad, Telangana - 500085";
 const OFFICE_MAP_URL = "https://maps.app.goo.gl/523J7bUc7KNrsV1B8";
+const HIDDEN_DRIVE_URL = "https://drive.google.com/file/d/1z9C1N2MPy16Nns33VjblcOShiJ6_yIvy/view?usp=sharing";
 
 const brandPlatforms = [
   {
@@ -72,12 +74,15 @@ const brandPlatforms = [
   },
 ];
 
-const navigation = [
+const headerNavigation = [
   { id: "about", label: "About" },
-  { id: "platforms", label: "Platforms" },
-  { id: "instagram", label: "Instagram" },
   { id: "ecosystem", label: "Ecosystem" },
   { id: "vision", label: "Vision" },
+];
+
+const initiativeNavigation = [
+  { href: OXY_FOUNDATION_PATH, label: "OXY Foundation" },
+  { href: BRIDGITAL_NATION_PATH, label: "Bridgital Nation" },
 ];
 
 const heroSocials = [
@@ -474,13 +479,15 @@ export default function CEOLandingPage({
         }
 
         .liquid-header {
-          border: 1px solid rgba(255,255,255,.60);
-          background: rgba(255,255,255,.70);
+          border: 1px solid rgba(255,255,255,.92);
+          background:
+            linear-gradient(135deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.88) 54%, rgba(249,247,255,.92) 100%);
           box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.92),
-            0 10px 35px rgba(31,22,77,.11);
-          -webkit-backdrop-filter: blur(24px) saturate(145%);
-          backdrop-filter: blur(24px) saturate(145%);
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 -1px 0 rgba(48,35,141,.035),
+            0 18px 48px rgba(31,22,77,.14);
+          -webkit-backdrop-filter: blur(28px) saturate(155%);
+          backdrop-filter: blur(28px) saturate(155%);
         }
 
         .header-logo-zone {
@@ -488,9 +495,30 @@ export default function CEOLandingPage({
           flex-shrink: 0;
           display: flex;
           align-items: center;
+          background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,.94) 78%, rgba(255,255,255,.72) 100%);
+          border-right: 1px solid rgba(48,35,141,.08);
+          box-shadow: 10px 0 28px rgba(33,27,103,.035);
+        }
+
+        .header-nav-link {
+          color: #5d5670;
+          transition: color .2s ease, background .2s ease, transform .2s ease;
+        }
+        .header-nav-link:hover {
+          color: #30238d;
+          background: rgba(48,35,141,.055);
+          transform: translateY(-1px);
+        }
+
+        .header-initiative {
+          border: 1px solid rgba(48,35,141,.10);
+          background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(247,244,255,.90));
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.96), 0 6px 18px rgba(48,35,141,.06);
+        }
+        .header-initiative:hover {
+          border-color: rgba(48,35,141,.18);
           background: #ffffff;
-          border-right: 1px solid rgba(48,35,141,.10);
-          box-shadow: 12px 0 28px rgba(33,27,103,.045);
+          box-shadow: inset 0 1px 0 #fff, 0 10px 24px rgba(48,35,141,.10);
         }
 
         @media (max-width: 639px) {
@@ -557,7 +585,7 @@ export default function CEOLandingPage({
             : "pointer-events-none -translate-y-[120%] opacity-0"
         }`}
       >
-        <div className="liquid-header mx-auto flex h-[66px] max-w-7xl items-center justify-between overflow-hidden rounded-[22px] pr-3 sm:pr-5">
+        <div className="liquid-header mx-auto flex h-[68px] max-w-7xl items-center justify-between overflow-hidden rounded-[24px] pr-2.5 sm:h-[70px] sm:pr-3 lg:pr-4">
           <a
             href="#about"
             onClick={(event) => navigateTo(event, "about")}
@@ -571,84 +599,138 @@ export default function CEOLandingPage({
               height={56}
               loading="eager"
               decoding="async"
-              className="h-[27px] w-auto max-w-[138px] object-contain object-left sm:h-[30px] sm:max-w-[168px] lg:h-[32px] lg:max-w-[184px]"
+              className="h-[27px] w-auto max-w-[142px] object-contain object-left sm:h-[30px] sm:max-w-[170px] xl:h-[31px] xl:max-w-[180px]"
             />
           </a>
 
-          <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
-            {navigation.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(event) => navigateTo(event, item.id)}
-                className={`rounded-full px-4 py-2.5 text-[13px] font-bold text-[#514a67] transition hover:bg-white/[0.55] hover:text-[#30238d] ${focus}`}
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+          <div className="hidden min-w-0 items-center gap-1 xl:flex">
+            <nav aria-label="Main navigation" className="flex items-center gap-1">
+              {headerNavigation.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(event) => navigateTo(event, item.id)}
+                  className={`header-nav-link rounded-full px-3 py-2.5 text-[12px] font-extrabold ${focus}`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
 
-          <div className="hidden items-center gap-2 lg:flex">
+            <span className="mx-1 h-6 w-px bg-[#30238d]/10" aria-hidden="true" />
+
+            <div className="flex items-center gap-1.5">
+              {initiativeNavigation.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`header-initiative inline-flex h-10 items-center rounded-full px-3.5 text-[11px] font-extrabold transition duration-200 hover:-translate-y-0.5 ${focus}`}
+                >
+                  {item.label === "OXY Foundation" ? (
+                    <span className="whitespace-nowrap">
+                      <span className="text-[#3B82C4]">OXY</span>{" "}
+                      <span className="text-[#51B85B]">Foundation</span>
+                    </span>
+                  ) : (
+                    <span className="whitespace-nowrap text-[#3478ad]">Bridgital Nation</span>
+                  )}
+                </a>
+              ))}
+            </div>
+
             <External
               href={CLONE_URL}
               ariaLabel="Talk to Radhakrishna AI"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-[#211b67] px-5 text-[13px] font-extrabold text-white shadow-[0_10px_28px_rgba(33,27,103,.22)] transition hover:-translate-y-0.5 hover:bg-[#30238d]"
+              className="group ml-1 inline-flex h-10 items-center gap-2 rounded-full bg-[#211b67] px-4 text-[12px] font-extrabold text-white shadow-[0_9px_24px_rgba(33,27,103,.20)] transition hover:-translate-y-0.5 hover:bg-[#30238d]"
             >
               Talk to my AI
-              <ArrowUpRight className="h-4 w-4" />
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </External>
           </div>
 
-          <button
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((value) => !value)}
-            className={`grid h-11 w-11 place-items-center rounded-[14px] border border-white/[0.7] bg-white/[0.5] text-[#30238d] shadow-sm backdrop-blur lg:hidden ${focus}`}
-          >
-            <span className="relative block h-4 w-5">
-              <span
-                className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition ${
-                  menuOpen ? "translate-y-[7px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition ${
-                  menuOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition ${
-                  menuOpen ? "-translate-y-[7px] -rotate-45" : ""
-                }`}
-              />
-            </span>
-          </button>
+          <div className="flex items-center gap-2 xl:hidden">
+            <External
+              href={CLONE_URL}
+              ariaLabel="Talk to Radhakrishna AI"
+              className="hidden h-10 items-center gap-1.5 rounded-full bg-[#211b67] px-3.5 text-[11px] font-extrabold text-white shadow-[0_8px_20px_rgba(33,27,103,.18)] transition hover:bg-[#30238d] sm:inline-flex"
+            >
+              Talk to AI
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </External>
+
+            <button
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((value) => !value)}
+              className={`grid h-11 w-11 place-items-center rounded-[15px] border border-[#30238d]/10 bg-white/85 text-[#30238d] shadow-[0_8px_20px_rgba(48,35,141,.08)] transition hover:bg-white ${focus}`}
+            >
+              <span className="relative block h-4 w-5">
+                <span
+                  className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition ${
+                    menuOpen ? "translate-y-[7px] rotate-45" : ""
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition ${
+                    menuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition ${
+                    menuOpen ? "-translate-y-[7px] -rotate-45" : ""
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
 
         {menuOpen && (
           <nav
             id="mobile-menu"
             aria-label="Mobile navigation"
-            className="liquid-header mx-auto mt-2 grid max-w-7xl gap-1 rounded-[22px] p-3 lg:hidden"
+            className="liquid-header mx-auto mt-2 grid max-w-7xl gap-1.5 rounded-[22px] p-3 xl:hidden"
           >
-            {navigation.map((item) => (
+            {headerNavigation.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={(event) => navigateTo(event, item.id)}
-                className={`rounded-2xl px-4 py-3 text-sm font-bold text-[#433b58] transition hover:bg-[#f4f1fa] hover:text-[#30238d] ${focus}`}
+                className={`rounded-2xl px-4 py-3 text-sm font-extrabold text-[#514a67] transition hover:bg-[#f5f2fb] hover:text-[#30238d] ${focus}`}
               >
                 {item.label}
               </a>
             ))}
+
+            <div className="my-1 h-px bg-[#30238d]/10" />
+
+            {initiativeNavigation.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className={`header-initiative flex min-h-12 items-center justify-between rounded-2xl px-4 py-3 text-sm font-extrabold ${focus}`}
+              >
+                {item.label === "OXY Foundation" ? (
+                  <span>
+                    <span className="text-[#3B82C4]">OXY</span>{" "}
+                    <span className="text-[#51B85B]">Foundation</span>
+                  </span>
+                ) : (
+                  <span className="text-[#3478ad]">Bridgital Nation</span>
+                )}
+                <ArrowUpRight className="h-4 w-4 text-slate-400" />
+              </a>
+            ))}
+
             <External
               href={CLONE_URL}
               className="mt-1 inline-flex min-h-12 items-center justify-between rounded-2xl bg-[#211b67] px-4 py-3 text-sm font-extrabold text-white"
             >
               Talk to my AI
-              <ArrowUpRight />
+              <ArrowUpRight className="h-4 w-4" />
             </External>
           </nav>
         )}
@@ -1019,9 +1101,23 @@ export default function CEOLandingPage({
             <p className="font-display text-sm font-bold text-white">Radhakrishna T</p>
             <p className="mt-1 text-[11px] font-semibold text-white/[0.78]">CEO &amp; Co-Founder</p>
           </div>
-          <p className="text-[11px] font-medium leading-5 text-white/[0.72]">
-            © {new Date().getFullYear()} Radhakrishna T. All rights reserved.
-          </p>
+          <div className="flex items-center justify-center gap-1 sm:justify-end">
+            <p className="text-[11px] font-medium leading-5 text-white/[0.72]">
+              © {new Date().getFullYear()} Radhakrishna T. All rights reserved.
+            </p>
+
+            {/* Intentionally subtle hidden-style shortcut to the shared Drive file. */}
+            <External
+              href={HIDDEN_DRIVE_URL}
+              ariaLabel="Open shared Drive file"
+              className="group grid h-5 w-5 shrink-0 place-items-center rounded-full opacity-[0.16] transition hover:opacity-60 focus:opacity-100"
+            >
+              <span
+                aria-hidden="true"
+                className="block h-[3px] w-[3px] rounded-full bg-white"
+              />
+            </External>
+          </div>
         </div>
       </footer>
     </div>
