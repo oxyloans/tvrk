@@ -1,18 +1,14 @@
 import React, {
-  useEffect,
-  useRef,
   useState,
   type MouseEvent,
   type ReactNode,
 } from "react";
+import InitiativeHeader from "./InitiativeHeader";
 
 const HERO_IMAGE = "https://i.ibb.co/TqTZKPFq/ceo-image1.png";
-const TVRK_LOGO = "https://i.ibb.co/XrT06DxX/tvrklogo.png";
 
 // Exact production URL requested by you — no missing `www`, no trailing-slash dependency.
 const CLONE_URL = "https://www.askoxy.ai/radhAI";
-const OXY_FOUNDATION_PATH = "/oxy-foundation";
-const BRIDGITAL_NATION_PATH = "/bridgital-nation";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v4TFTYwW/insta-card.png";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -74,16 +70,7 @@ const brandPlatforms = [
   },
 ];
 
-const headerNavigation = [
-  { id: "about", label: "About" },
-  { id: "ecosystem", label: "Ecosystem" },
-  { id: "vision", label: "Vision" },
-];
 
-const initiativeNavigation = [
-  { href: OXY_FOUNDATION_PATH, label: "OXY Foundation" },
-  { href: BRIDGITAL_NATION_PATH, label: "Bridgital Nation" },
-];
 
 const heroSocials = [
   { name: "LinkedIn", href: "https://www.linkedin.com/in/oxyradhakrishna/" },
@@ -327,40 +314,8 @@ type CEOLandingPageProps = {
 export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [headerVisible, setHeaderVisible] = useState(true);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    lastScrollY.current = window.scrollY;
-
-    const handleScroll = () => {
-      const currentY = Math.max(window.scrollY, 0);
-      const previousY = lastScrollY.current;
-      const delta = currentY - previousY;
-
-      // Always show the navigation close to the top of the page.
-      if (currentY <= 28) {
-        setHeaderVisible(true);
-      } else if (delta > 8 && currentY > 120) {
-        // Hide only after a deliberate downward scroll.
-        setHeaderVisible(false);
-        setMenuOpen(false);
-      } else if (delta < -6) {
-        // Bring it back as soon as the user starts scrolling upward.
-        setHeaderVisible(true);
-      }
-
-      lastScrollY.current = currentY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   function navigateTo(event: MouseEvent<HTMLAnchorElement>, id: string) {
     event.preventDefault();
-    setMenuOpen(false);
     const section = document.getElementById(id);
     section?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -578,163 +533,7 @@ export default function CEOLandingPage({
         }
       `}</style>
 
-      <header
-        className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-all duration-300 ease-out sm:px-5 sm:pt-4 ${
-          headerVisible || menuOpen
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none -translate-y-[120%] opacity-0"
-        }`}
-      >
-        <div className="liquid-header mx-auto flex h-[68px] max-w-7xl items-center justify-between overflow-hidden rounded-[24px] pr-2.5 sm:h-[70px] sm:pr-3 lg:pr-4">
-          <a
-            href="#about"
-            onClick={(event) => navigateTo(event, "about")}
-            aria-label="Go to introduction"
-            className={`header-logo-zone min-w-0 px-4 sm:px-5 lg:px-6 ${focus}`}
-          >
-            <img
-              src={TVRK_LOGO}
-              alt="TV Radhakrishna"
-              width={220}
-              height={56}
-              loading="eager"
-              decoding="async"
-              className="h-[27px] w-auto max-w-[142px] object-contain object-left sm:h-[30px] sm:max-w-[170px] xl:h-[31px] xl:max-w-[180px]"
-            />
-          </a>
-
-          <div className="hidden min-w-0 items-center gap-1 xl:flex">
-            <nav aria-label="Main navigation" className="flex items-center gap-1">
-              {headerNavigation.map((item) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(event) => navigateTo(event, item.id)}
-                  className={`header-nav-link rounded-full px-3 py-2.5 text-[12px] font-extrabold ${focus}`}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-
-            <span className="mx-1 h-6 w-px bg-[#30238d]/10" aria-hidden="true" />
-
-            <div className="flex items-center gap-1.5">
-              {initiativeNavigation.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={`header-initiative inline-flex h-10 items-center rounded-full px-3.5 text-[11px] font-extrabold transition duration-200 hover:-translate-y-0.5 ${focus}`}
-                >
-                  {item.label === "OXY Foundation" ? (
-                    <span className="whitespace-nowrap">
-                      <span className="text-[#3B82C4]">OXY</span>{" "}
-                      <span className="text-[#51B85B]">Foundation</span>
-                    </span>
-                  ) : (
-                    <span className="whitespace-nowrap text-[#3478ad]">Bridgital Nation</span>
-                  )}
-                </a>
-              ))}
-            </div>
-
-            <External
-              href={CLONE_URL}
-              ariaLabel="Talk to Radhakrishna AI"
-              className="group ml-1 inline-flex h-10 items-center gap-2 rounded-full bg-[#211b67] px-4 text-[12px] font-extrabold text-white shadow-[0_9px_24px_rgba(33,27,103,.20)] transition hover:-translate-y-0.5 hover:bg-[#30238d]"
-            >
-              Talk to my AI
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </External>
-          </div>
-
-          <div className="flex items-center gap-2 xl:hidden">
-            <External
-              href={CLONE_URL}
-              ariaLabel="Talk to Radhakrishna AI"
-              className="hidden h-10 items-center gap-1.5 rounded-full bg-[#211b67] px-3.5 text-[11px] font-extrabold text-white shadow-[0_8px_20px_rgba(33,27,103,.18)] transition hover:bg-[#30238d] sm:inline-flex"
-            >
-              Talk to AI
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </External>
-
-            <button
-              type="button"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              onClick={() => setMenuOpen((value) => !value)}
-              className={`grid h-11 w-11 place-items-center rounded-[15px] border border-[#30238d]/10 bg-white/85 text-[#30238d] shadow-[0_8px_20px_rgba(48,35,141,.08)] transition hover:bg-white ${focus}`}
-            >
-              <span className="relative block h-4 w-5">
-                <span
-                  className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition ${
-                    menuOpen ? "translate-y-[7px] rotate-45" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition ${
-                    menuOpen ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition ${
-                    menuOpen ? "-translate-y-[7px] -rotate-45" : ""
-                  }`}
-                />
-              </span>
-            </button>
-          </div>
-        </div>
-
-        {menuOpen && (
-          <nav
-            id="mobile-menu"
-            aria-label="Mobile navigation"
-            className="liquid-header mx-auto mt-2 grid max-w-7xl gap-1.5 rounded-[22px] p-3 xl:hidden"
-          >
-            {headerNavigation.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(event) => navigateTo(event, item.id)}
-                className={`rounded-2xl px-4 py-3 text-sm font-extrabold text-[#514a67] transition hover:bg-[#f5f2fb] hover:text-[#30238d] ${focus}`}
-              >
-                {item.label}
-              </a>
-            ))}
-
-            <div className="my-1 h-px bg-[#30238d]/10" />
-
-            {initiativeNavigation.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className={`header-initiative flex min-h-12 items-center justify-between rounded-2xl px-4 py-3 text-sm font-extrabold ${focus}`}
-              >
-                {item.label === "OXY Foundation" ? (
-                  <span>
-                    <span className="text-[#3B82C4]">OXY</span>{" "}
-                    <span className="text-[#51B85B]">Foundation</span>
-                  </span>
-                ) : (
-                  <span className="text-[#3478ad]">Bridgital Nation</span>
-                )}
-                <ArrowUpRight className="h-4 w-4 text-slate-400" />
-              </a>
-            ))}
-
-            <External
-              href={CLONE_URL}
-              className="mt-1 inline-flex min-h-12 items-center justify-between rounded-2xl bg-[#211b67] px-4 py-3 text-sm font-extrabold text-white"
-            >
-              Talk to my AI
-              <ArrowUpRight className="h-4 w-4" />
-            </External>
-          </nav>
-        )}
-      </header>
+      <InitiativeHeader active="home" />
 
       <main>
         <section
@@ -742,7 +541,7 @@ export default function CEOLandingPage({
           aria-labelledby="hero-heading"
           className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
         >
-          <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 pb-7 pt-6 sm:px-8 sm:pb-9 sm:pt-8 lg:grid-cols-[1.08fr_.92fr] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
+          <div className="mx-auto grid tvrk-container items-center gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
             <div className="min-w-0">
               <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] hero-kicker sm:text-[11px]">
                 FinTech · BFSI · Artificial Intelligence
@@ -850,9 +649,9 @@ export default function CEOLandingPage({
           aria-label="OXY Group Companies"
           className="relative z-10 scroll-mt-24 py-5 sm:py-7 lg:py-8"
         >
-          <div className="logo-strip w-full overflow-hidden py-3 sm:py-4 lg:py-5">
+          <div className="logo-strip tvrk-container overflow-hidden py-3 sm:py-4 lg:py-5">
             {/* Tablet / Desktop: one clean white strip, logos only. */}
-            <div className="mx-auto hidden max-w-[1500px] grid-cols-3 items-center gap-x-5 gap-y-3 px-5 sm:grid md:px-7 lg:grid-cols-6 lg:gap-x-7 lg:px-10 xl:gap-x-10">
+            <div className="mx-auto hidden w-full grid-cols-3 items-center gap-x-5 gap-y-3 sm:grid lg:grid-cols-6 lg:gap-x-7 xl:gap-x-10">
               {brandPlatforms.map((item) => (
                 <External
                   key={item.name}
@@ -898,11 +697,11 @@ export default function CEOLandingPage({
         <section
           id="instagram"
           aria-labelledby="instagram-heading"
-          className="scroll-mt-24 px-4 py-8 sm:px-8 sm:py-12 lg:py-14"
+          className="scroll-mt-24 py-8 sm:py-12 lg:py-14"
         >
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto tvrk-container">
             <div className="liquid-glass overflow-hidden rounded-[30px] sm:rounded-[34px]">
-              <div className="grid lg:grid-cols-[.96fr_1.04fr]">
+              <div className="grid lg:grid-cols-[minmax(0,.96fr)_minmax(0,1.04fr)]">
                 <External
                   href={INSTAGRAM_URL}
                   ariaLabel="Open @tvradhakrishna on Instagram"
@@ -954,10 +753,10 @@ export default function CEOLandingPage({
         <section
           id="ecosystem"
           aria-labelledby="ecosystem-heading"
-          className="scroll-mt-24 px-4 py-10 sm:px-8 sm:py-14 lg:py-16"
+          className="scroll-mt-24 py-10 sm:py-14 lg:py-16"
         >
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-5 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
+          <div className="mx-auto tvrk-container">
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,.75fr)_minmax(0,1.25fr)] lg:items-end">
               <div>
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#6d4b90] sm:text-xs">
                   Our ecosystem
@@ -1024,10 +823,10 @@ export default function CEOLandingPage({
         <section
           id="vision"
           aria-labelledby="vision-heading"
-          className="scroll-mt-24 px-4 pb-12 pt-8 text-white sm:px-8 sm:pb-16 sm:pt-10 lg:pb-20 lg:pt-12"
+          className="scroll-mt-24 pb-12 pt-8 text-white sm:pb-16 sm:pt-10 lg:pb-20 lg:pt-12"
         >
-          <div className="vision-panel mx-auto max-w-7xl overflow-hidden rounded-[30px] p-5 sm:rounded-[34px] sm:p-8 lg:p-10 xl:p-12">
-            <div className="grid gap-9 lg:grid-cols-[.88fr_1.12fr] lg:items-center lg:gap-14 xl:gap-16">
+          <div className="vision-panel mx-auto tvrk-container overflow-hidden rounded-[30px] p-5 sm:rounded-[34px] sm:p-8 lg:p-10 xl:p-12">
+            <div className="grid gap-9 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 xl:gap-16">
               <div className="min-w-0">
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#e6d8f6] sm:text-xs">
                   Vision &amp; AI
@@ -1095,8 +894,8 @@ export default function CEOLandingPage({
         </section>
       </main>
 
-      <footer className="border-t border-white/[0.12] bg-transparent px-4 py-8 text-white sm:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+      <footer className="border-t border-white/[0.12] bg-transparent py-8 text-white">
+        <div className="mx-auto flex tvrk-container flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
           <div>
             <p className="font-display text-sm font-bold text-white">Radhakrishna T</p>
             <p className="mt-1 text-[11px] font-semibold text-white/[0.78]">CEO &amp; Co-Founder</p>

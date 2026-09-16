@@ -264,8 +264,8 @@ export default function BridgitalNationPage() {
       <main>
         {/* INTRO + FEATURED VIDEO */}
         <section className="border-b border-slate-100 bg-[radial-gradient(circle_at_8%_8%,rgba(81,184,91,.10),transparent_25%),radial-gradient(circle_at_90%_10%,rgba(59,130,196,.12),transparent_27%),linear-gradient(180deg,#f9fcfe_0%,#ffffff_100%)]">
-          <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-9 lg:px-8 lg:py-11">
-            <div className="grid items-center gap-7 lg:grid-cols-[.72fr_1.28fr] lg:gap-10">
+          <div className="mx-auto tvrk-container py-7 sm:py-9 lg:py-11">
+            <div className="grid items-center gap-7 lg:grid-cols-[minmax(0,.72fr)_minmax(0,1.28fr)] lg:gap-10">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#3B82C4]/15 bg-white px-3.5 py-2 shadow-sm">
                   <span className="h-2 w-2 rounded-full bg-[#51B85B]" />
@@ -346,7 +346,7 @@ export default function BridgitalNationPage() {
 
         {/* LEADERS */}
         <section className="bg-[#102435] py-10 sm:py-12 lg:py-14">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto tvrk-container">
             <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
               <div className="min-w-0">
                 <div className="mb-5 max-w-2xl">
@@ -410,7 +410,7 @@ export default function BridgitalNationPage() {
 
         {/* SECTORS */}
         <section className="py-10 sm:py-13 lg:py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto tvrk-container">
             <div className="flex items-end justify-between gap-4">
               <SectionTitle
                 eyebrow="Bridgital platforms"
@@ -456,9 +456,9 @@ export default function BridgitalNationPage() {
         </section>
 
         {/* INSTITUTE */}
-        <section className="px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8">
-          <div className="mx-auto max-w-7xl overflow-hidden rounded-[24px] border border-slate-200 bg-[#f7fbfd] p-6 sm:p-8 lg:p-9">
-            <div className="grid gap-5 lg:grid-cols-[.7fr_1.3fr] lg:items-center">
+        <section className="pb-12 sm:pb-16">
+          <div className="mx-auto tvrk-container overflow-hidden rounded-[24px] border border-slate-200 bg-[#f7fbfd] p-6 sm:p-8 lg:p-9">
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,.7fr)_minmax(0,1.3fr)] lg:items-center">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B82C4]">Global Bridgital Institute</p>
                 <h2 className="mt-2 text-2xl font-black tracking-[-0.035em] text-slate-950 sm:text-3xl">A platform for Bridgital thinking</h2>
@@ -474,7 +474,7 @@ export default function BridgitalNationPage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-100 bg-white px-4 py-7 text-center text-xs font-semibold text-slate-500 sm:px-6">
+      <footer className="border-t border-slate-100 bg-white py-7 text-center text-xs font-semibold text-slate-500">
         <span style={{ color: BRAND_BLUE }} className="font-black">BRIDGITAL</span>{" "}
         <span style={{ color: BRAND_GREEN }} className="font-black">NATION</span>
         <span className="mx-2 text-slate-300">•</span>
