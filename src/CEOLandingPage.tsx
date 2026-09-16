@@ -11,6 +11,7 @@ const HERO_IMAGE = "https://i.ibb.co/TqTZKPFq/ceo-image1.png";
 const CLONE_URL = "https://www.askoxy.ai/radhAI";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v4TFTYwW/insta-card.png";
+const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
 const OXYFINSERV_LOGO =
   "https://i.ibb.co/Swx6RWXM/oxyfinservlogo-Cpr9-A3-NT.png";
@@ -19,53 +20,55 @@ const OFFICE_ADDRESS =
 const OFFICE_MAP_URL = "https://maps.app.goo.gl/523J7bUc7KNrsV1B8";
 const HIDDEN_DRIVE_URL = "https://drive.google.com/file/d/1z9C1N2MPy16Nns33VjblcOShiJ6_yIvy/view?usp=sharing";
 
+// Logo display sizes are intentionally much larger. Width-based sizing avoids
+// max-width caps making the logos look unchanged on wide desktop screens.
 const brandPlatforms = [
   {
     logo: "https://i.ibb.co/s4CW2mg/l1.png",
     name: "OXYGLOBAL.TECH",
     href: "https://www.oxyglobal.tech/",
-    desktopClass: "h-[42px] md:h-[48px] lg:h-[52px] xl:h-[58px]",
-    mobileClass: "h-[66px]",
+    desktopClass: "w-[145px] md:w-[170px] lg:w-[145px] xl:w-[187px] 2xl:w-[221px]",
+    mobileClass: "w-[167px]",
     whiteTile: true,
   },
   {
     logo: "https://i.ibb.co/B5xsVChY/l2.png",
     name: "OXYLOANS",
     href: "https://oxyloans.com/",
-    desktopClass: "h-[46px] md:h-[52px] lg:h-[58px] xl:h-[64px]",
-    mobileClass: "h-[72px]",
+    desktopClass: "w-[153px] md:w-[183px] lg:w-[153px] xl:w-[200px] 2xl:w-[234px]",
+    mobileClass: "w-[177px]",
     whiteTile: false,
   },
   {
     logo: "https://i.ibb.co/k2snG0YW/l3.png",
     name: "OXYBRICKS.WORLD",
     href: "https://oxybricks.world/",
-    desktopClass: "h-[38px] md:h-[44px] lg:h-[50px] xl:h-[56px]",
-    mobileClass: "h-[64px]",
+    desktopClass: "w-[149px] md:w-[174px] lg:w-[145px] xl:w-[191px] 2xl:w-[225px]",
+    mobileClass: "w-[170px]",
     whiteTile: true,
   },
   {
     logo: "https://i.ibb.co/PGYYDvL9/l4.png",
     name: "OXYGOLD.AI",
     href: "https://www.oxygold.ai/",
-    desktopClass: "h-[34px] md:h-[40px] lg:h-[46px] xl:h-[50px]",
-    mobileClass: "h-[60px]",
+    desktopClass: "w-[132px] md:w-[157px] lg:w-[132px] xl:w-[174px] 2xl:w-[204px]",
+    mobileClass: "w-[156px]",
     whiteTile: false,
   },
   {
     logo: "https://i.ibb.co/B2NcQ7Nj/l5.png",
     name: "OXYCHAIN",
     href: "http://bmv.money:2750/",
-    desktopClass: "h-[36px] md:h-[42px] lg:h-[48px] xl:h-[54px]",
-    mobileClass: "h-[62px]",
+    desktopClass: "w-[136px] md:w-[166px] lg:w-[136px] xl:w-[179px] 2xl:w-[213px]",
+    mobileClass: "w-[162px]",
     whiteTile: true,
   },
   {
     logo: OXYFINSERV_LOGO,
     name: "OXYFINSERV",
     href: "https://www.oxyfinserv.com/",
-    desktopClass: "h-[36px] md:h-[42px] lg:h-[48px] xl:h-[54px]",
-    mobileClass: "h-[62px]",
+    desktopClass: "w-[149px] md:w-[174px] lg:w-[145px] xl:w-[191px] 2xl:w-[225px]",
+    mobileClass: "w-[170px]",
     whiteTile: true,
   },
 ];
@@ -178,6 +181,14 @@ function SocialIcon({ name, className = "" }: SocialIconProps) {
   return (
     <svg {...props} fill="currentColor">
       <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l8.2-9.4L.8 2h6.5l4.5 6.8L18.9 2ZM17.8 20h1.7L6.3 4H4.5l13.3 16Z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M20.52 3.48A11.87 11.87 0 0 0 12.05 0C5.47 0 .11 5.35.1 11.94c0 2.1.55 4.16 1.6 5.97L0 24l6.25-1.64a11.93 11.93 0 0 0 5.79 1.48h.01C18.63 23.84 24 18.49 24 11.9c0-3.19-1.24-6.18-3.48-8.42ZM12.05 21.82h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.71.97.99-3.62-.23-.37a9.88 9.88 0 0 1-1.52-5.27c0-5.47 4.46-9.92 9.94-9.92a9.86 9.86 0 0 1 7.02 2.91 9.86 9.86 0 0 1 2.9 7.02c0 5.47-4.46 9.87-9.98 9.87Zm5.44-7.43c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.09 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z" />
     </svg>
   );
 }
@@ -367,10 +378,10 @@ export default function CEOLandingPage({
         .vision-copy { color: rgba(255,255,255,.82); }
         .vision-muted { color: rgba(255,255,255,.70); }
         .logo-strip {
+          width: 100%;
           background: #ffffff;
-          border-top: 1px solid rgba(34, 27, 80, .07);
-          border-bottom: 1px solid rgba(34, 27, 80, .07);
-          box-shadow: 0 14px 34px rgba(33, 27, 103, .08);
+          border: 0;
+          box-shadow: none;
         }
 
         .logo-link {
@@ -380,21 +391,6 @@ export default function CEOLandingPage({
           justify-content: center;
           min-width: 0;
         }
-
-        .logo-link::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: 7px;
-          width: 0;
-          height: 2px;
-          border-radius: 999px;
-          background: linear-gradient(90deg, #30238d, #b14f8f, #ef8f68);
-          transform: translateX(-50%);
-          transition: width .25s ease;
-        }
-
-        .logo-link:hover::after { width: 36px; }
 
         .vision-panel {
           border: 1px solid rgba(255,255,255,.16);
@@ -583,7 +579,21 @@ export default function CEOLandingPage({
                 </a>
               </div>
 
-              <div className="mt-5 max-w-[760px] border-t border-white/[0.14] pt-4">
+              <External
+                href={WHATSAPP_CHANNEL_URL}
+                ariaLabel="Follow TV Radhakrishna on WhatsApp"
+                className="group mt-4 inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/[0.18] bg-white/[0.09] px-3 py-2 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/60 hover:bg-white/[0.14] sm:px-3.5 sm:py-2.5"
+              >
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#25D366] text-white shadow-sm sm:h-9 sm:w-9">
+                  <WhatsAppIcon className="h-[18px] w-[18px] sm:h-5 sm:w-5" />
+                </span>
+                <span className="whitespace-nowrap text-[11px] font-extrabold sm:text-xs">
+                  Follow WhatsApp Channel
+                </span>
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-emerald-200" />
+              </External>
+
+              <div className="mt-5 max-w-[760px] pt-1">
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3">
                   <a
                     href={OFFICE_MAP_URL}
@@ -600,8 +610,6 @@ export default function CEOLandingPage({
                       {OFFICE_ADDRESS}
                     </span>
                   </a>
-
-                  <span className="hidden h-5 w-px bg-white/[0.16] lg:block" aria-hidden="true" />
 
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
@@ -647,49 +655,50 @@ export default function CEOLandingPage({
         <section
           id="platforms"
           aria-label="OXY Group Companies"
-          className="relative z-10 scroll-mt-24 py-5 sm:py-7 lg:py-8"
+          className="logo-strip relative z-10 scroll-mt-24 overflow-hidden"
         >
-          <div className="logo-strip tvrk-container overflow-hidden py-3 sm:py-4 lg:py-5">
-            {/* Tablet / Desktop: one clean white strip, logos only. */}
-            <div className="mx-auto hidden w-full grid-cols-3 items-center gap-x-5 gap-y-3 sm:grid lg:grid-cols-6 lg:gap-x-7 xl:gap-x-10">
+          {/* Full-bleed white band; only the logo grid is content-width constrained. */}
+          <div className="w-full px-4 sm:px-6 lg:px-5 xl:px-7 2xl:px-10">
+            {/* Tablet / Desktop: larger logos on one clean full-width white band. */}
+            <div className="hidden w-full grid-cols-3 items-center gap-x-5 gap-y-4 py-5 sm:grid sm:py-6 lg:grid-cols-6 lg:gap-x-3 lg:py-7 xl:gap-x-5 2xl:gap-x-7">
               {brandPlatforms.map((item) => (
                 <External
                   key={item.name}
                   href={item.href}
                   ariaLabel={`Visit ${item.name}`}
-                  className="logo-link group min-h-[86px] px-2 py-3 lg:min-h-[92px]"
+                  className="logo-link group min-h-[92px] overflow-visible px-1 py-2 lg:min-h-[102px] xl:min-h-[110px] 2xl:min-h-[120px]"
                 >
                   <img
                     src={item.logo}
                     alt={item.name}
                     loading="eager"
                     decoding="async"
-                    className={`${item.desktopClass} w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
+                    className={`${item.desktopClass} h-auto max-w-none object-contain transition-transform duration-300 group-hover:scale-[1.04]`}
                   />
                 </External>
               ))}
             </div>
+          </div>
 
-            {/* Mobile: seamless auto-scrolling logo strip, no headings or cards. */}
-            <div className="overflow-hidden sm:hidden">
-              <div className="logo-marquee items-center">
-                {[...brandPlatforms, ...brandPlatforms].map((item, index) => (
-                  <External
-                    key={`${item.name}-${index}`}
-                    href={item.href}
-                    ariaLabel={`Visit ${item.name}`}
-                    className="logo-link flex h-[78px] w-[168px] shrink-0 px-4 py-2"
-                  >
-                    <img
-                      src={item.logo}
-                      alt={item.name}
-                      loading="eager"
-                      decoding="async"
-                      className={`${item.mobileClass} max-h-[52px] w-auto max-w-[92%] object-contain`}
-                    />
-                  </External>
-                ))}
-              </div>
+          {/* Mobile: edge-to-edge white marquee with no borders, cards, or divider lines. */}
+          <div className="overflow-hidden bg-white sm:hidden">
+            <div className="logo-marquee items-center py-2">
+              {[...brandPlatforms, ...brandPlatforms].map((item, index) => (
+                <External
+                  key={`${item.name}-${index}`}
+                  href={item.href}
+                  ariaLabel={`Visit ${item.name}`}
+                  className="logo-link flex h-[100px] w-[208px] shrink-0 overflow-visible px-3 py-2"
+                >
+                  <img
+                    src={item.logo}
+                    alt={item.name}
+                    loading="eager"
+                    decoding="async"
+                    className={`${item.mobileClass} h-auto max-w-none object-contain`}
+                  />
+                </External>
+              ))}
             </div>
           </div>
         </section>
