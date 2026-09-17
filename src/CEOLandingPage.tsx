@@ -5,7 +5,7 @@ const HERO_IMAGE = "https://i.ibb.co/TqTZKPFq/ceo-image1.png";
 
 // Exact production URL requested by you — no missing `www`, no trailing-slash dependency.
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v4TFTYwW/insta-card.png";
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/Xk34KjK8/insta-card.png";
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -578,9 +578,10 @@ export default function CEOLandingPage({
 
               <h1
                 id="hero-heading"
-                className="font-display mt-3.5 max-w-[760px] text-[clamp(2.1rem,4.5vw,4.2rem)] font-extrabold leading-[0.98] tracking-[-0.05em]"
+                className="font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
               >
-                Let&apos;s Build Unicorns Together.
+                <span className="block">Let&apos;s Build</span>
+                <span className="mt-1 block sm:mt-1.5">Unicorns Together.</span>
               </h1>
 
               <p className="mt-5 max-w-[720px] text-[16px] font-extrabold leading-7 text-white sm:text-[18px] sm:leading-8 lg:text-[20px]">
