@@ -1,7 +1,7 @@
 import React, { useState, type ReactNode } from "react";
 import InitiativeHeader from "./InitiativeHeader";
 
-const HERO_IMAGE = "https://i.ibb.co/TqTZKPFq/ceo-image1.png";
+const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
 
 // Exact production URL requested by you — no missing `www`, no trailing-slash dependency.
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
