@@ -122,7 +122,7 @@ export default function InitiativeHeader({ active = "home" }: InitiativeHeaderPr
       <header ref={headerRef} className="tvrk-header" data-visible={visible || open}>
         <div className="tvrk-bar">
           <a href="/" aria-label="TV Radhakrishna home" className="tvrk-logo" onClick={close}>
-            <img src="https://i.ibb.co/XrT06DxX/tvrklogo.png" alt="TV Radhakrishna" width="164" height="40" />
+            <img src="https://i.ibb.co/4ZdmCWMt/tvrklogo-n.png" alt="TV Radhakrishna" width="164" height="40" />
           </a>
           <nav className="tvrk-desktop" aria-label="Main navigation">{links}</nav>
           <button ref={toggleRef} className="tvrk-toggle" type="button" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="tvrk-mobile-menu" onClick={() => setOpen(value => !value)}>
