@@ -468,6 +468,27 @@ export default function OxyFoundationPage() {
         .oxy-foundation main .grid > *, .oxy-foundation main .flex > * { min-width: 0; }
         .oxy-foundation main :is(h1,h2,h3,h4,p,dd) { overflow-wrap: anywhere; }
         .oxy-foundation main :is(img,iframe) { max-width: 100%; }
+
+        /* Local responsive container so this page keeps its side spacing even when loaded directly. */
+        .oxy-foundation .tvrk-container {
+          box-sizing: border-box;
+          width: calc(100% - 32px) !important;
+          max-width: 1720px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          min-width: 0;
+        }
+        .oxy-foundation .tvrk-container > * { min-width: 0; }
+
+        @media (min-width: 640px) {
+          .oxy-foundation .tvrk-container { width: calc(100% - 48px) !important; }
+        }
+        @media (min-width: 1024px) {
+          .oxy-foundation .tvrk-container { width: calc(100% - 64px) !important; }
+        }
+        @media (min-width: 1280px) {
+          .oxy-foundation .tvrk-container { width: calc(100% - 96px) !important; }
+        }
         .oxy-foundation main article {
           background-image: linear-gradient(135deg,rgba(255,255,255,.96),rgba(242,248,252,.6) 65%,rgba(239,249,241,.65));
           box-shadow: inset 0 1px 0 #fff, 0 8px 28px rgba(31,73,104,.045);

@@ -1,14 +1,11 @@
 import React, { useState, type ReactNode } from "react";
 import InitiativeHeader from "./InitiativeHeader";
 
-const HERO_IMAGE =
-  "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
+const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
 
-const INSTAGRAM_URL =
-  "https://www.instagram.com/tvradhakrishna/";
+const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 
-const INSTAGRAM_CARD_IMAGE =
- "https://i.ibb.co/ymzTDmL9/insta-card.png" ;
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/ymzTDmL9/insta-card.png";
 
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
@@ -18,14 +15,12 @@ const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
 const OXYFINSERV_LOGO =
   "https://i.ibb.co/Swx6RWXM/oxyfinservlogo-Cpr9-A3-NT.png";
 
-const OXYJOURNEYS_LOGO =
-  "https://i.ibb.co/gbh10qKV/journeys-logo.png";
+const OXYJOURNEYS_LOGO = "https://i.ibb.co/XxJJRXx5/jun-logo.png";
 
 const OFFICE_ADDRESS =
   "CC-02, Block-C, Indu Fortune Fields, The Annexe, Phase 13, KPHB, Hyderabad, Telangana - 500085";
 
-const OFFICE_MAP_URL =
-  "https://maps.app.goo.gl/523J7bUc7KNrsV1B8";
+const OFFICE_MAP_URL = "https://maps.app.goo.gl/523J7bUc7KNrsV1B8";
 
 const OFFICE_IMAGE =
   "https://i.ibb.co/MxCWpQNv/Chat-GPT-Image-Sep-17-2026-11-09-43-AM.png";
@@ -220,10 +215,7 @@ type SocialIconProps = {
   className?: string;
 };
 
-function SocialIcon({
-  name,
-  className = "",
-}: SocialIconProps) {
+function SocialIcon({ name, className = "" }: SocialIconProps) {
   const props = {
     width: 20,
     height: 20,
@@ -235,43 +227,19 @@ function SocialIcon({
 
   if (name === "Instagram") {
     return (
-      <svg
-        {...props}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      >
-        <rect
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="5"
-        />
+      <svg {...props} fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
 
-        <circle
-          cx="12"
-          cy="12"
-          r="4"
-        />
+        <circle cx="12" cy="12" r="4" />
 
-        <circle
-          cx="17.5"
-          cy="6.5"
-          r="1"
-          fill="currentColor"
-          stroke="none"
-        />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
       </svg>
     );
   }
 
   if (name === "LinkedIn") {
     return (
-      <svg
-        {...props}
-        fill="currentColor"
-      >
+      <svg {...props} fill="currentColor">
         <path d="M5.4 3a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 0 0 0-4.2ZM3.6 9h3.6v12H3.6V9Zm5.8 0h3.5v1.6h.1c.5-1 1.7-1.9 3.5-1.9 3.7 0 4.4 2.4 4.4 5.5V21h-3.6v-6c0-1.5 0-3.3-2-3.3s-2.3 1.6-2.3 3.2V21H9.4V9Z" />
       </svg>
     );
@@ -279,30 +247,20 @@ function SocialIcon({
 
   if (name === "Facebook") {
     return (
-      <svg
-        {...props}
-        fill="currentColor"
-      >
+      <svg {...props} fill="currentColor">
         <path d="M14 22v-9h3l.5-3H14V8c0-.9.3-1.5 1.6-1.5h2V3.2C17.3 3.1 16.1 3 14.8 3 12 3 10 4.7 10 7.8V10H7v3h3v9h4Z" />
       </svg>
     );
   }
 
   return (
-    <svg
-      {...props}
-      fill="currentColor"
-    >
+    <svg {...props} fill="currentColor">
       <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l8.2-9.4L.8 2h6.5l4.5 6.8L18.9 2ZM17.8 20h1.7L6.3 4H4.5l13.3 16Z" />
     </svg>
   );
 }
 
-function WhatsAppIcon({
-  className = "",
-}: {
-  className?: string;
-}) {
+function WhatsAppIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -315,11 +273,7 @@ function WhatsAppIcon({
   );
 }
 
-function ArrowUpRight({
-  className = "",
-}: {
-  className?: string;
-}) {
+function ArrowUpRight({ className = "" }: { className?: string }) {
   return (
     <svg
       width="18"
@@ -350,13 +304,7 @@ function MailIcon() {
       strokeWidth="1.8"
       aria-hidden="true"
     >
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="14"
-        rx="2"
-      />
+      <rect x="3" y="5" width="18" height="14" rx="2" />
 
       <path d="m4 7 8 6 8-6" />
     </svg>
@@ -402,10 +350,7 @@ type PortraitProps = {
   className?: string;
 };
 
-function Portrait({
-  src,
-  className = "",
-}: PortraitProps) {
+function Portrait({ src, className = "" }: PortraitProps) {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
@@ -415,9 +360,7 @@ function Portrait({
         role="img"
         aria-label="Radhakrishna T monogram"
       >
-        <span className="font-display text-8xl font-bold text-white">
-          RK
-        </span>
+        <span className="font-display text-8xl font-bold text-white">RK</span>
       </div>
     );
   }
@@ -476,6 +419,42 @@ export default function CEOLandingPage({
           display: block;
           min-width: 320px;
           background: #241b67;
+        }
+
+        /* =========================================================
+           GLOBAL RESPONSIVE CONTENT WIDTH
+           Equal left + right gap across all sections
+        ========================================================= */
+
+        .tvrk-container {
+          box-sizing: border-box;
+          width: calc(100% - 32px) !important;
+          max-width: 1720px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          min-width: 0;
+        }
+
+        .tvrk-container > * {
+          min-width: 0;
+        }
+
+        @media (min-width: 640px) {
+          .tvrk-container {
+            width: calc(100% - 48px) !important;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .tvrk-container {
+            width: calc(100% - 64px) !important;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .tvrk-container {
+            width: calc(100% - 96px) !important;
+          }
         }
 
         .ceo-page {
@@ -721,13 +700,9 @@ export default function CEOLandingPage({
                 id="hero-heading"
                 className="font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
               >
-                <span className="block">
-                  Let&apos;s Build
-                </span>
+                <span className="block">Every Journey.</span>
 
-                <span className="mt-1 block sm:mt-1.5">
-                  Unicorns Together.
-                </span>
+                <span className="mt-1 block sm:mt-1.5">One Partner.</span>
               </h1>
 
               <p className="mt-5 max-w-[720px] text-[16px] font-extrabold leading-7 text-white sm:text-[18px] sm:leading-8 lg:text-[20px]">
@@ -737,8 +712,8 @@ export default function CEOLandingPage({
               <p className="hero-copy mt-3.5 max-w-[720px] text-[14px] font-medium leading-6 sm:text-[15px] sm:leading-7">
                 Empowering founders and professionals with{" "}
                 <span className="font-extrabold text-white">
-                  AI Co-Founders, practical training,
-                  real-world use cases and business opportunities
+                  AI Co-Founders, practical training, real-world use cases and
+                  business opportunities
                 </span>{" "}
                 to turn ideas into scalable ventures.
               </p>
@@ -772,10 +747,7 @@ export default function CEOLandingPage({
                   className="group flex min-h-[58px] min-w-0 items-center gap-3 rounded-2xl border border-white/[0.18] bg-white/[0.10] px-3.5 py-3 text-white transition duration-200 hover:-translate-y-0.5 hover:border-[#e1306c]/60 hover:bg-white/[0.15] sm:px-4"
                 >
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white shadow-sm">
-                    <SocialIcon
-                      name="Instagram"
-                      className="h-5 w-5"
-                    />
+                    <SocialIcon name="Instagram" className="h-5 w-5" />
                   </span>
 
                   <span className="min-w-0 flex-1">
@@ -823,9 +795,7 @@ export default function CEOLandingPage({
                       className="h-[17px] w-[17px]"
                     />
 
-                    <span className="sr-only">
-                      {item.name}
-                    </span>
+                    <span className="sr-only">{item.name}</span>
                   </External>
                 ))}
               </div>
@@ -933,13 +903,12 @@ export default function CEOLandingPage({
           {/* Mobile Auto Scroll */}
           <div className="w-full overflow-hidden bg-white sm:hidden">
             <div className="logo-marquee flex items-center py-2">
-              {[...brandPlatforms, ...brandPlatforms].map(
-                (item, index) => (
-                  <External
-                    key={`${item.name}-${index}`}
-                    href={item.href}
-                    ariaLabel={`Visit ${item.name}`}
-                    className="
+              {[...brandPlatforms, ...brandPlatforms].map((item, index) => (
+                <External
+                  key={`${item.name}-${index}`}
+                  href={item.href}
+                  ariaLabel={`Visit ${item.name}`}
+                  className="
                       mobile-logo-item
                       logo-link
                       flex
@@ -952,13 +921,13 @@ export default function CEOLandingPage({
                       px-4
                       py-2
                     "
-                  >
-                    <img
-                      src={item.logo}
-                      alt={item.name}
-                      loading="eager"
-                      decoding="async"
-                      className={`
+                >
+                  <img
+                    src={item.logo}
+                    alt={item.name}
+                    loading="eager"
+                    decoding="async"
+                    className={`
                         ${item.mobileClass}
                         block
                         h-auto
@@ -966,10 +935,9 @@ export default function CEOLandingPage({
                         max-w-[165px]
                         object-contain
                       `}
-                    />
-                  </External>
-                )
-              )}
+                  />
+                </External>
+              ))}
             </div>
           </div>
         </section>
@@ -1007,10 +975,7 @@ export default function CEOLandingPage({
                 <div className="flex min-w-0 flex-col justify-center p-6 sm:p-9 lg:p-12 xl:p-14">
                   <div className="flex items-center gap-2.5">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white shadow-[0_8px_20px_rgba(225,48,108,.18)]">
-                      <SocialIcon
-                        name="Instagram"
-                        className="h-4 w-4"
-                      />
+                      <SocialIcon name="Instagram" className="h-4 w-4" />
                     </span>
 
                     <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#7a356f] sm:text-xs">
@@ -1026,9 +991,8 @@ export default function CEOLandingPage({
                   </h2>
 
                   <p className="dark-body mt-4 max-w-xl text-sm font-medium leading-7 sm:text-[15px]">
-                    For the latest information, announcements,
-                    business updates, AI insights, fintech
-                    conversations, and ecosystem activity,
+                    For the latest information, announcements, business updates,
+                    AI insights, fintech conversations, and ecosystem activity,
                     follow{" "}
                     <span className="font-extrabold text-[#2b2150]">
                       @tvradhakrishna
@@ -1038,7 +1002,6 @@ export default function CEOLandingPage({
 
                   <p className="mt-4 inline-flex items-center gap-2 text-[12px] font-extrabold text-[#704a86] sm:text-[13px]">
                     Click the Instagram card to open the latest posts
-
                     <ArrowUpRight className="h-4 w-4" />
                   </p>
                 </div>
@@ -1124,60 +1087,54 @@ export default function CEOLandingPage({
               </div>
 
               <p className="max-w-2xl text-sm font-semibold leading-7 text-white/[0.78] sm:text-[15px] lg:justify-self-end lg:text-right">
-                Discover connected work across lending,
-                financial services, regulatory intelligence,
-                insurance, and AI.
+                Discover connected work across lending, financial services,
+                regulatory intelligence, insurance, and AI.
               </p>
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {ecosystemPlatforms.map(
-                (item, index) => (
-                  <External
-                    key={item.href}
-                    href={item.href}
-                    className="glass-card group flex min-h-[235px] min-w-0 flex-col rounded-[26px] p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(47,35,111,.13)] sm:p-6"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="rounded-full border border-white/[0.6] bg-white/[0.46] px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.13em] text-[#654782] backdrop-blur">
-                        {item.eyebrow}
-                      </span>
+              {ecosystemPlatforms.map((item, index) => (
+                <External
+                  key={item.href}
+                  href={item.href}
+                  className="glass-card group flex min-h-[235px] min-w-0 flex-col rounded-[26px] p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(47,35,111,.13)] sm:p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="rounded-full border border-white/[0.6] bg-white/[0.46] px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.13em] text-[#654782] backdrop-blur">
+                      {item.eyebrow}
+                    </span>
 
-                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/[0.65] bg-white/[0.44] text-[#5a3b87] backdrop-blur transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:bg-[#211b67] group-hover:text-white">
-                        <ArrowUpRight className="h-4 w-4" />
-                      </span>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/[0.65] bg-white/[0.44] text-[#5a3b87] backdrop-blur transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:bg-[#211b67] group-hover:text-white">
+                      <ArrowUpRight className="h-4 w-4" />
+                    </span>
+                  </div>
+
+                  {"logo" in item && item.logo ? (
+                    <div className="mt-7 flex h-14 w-fit items-center rounded-[16px] bg-white px-3">
+                      <img
+                        src={item.logo}
+                        alt={`${item.name} logo`}
+                        loading="lazy"
+                        className="max-h-11 w-auto max-w-[190px] object-contain"
+                      />
                     </div>
+                  ) : (
+                    <h3 className="font-display mt-7 text-lg font-bold leading-6 tracking-[-0.025em] text-[#2b2150] sm:text-xl">
+                      {item.name}
+                    </h3>
+                  )}
 
-                    {"logo" in item && item.logo ? (
-                      <div className="mt-7 flex h-14 w-fit items-center rounded-[16px] bg-white px-3">
-                        <img
-                          src={item.logo}
-                          alt={`${item.name} logo`}
-                          loading="lazy"
-                          className="max-h-11 w-auto max-w-[190px] object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <h3 className="font-display mt-7 text-lg font-bold leading-6 tracking-[-0.025em] text-[#2b2150] sm:text-xl">
-                        {item.name}
-                      </h3>
-                    )}
+                  <p className="dark-body mt-3 text-sm font-medium leading-6">
+                    {item.description}
+                  </p>
 
-                    <p className="dark-body mt-3 text-sm font-medium leading-6">
-                      {item.description}
-                    </p>
-
-                    <div className="mt-auto flex items-end justify-end gap-3 pt-7">
-                      <span className="font-display dark-muted text-[11px] font-bold">
-                        {String(index + 1).padStart(
-                          2,
-                          "0"
-                        )}
-                      </span>
-                    </div>
-                  </External>
-                )
-              )}
+                  <div className="mt-auto flex items-end justify-end gap-3 pt-7">
+                    <span className="font-display dark-muted text-[11px] font-bold">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                </External>
+              ))}
             </div>
           </div>
         </section>
@@ -1203,25 +1160,22 @@ export default function CEOLandingPage({
                   className="font-display mt-3 max-w-xl text-[clamp(2.15rem,6vw,3.35rem)] font-extrabold leading-[1.04] tracking-[-0.05em] text-white"
                 >
                   Making AI useful.
-
                   <span className="mt-1 block text-[#ffc09f]">
                     Creating opportunities.
                   </span>
                 </h2>
 
                 <p className="mt-5 max-w-xl text-sm font-medium leading-7 text-white/[0.84] sm:text-[15px]">
-                  Our ecosystem brings together finance,
-                  technology, and artificial intelligence.
-                  The focus is simple: make information easier
-                  to understand, simplify everyday work, and
-                  help people explore new opportunities.
+                  Our ecosystem brings together finance, technology, and
+                  artificial intelligence. The focus is simple: make information
+                  easier to understand, simplify everyday work, and help people
+                  explore new opportunities.
                 </p>
 
                 <p className="mt-4 max-w-xl text-sm font-medium leading-7 text-white/[0.72] sm:text-[15px]">
-                  Across connected platforms, we are exploring
-                  practical ways to apply AI to banking,
-                  financial services, insurance, regulation,
-                  and business workflows.
+                  Across connected platforms, we are exploring practical ways to
+                  apply AI to banking, financial services, insurance,
+                  regulation, and business workflows.
                 </p>
               </div>
 
@@ -1230,21 +1184,17 @@ export default function CEOLandingPage({
                   {
                     number: "01",
                     title: "AI for everyday work",
-                    text:
-                      "Use AI to answer questions, organize information, and support everyday business tasks.",
+                    text: "Use AI to answer questions, organize information, and support everyday business tasks.",
                   },
                   {
                     number: "02",
-                    title:
-                      "A focus on financial services",
-                    text:
-                      "Discover work around BFSI AI, insurance knowledge, and access to RBI regulatory information.",
+                    title: "A focus on financial services",
+                    text: "Discover work around BFSI AI, insurance knowledge, and access to RBI regulatory information.",
                   },
                   {
                     number: "03",
                     title: "Building for Bharat",
-                    text:
-                      "Develop useful AI experiences shaped by local needs, practical adoption, and people at the center.",
+                    text: "Develop useful AI experiences shaped by local needs, practical adoption, and people at the center.",
                   },
                 ].map((item) => (
                   <article
@@ -1316,7 +1266,6 @@ export default function CEOLandingPage({
                   className={`group mt-6 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/[0.22] bg-white px-5 py-2.5 text-[12px] font-extrabold text-[#211b67] shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#fff8f4] sm:text-[13px] ${focus}`}
                 >
                   Open in Google Maps
-
                   <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </div>
@@ -1343,8 +1292,7 @@ export default function CEOLandingPage({
 
           <div className="flex items-center justify-center gap-1 sm:justify-end">
             <p className="text-[11px] font-medium leading-5 text-white/[0.72]">
-              © {new Date().getFullYear()} Radhakrishna T.
-              All rights reserved.
+              © {new Date().getFullYear()} Radhakrishna T. All rights reserved.
             </p>
 
             <External

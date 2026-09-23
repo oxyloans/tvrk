@@ -258,8 +258,43 @@ export default function BridgitalNationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="bridgital-page min-h-screen w-full min-w-0 bg-white text-slate-900">
       <InitiativeHeader active="bridgital" />
+
+      <style>{`
+        .bridgital-page, .bridgital-page * { box-sizing: border-box; }
+        .bridgital-page main { min-width: 0; }
+        .bridgital-page main .grid > *, .bridgital-page main .flex > * { min-width: 0; }
+        .bridgital-page main :is(h1,h2,h3,h4,p) { overflow-wrap: anywhere; }
+        .bridgital-page main :is(img,iframe) { max-width: 100%; }
+
+        /* Local responsive container so this page keeps its side spacing even when loaded directly. */
+        .bridgital-page .tvrk-container {
+          box-sizing: border-box;
+          width: calc(100% - 32px) !important;
+          max-width: 1720px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          min-width: 0;
+        }
+        .bridgital-page .tvrk-container > * { min-width: 0; }
+
+        @media (min-width: 640px) {
+          .bridgital-page .tvrk-container { width: calc(100% - 48px) !important; }
+        }
+        @media (min-width: 1024px) {
+          .bridgital-page .tvrk-container { width: calc(100% - 64px) !important; }
+        }
+        @media (min-width: 1280px) {
+          .bridgital-page .tvrk-container { width: calc(100% - 96px) !important; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .bridgital-page *, .bridgital-page *::before, .bridgital-page *::after {
+            transition: none !important; animation: none !important; scroll-behavior: auto !important;
+          }
+        }
+      `}</style>
 
       <main>
         {/* INTRO + FEATURED VIDEO */}
