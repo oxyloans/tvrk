@@ -11,6 +11,7 @@ import {
 import CEOLandingPage from "./CEOLandingPage";
 import OxyFoundationPage from "./OxyFoundationPage";
 import BridgitalNationPage from "./BridgitalNationPage";
+import CertificatesPage from "./CertificatesPage";
 
 const GA_MEASUREMENT_ID = "G-NJXNYGP1EZ";
 
@@ -75,6 +76,7 @@ function App() {
           path="/bridgital-nation"
           element={<BridgitalNationPage />}
         />
+        <Route path="/certificates" element={<CertificatesPage />} />
 
         {/* Invalid URL → Home */}
         <Route

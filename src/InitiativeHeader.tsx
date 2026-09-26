@@ -1,92 +1,113 @@
 import React, { useEffect, useRef, useState, type ReactNode } from "react";
 
 type InitiativeHeaderProps = {
-  active?: "home" | "foundation" | "bridgital";
+  active?: "home" | "foundation" | "bridgital" | "certificates";
 };
 
 const HEADER_LOGO_COLOR = "https://i.ibb.co/kgzy891H/logo-tvrk.png";
+
 const HEADER_LOGO_WHITE = "https://i.ibb.co/84DGTjKd/tv-white.png";
+
+const resourceLinks = [
+  { href: "/oxy-foundation", label: "OXY Foundation", key: "foundation" },
+
+  { href: "/bridgital-nation", label: "Bridgital Nation", key: "bridgital" },
+
+  { href: "/certificates", label: "Certificates", key: "certificates" },
+] as const;
 
 export default function InitiativeHeader({
   active = "home",
 }: InitiativeHeaderProps) {
   const [open, setOpen] = useState(false);
+
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+
   const [isScrolled, setIsScrolled] = useState(false);
 
   const headerRef = useRef<HTMLElement>(null);
+
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  const closeMenu = () => setOpen(false);
+  const resourceRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && open) {
-        setOpen(false);
-        toggleRef.current?.focus();
-      }
-    };
+  const closeMenu = () => {
+    setOpen(false);
 
-    const handleOutsideClick = (event: PointerEvent) => {
-      if (
-        open &&
-        headerRef.current &&
-        !headerRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    const desktopMedia = window.matchMedia("(min-width: 1100px)");
-
-    const handleBreakpoint = () => {
-      if (desktopMedia.matches) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("pointerdown", handleOutsideClick);
-    desktopMedia.addEventListener("change", handleBreakpoint);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("pointerdown", handleOutsideClick);
-      desktopMedia.removeEventListener("change", handleBreakpoint);
-    };
-  }, [open]);
+    setResourcesOpen(false);
+  };
 
   useEffect(() => {
     let animationFrame = 0;
 
     const updateScrollState = () => {
       cancelAnimationFrame(animationFrame);
+
       animationFrame = requestAnimationFrame(() => {
         setIsScrolled(window.scrollY > 28);
       });
     };
 
-    // Preload both versions so the logo swap is instant.
-    const colorLogo = new Image();
-    const whiteLogo = new Image();
-    colorLogo.src = HEADER_LOGO_COLOR;
-    whiteLogo.src = HEADER_LOGO_WHITE;
-
     updateScrollState();
+
     window.addEventListener("scroll", updateScrollState, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationFrame);
+
       window.removeEventListener("scroll", updateScrollState);
     };
   }, []);
 
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+
+        setResourcesOpen(false);
+
+        toggleRef.current?.focus();
+      }
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+
+      if (open && headerRef.current && !headerRef.current.contains(target)) {
+        setOpen(false);
+      }
+
+      if (
+        resourcesOpen &&
+        resourceRef.current &&
+        !resourceRef.current.contains(target)
+      ) {
+        setResourcesOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    document.addEventListener("pointerdown", onPointerDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open, resourcesOpen]);
+
   const NavLink = ({
     href,
+
     children,
+
     current = false,
   }: {
     href: string;
+
     children: ReactNode;
+
     current?: boolean;
   }) => (
     <a
@@ -99,810 +120,782 @@ export default function InitiativeHeader({
     </a>
   );
 
-  const navigation = (
-    <>
-      <NavLink href="/#ecosystem">Ecosystem</NavLink>
-      <NavLink href="/#vision">Vision</NavLink>
+  const resourcesActive =
+    active === "foundation" ||
+    active === "bridgital" ||
+    active === "certificates";
 
-      <NavLink
-        href="/oxy-foundation"
-        current={active === "foundation"}
+  const ResourcesMenu = ({ mobile = false }: { mobile?: boolean }) => (
+    <div
+      ref={!mobile ? resourceRef : undefined}
+      className={`tvrk-resource-wrap ${mobile ? "tvrk-resource-mobile" : ""}`}
+    >
+      <button
+        type="button"
+        className={`tvrk-nav-link tvrk-resource-trigger ${
+          resourcesActive ? "tvrk-nav-link-active" : ""
+        }`}
+        aria-expanded={resourcesOpen}
+        aria-haspopup="menu"
+        onClick={() => setResourcesOpen((value) => !value)}
       >
-        <span className="tvrk-foundation-label">
-          <span>OXY</span>
-          <span> FOUNDATION</span>
-        </span>
-      </NavLink>
+        <span>Resources</span>
 
-      <NavLink
-        href="/bridgital-nation"
-        current={active === "bridgital"}
-      >
-        Bridgital Nation
-      </NavLink>
-
-      <a
-        href="https://www.askoxy.ai/radhAI"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="tvrk-ai-btn"
-        onClick={closeMenu}
-      >
-        <span>Talk to radhAI</span>
         <svg
-          width="17"
-          height="17"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          className={`tvrk-chevron ${resourcesOpen ? "is-open" : ""}`}
           aria-hidden="true"
         >
-          <path d="M7 17 17 7" />
-          <path d="M7 7h10v10" />
+          <path d="m6 9 6 6 6-6" />
         </svg>
-      </a>
-    </>
-  );
+      </button>
 
-  const headerClassName = [
-    "tvrk-header",
-    active === "foundation" ? "tvrk-header-foundation" : "",
-    isScrolled ? "tvrk-header-scrolled" : "tvrk-header-top",
-    open ? "tvrk-header-menu-open" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+      {resourcesOpen && (
+        <div className="tvrk-resource-menu" role="menu">
+          <p className="tvrk-resource-eyebrow">Explore</p>
+
+          {resourceLinks.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={closeMenu}
+              role="menuitem"
+              className={`tvrk-resource-item tvrk-resource-${item.key} ${
+                active === item.key ? "is-current" : ""
+              }`}
+            >
+              <span
+                className={
+                  item.key === "foundation" ? "tvrk-foundation-resource" : ""
+                }
+              >
+                {item.key === "foundation" ? (
+                  <>
+                    <span>OXY</span>
+                    <span> FOUNDATION</span>
+                  </>
+                ) : (
+                  item.label
+                )}
+              </span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <>
       <style>{`
+
         .tvrk-header,
-        .tvrk-header *,
-        .tvrk-header *::before,
-        .tvrk-header *::after {
+
+        .tvrk-header \* {
+
           box-sizing: border-box;
+
         }
 
-        :root {
-          --tvrk-blue: #073aa7;
-          --tvrk-blue-2: #0a56d8;
-          --tvrk-purple: #5a22e7;
-          --tvrk-pink: #ec0b82;
-          --tvrk-ink: #0b1f4d;
-        }
 
-        /* =========================================================
-           HEADER: COLORED AT TOP -> WHITE AFTER SCROLL
-        ========================================================= */
+
         .tvrk-header {
+
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
+
+          inset: 0 0 auto 0;
+
           z-index: 1000;
+
           width: 100%;
+
           font-family: 'Manrope', 'Inter', 'Segoe UI', Arial, sans-serif;
-          background:
-            radial-gradient(circle at 5% -20%, rgba(93, 48, 255, .48), transparent 33%),
-            radial-gradient(circle at 92% 5%, rgba(236, 11, 130, .22), transparent 31%),
-            linear-gradient(100deg, #120650 0%, #060622 47%, #12074d 100%);
+
+          background: linear-gradient(100deg, #120650 0%, #060622 48%, #12074d 100%);
+
           border-bottom: 1px solid rgba(190, 155, 255, .16);
-          box-shadow: 0 12px 36px rgba(4, 2, 28, .24);
-          -webkit-backdrop-filter: blur(18px) saturate(145%);
-          backdrop-filter: blur(18px) saturate(145%);
-          transition:
-            background .34s ease,
-            border-color .34s ease,
-            box-shadow .34s ease;
+
+          box-shadow: 0 12px 36px rgba(4, 2, 28, .22);
+
+          transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
+
         }
 
-        .tvrk-header-scrolled {
-          background:
-            radial-gradient(circle at 10% -35%, rgba(10, 86, 216, .13), transparent 35%),
-            radial-gradient(circle at 82% -40%, rgba(90, 34, 231, .09), transparent 34%),
-            radial-gradient(circle at 98% 20%, rgba(236, 11, 130, .055), transparent 26%),
-            rgba(255, 255, 255, .97);
-          border-bottom-color: rgba(31, 67, 146, .10);
-          box-shadow: 0 10px 32px rgba(20, 43, 92, .11);
-        }
+
 
         .tvrk-header::before {
+
           content: "";
+
           position: absolute;
+
           inset: 0 0 auto 0;
+
           height: 3px;
-          pointer-events: none;
-          background: linear-gradient(
-            90deg,
-            #0a56d8 0%,
-            #284fe4 30%,
-            #7224e8 67%,
-            #ec0b82 100%
-          );
-          transition: opacity .3s ease;
+
+          background: linear-gradient(90deg, #0a56d8, #6a27e8 65%, #ec0b82);
+
         }
 
-        .tvrk-header-top::before {
-          opacity: .88;
+
+
+        .tvrk-header.tvrk-header-scrolled {
+
+          background: rgba(255,255,255,.975);
+
+          border-bottom-color: rgba(31,67,146,.10);
+
+          box-shadow: 0 10px 32px rgba(20,43,92,.11);
+
+          backdrop-filter: blur(18px) saturate(145%);
+
         }
 
-        .tvrk-header-scrolled::before {
-          opacity: 1;
-        }
 
-        /* =========================================================
-           MAIN HEADER ROW
-        ========================================================= */
+
         .tvrk-header-inner {
+
           width: calc(100% - 32px);
+
           max-width: 1720px;
-          min-height: 88px;
+
+          min-height: 84px;
+
           margin-inline: auto;
+
           display: flex;
+
           align-items: center;
+
           justify-content: space-between;
-          gap: 28px;
-          min-width: 0;
-          transition: min-height .3s ease;
+
+          gap: 24px;
+
+          transition: min-height .25s ease;
+
         }
 
-        .tvrk-header-scrolled .tvrk-header-inner {
-          min-height: 74px;
-        }
+
+
+        .tvrk-header-scrolled .tvrk-header-inner { min-height: 72px; }
+
+
 
         .tvrk-header-logo {
+
           display: flex;
+
           align-items: center;
-          flex: 0 1 auto;
+
+          max-width: min(300px, 35vw);
+
           min-width: 0;
-          max-width: min(315px, 38vw);
-          text-decoration: none;
-          border-radius: 14px;
+
+          flex: 0 1 auto;
+
         }
+
+
 
         .tvrk-header-logo img {
+
           display: block;
-          width: 270px;
-          height: auto;
+
+          width: 255px;
+
           max-width: 100%;
-          max-height: 62px;
+
+          max-height: 58px;
+
           object-fit: contain;
+
           object-position: left center;
-          filter: drop-shadow(0 7px 14px rgba(0, 0, 0, .12));
-          transition:
-            width .3s ease,
-            max-height .3s ease,
-            transform .25s ease,
-            filter .25s ease;
+
+          transition: width .25s ease, max-height .25s ease;
+
         }
+
+
 
         .tvrk-header-scrolled .tvrk-header-logo img {
-          width: 250px;
-          max-height: 55px;
-          filter: drop-shadow(0 6px 12px rgba(10, 55, 160, .08));
+
+          width: 235px;
+
+          max-height: 52px;
+
         }
 
-        .tvrk-header-logo:hover img {
-          transform: translateY(-1px);
-        }
+
 
         .tvrk-desktop-nav {
+
           display: flex;
+
           align-items: center;
+
           justify-content: flex-end;
-          gap: 3px;
+
+          gap: 2px;
+
           min-width: 0;
+
         }
 
-        .tvrk-header a {
-          text-decoration: none;
-        }
 
-        /* =========================================================
-           NAVIGATION COLORS
-        ========================================================= */
+
+        .tvrk-header a { text-decoration: none; }
+
+
+
         .tvrk-nav-link {
+
           position: relative;
+
           display: inline-flex;
+
+          min-height: 44px;
+
           align-items: center;
+
           justify-content: center;
-          min-height: 46px;
-          padding: 10px clamp(10px, 1vw, 15px);
-          color: rgba(255, 255, 255, .84);
-          font-size: 14px;
-          font-weight: 800;
-          line-height: 1;
-          white-space: nowrap;
+
+          gap: 6px;
+
+          padding: 10px 13px;
+
+          border: 0;
+
           border-radius: 12px;
-          transition:
-            color .22s ease,
-            background .22s ease,
-            transform .22s ease;
+
+          background: transparent;
+
+          color: rgba(255,255,255,.84);
+
+          font: inherit;
+
+          font-size: 13px;
+
+          font-weight: 800;
+
+          white-space: nowrap;
+
+          cursor: pointer;
+
+          transition: color .2s ease, background .2s ease, transform .2s ease;
+
         }
 
-        .tvrk-header-scrolled .tvrk-nav-link {
-          color: #334563;
-        }
 
-        .tvrk-nav-link::after {
-          content: "";
-          position: absolute;
-          left: 15px;
-          right: 15px;
-          bottom: 5px;
-          height: 2px;
-          border-radius: 999px;
-          background: linear-gradient(90deg, #7aa5ff, #b36cff, #ff74be);
-          opacity: 0;
-          transform: scaleX(.25);
-          transition: opacity .22s ease, transform .22s ease;
-        }
-
-        .tvrk-header-scrolled .tvrk-nav-link::after {
-          background: linear-gradient(90deg, #0a56d8, #6322e7, #ec0b82);
-        }
 
         .tvrk-nav-link:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, .07);
-          transform: translateY(-1px);
+
+          color: #fff;
+
+          background: rgba(255,255,255,.08);
+
         }
 
-        .tvrk-header-scrolled .tvrk-nav-link:hover {
-          color: #092f89;
-          background: rgba(10, 86, 216, .055);
-        }
 
-        .tvrk-nav-link:hover::after,
-        .tvrk-nav-link-active::after {
-          opacity: 1;
-          transform: scaleX(1);
-        }
+
+        .tvrk-header-scrolled .tvrk-nav-link { color: #34435f; }
+
+        .tvrk-header-scrolled .tvrk-nav-link:hover { color: #211b67; background: #f2f3f8; }
+
+
 
         .tvrk-nav-link-active {
-          color: #ffffff;
-          background: rgba(255, 255, 255, .075);
+
+          color: #fff;
+
+          background: rgba(255,255,255,.10);
+
         }
+
+
 
         .tvrk-header-scrolled .tvrk-nav-link-active {
-          color: #0a3fae;
-          background: linear-gradient(
-            90deg,
-            rgba(10, 86, 216, .08),
-            rgba(99, 34, 231, .065),
-            rgba(236, 11, 130, .045)
-          );
+
+          color: #211b67;
+
+          background: #efedf9;
+
         }
 
-        .tvrk-foundation-label {
-          display: inline-flex;
+
+
+        .tvrk-resource-wrap { position: relative; }
+
+        .tvrk-chevron { width: 14px; height: 14px; transition: transform .2s ease; }
+
+        .tvrk-chevron.is-open { transform: rotate(180deg); }
+
+
+
+        .tvrk-resource-menu {
+
+          position: absolute;
+
+          top: calc(100% + 10px);
+
+          right: 0;
+
+          width: 246px;
+
+          padding: 8px;
+
+          border: 1px solid rgba(27,25,57,.10);
+
+          border-radius: 17px;
+
+          background: rgba(255,255,255,.985);
+
+          box-shadow: 0 20px 55px rgba(20,24,55,.18);
+
+          backdrop-filter: blur(16px);
+
+        }
+
+
+
+        .tvrk-resource-eyebrow {
+
+          margin: 2px 8px 6px;
+
+          color: #8a8e9b;
+
+          font-size: 9px;
+
+          font-weight: 900;
+
+          letter-spacing: .16em;
+
+          text-transform: uppercase;
+
+        }
+
+
+
+        .tvrk-resource-item {
+
+          display: flex;
+
+          min-height: 46px;
+
           align-items: center;
+
+          justify-content: space-between;
+
+          gap: 12px;
+
+          padding: 10px 12px;
+
+          border-radius: 12px;
+
+          color: #2a3143;
+
+          font-size: 13px;
+
+          font-weight: 800;
+
+          transition: background .2s ease, color .2s ease, transform .2s ease;
+
         }
 
-        .tvrk-foundation-label span:first-child {
-          color: #73c4ff;
+
+
+        .tvrk-resource-item:hover,
+
+        .tvrk-resource-item.is-current {
+
+          background: #f0eef9;
+
+          color: #211b67;
+
         }
 
-        .tvrk-foundation-label span:last-child {
-          color: #7be688;
+
+
+        .tvrk-resource-item svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+
+
+        .tvrk-foundation-resource {
+
+          display: inline-flex;
+
+          align-items: baseline;
+
+          font-weight: 900;
+
+          letter-spacing: -.01em;
+
         }
 
-        .tvrk-header-scrolled .tvrk-foundation-label span:first-child {
-          color: #3B82C4;
+
+
+        .tvrk-foundation-resource > span:first-child { color: #2F5FAA; }
+
+        .tvrk-foundation-resource > span:last-child { color: #51B85B; }
+
+
+
+        .tvrk-resource-foundation:hover,
+
+        .tvrk-resource-foundation.is-current {
+
+          background: #f3fbf5;
+
+          color: #2F5FAA;
+
+          box-shadow: inset 3px 0 0 #51B85B;
+
         }
 
-        .tvrk-header-scrolled .tvrk-foundation-label span:last-child {
-          color: #51B85B;
-        }
 
-        /* =========================================================
-           RADHAI BUTTON
-        ========================================================= */
+
+        .tvrk-resource-foundation:hover svg,
+
+        .tvrk-resource-foundation.is-current svg { color: #51B85B; }
+
+
+
         .tvrk-ai-btn {
           position: relative;
           isolation: isolate;
           display: inline-flex;
+          min-height: 48px;
           align-items: center;
           justify-content: center;
-          gap: 9px;
-          min-height: 48px;
-          margin-left: 7px;
-          padding: 11px 19px;
+          gap: 8px;
+          margin-left: 10px;
+          padding: 11px 22px;
           overflow: hidden;
-          color: #ffffff;
-          font-size: 14px;
-          font-weight: 900;
-          white-space: nowrap;
-          border: 1px solid rgba(255, 255, 255, .25);
+          border: 1px solid rgba(255,255,255,.30);
           border-radius: 999px;
           background: linear-gradient(
-            110deg,
-            #0b48c4 0%,
-            #204ee0 30%,
-            #6c2be8 67%,
-            #e91185 100%
+            105deg,
+            #075bd4 0%,
+            #225ce6 34%,
+            #7735e8 68%,
+            #e00b91 100%
           );
+          color: #fff;
+          font-size: 14px;
+          font-weight: 900;
+          letter-spacing: -.01em;
+          line-height: 1;
+          text-shadow: 0 1px 1px rgba(0,0,0,.18);
           box-shadow:
-            0 10px 28px rgba(40, 19, 142, .28),
-            inset 0 1px 0 rgba(255, 255, 255, .30);
+            inset 0 1px 0 rgba(255,255,255,.42),
+            inset 0 -1px 0 rgba(0,0,0,.12),
+            0 9px 22px rgba(55,40,205,.25),
+            0 2px 7px rgba(0,0,0,.18);
           transition:
             transform .22s ease,
             box-shadow .22s ease,
             filter .22s ease;
+          white-space: nowrap;
         }
 
         .tvrk-ai-btn::before {
           content: "";
           position: absolute;
           z-index: -1;
-          top: -70%;
-          left: -35%;
-          width: 32%;
-          height: 240%;
-          transform: rotate(20deg);
+          inset: 1px 3px auto;
+          height: 48%;
+          border-radius: inherit;
+          background: linear-gradient(
+            180deg,
+            rgba(255,255,255,.38) 0%,
+            rgba(255,255,255,.13) 42%,
+            rgba(255,255,255,0) 100%
+          );
+          pointer-events: none;
+        }
+
+        .tvrk-ai-btn::after {
+          content: "";
+          position: absolute;
+          top: -40%;
+          left: -45%;
+          width: 34%;
+          height: 180%;
+          transform: rotate(18deg);
           background: linear-gradient(
             90deg,
             transparent,
-            rgba(255, 255, 255, .46),
+            rgba(255,255,255,.34),
             transparent
           );
-          transition: left .65s ease;
+          transition: left .55s ease;
+          pointer-events: none;
+        }
+
+        .tvrk-ai-btn > span,
+        .tvrk-ai-btn > svg {
+          position: relative;
+          z-index: 1;
+        }
+
+        .tvrk-ai-btn svg {
+          flex: 0 0 auto;
+          transition: transform .22s ease;
         }
 
         .tvrk-ai-btn:hover {
           transform: translateY(-2px);
-          filter: brightness(1.07) saturate(1.05);
+          filter: saturate(1.08) brightness(1.04);
           box-shadow:
-            0 14px 34px rgba(58, 46, 184, .34),
-            inset 0 1px 0 rgba(255, 255, 255, .36);
+            inset 0 1px 0 rgba(255,255,255,.48),
+            inset 0 -1px 0 rgba(0,0,0,.12),
+            0 13px 30px rgba(72,42,220,.34),
+            0 4px 10px rgba(0,0,0,.20);
         }
 
-        .tvrk-ai-btn:hover::before {
-          left: 112%;
+        .tvrk-ai-btn:hover::after {
+          left: 120%;
         }
 
-        /* =========================================================
-           MOBILE MENU BUTTON
-        ========================================================= */
-        .tvrk-menu-toggle {
-          display: none;
-          width: 44px;
-          height: 44px;
-          flex-shrink: 0;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-          color: #ffffff;
-          border: 1px solid rgba(255, 255, 255, .19);
-          border-radius: 13px;
-          background: rgba(255, 255, 255, .08);
-          box-shadow: 0 7px 20px rgba(0, 0, 0, .11);
-          cursor: pointer;
-          -webkit-tap-highlight-color: transparent;
-          transition:
-            color .25s ease,
-            background .25s ease,
-            border-color .25s ease,
-            transform .2s ease;
+        .tvrk-ai-btn:hover svg {
+          transform: translate(2px, -2px);
         }
 
-        .tvrk-menu-toggle:active {
-          transform: scale(.96);
+        .tvrk-ai-btn:active {
+          transform: translateY(0) scale(.985);
         }
 
-        .tvrk-header-scrolled .tvrk-menu-toggle {
-          color: #0a3fae;
-          border-color: rgba(10, 86, 216, .14);
-          background:
-            radial-gradient(circle at 25% 0%, rgba(99, 34, 231, .08), transparent 52%),
-            rgba(255, 255, 255, .94);
-          box-shadow: 0 7px 20px rgba(25, 57, 119, .09);
-        }
-
-        .tvrk-mobile-nav {
-          display: none;
-        }
-
-        /* Spacer is only used by internal pages. It matches the top-state header. */
-        .tvrk-header-spacer {
-          height: 88px;
-          background:
-            radial-gradient(circle at 5% -20%, rgba(93, 48, 255, .48), transparent 33%),
-            radial-gradient(circle at 92% 5%, rgba(236, 11, 130, .22), transparent 31%),
-            linear-gradient(100deg, #120650 0%, #060622 47%, #12074d 100%);
-        }
-
-        /* =========================================================
-           FOUNDATION TOP THEME
-           Blue + green at the top, white after scroll.
-        ========================================================= */
-        .tvrk-header-foundation.tvrk-header-top {
-          background:
-            radial-gradient(circle at 4% -10%, rgba(81, 184, 91, .27), transparent 34%),
-            radial-gradient(circle at 95% 0%, rgba(59, 130, 196, .32), transparent 35%),
-            linear-gradient(105deg, #073b5b 0%, #062d46 47%, #0b3d45 100%);
-          border-bottom-color: rgba(110, 216, 121, .18);
-          box-shadow: 0 12px 36px rgba(4, 37, 58, .23);
-        }
-
-        .tvrk-header-foundation::before {
-          background: linear-gradient(90deg, #3B82C4 0%, #4ba5b1 48%, #51B85B 100%);
-        }
-
-        .tvrk-header-foundation.tvrk-header-scrolled {
-          background:
-            radial-gradient(circle at 6% -30%, rgba(81, 184, 91, .12), transparent 36%),
-            radial-gradient(circle at 94% -20%, rgba(59, 130, 196, .13), transparent 36%),
-            rgba(255, 255, 255, .97);
-          border-bottom-color: rgba(59, 130, 196, .13);
-          box-shadow: 0 10px 32px rgba(24, 77, 101, .10);
-        }
-
-        .tvrk-header-foundation .tvrk-nav-link::after {
-          background: linear-gradient(90deg, #70bcec, #74db81);
-        }
-
-        .tvrk-header-foundation.tvrk-header-scrolled .tvrk-nav-link::after {
-          background: linear-gradient(90deg, #3B82C4, #51B85B);
-        }
-
-        .tvrk-header-foundation.tvrk-header-scrolled .tvrk-nav-link-active {
-          color: #185f82;
-          background: linear-gradient(
-            90deg,
-            rgba(59, 130, 196, .10),
-            rgba(81, 184, 91, .09)
-          );
-        }
-
-        .tvrk-header-foundation .tvrk-ai-btn {
-          background: linear-gradient(
-            110deg,
-            #2f77b7 0%,
-            #3B82C4 48%,
-            #51B85B 100%
-          );
-          box-shadow:
-            0 10px 26px rgba(31, 113, 151, .28),
-            inset 0 1px 0 rgba(255, 255, 255, .30);
-        }
-
-        .tvrk-header-spacer-foundation {
-          background:
-            radial-gradient(circle at 4% -10%, rgba(81, 184, 91, .27), transparent 34%),
-            radial-gradient(circle at 95% 0%, rgba(59, 130, 196, .32), transparent 35%),
-            linear-gradient(105deg, #073b5b 0%, #062d46 47%, #0b3d45 100%);
-        }
-
-        .tvrk-header a:focus-visible,
-        .tvrk-header button:focus-visible {
-          outline: 3px solid rgba(183, 132, 255, .72);
+        .tvrk-ai-btn:focus-visible {
+          outline: 3px solid rgba(255,255,255,.48);
           outline-offset: 3px;
         }
 
-        .tvrk-header-foundation a:focus-visible,
-        .tvrk-header-foundation button:focus-visible {
-          outline-color: rgba(110, 216, 121, .72);
+        .tvrk-header-scrolled .tvrk-ai-btn {
+          border-color: rgba(255,255,255,.36);
+          background: linear-gradient(
+            105deg,
+            #075bd4 0%,
+            #225ce6 34%,
+            #7735e8 68%,
+            #e00b91 100%
+          );
+          color: #fff;
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.40),
+            0 9px 22px rgba(62,43,202,.24);
         }
 
-        #ecosystem,
-        #vision {
-          scroll-margin-top: 100px;
+
+
+        .tvrk-menu-toggle {
+
+          display: none;
+
+          width: 44px;
+
+          height: 44px;
+
+          flex: 0 0 auto;
+
+          place-items: center;
+
+          border: 1px solid rgba(255,255,255,.16);
+
+          border-radius: 13px;
+
+          background: rgba(255,255,255,.08);
+
+          color: #fff;
+
         }
 
-        /* =========================================================
-           RESPONSIVE WIDTHS
-        ========================================================= */
-        @media (min-width: 640px) {
-          .tvrk-header-inner {
-            width: calc(100% - 48px);
-          }
+
+
+        .tvrk-header-scrolled .tvrk-menu-toggle {
+
+          border-color: rgba(33,27,103,.12);
+
+          background: #f2f3f8;
+
+          color: #211b67;
+
         }
 
-        @media (min-width: 1024px) {
-          .tvrk-header-inner {
-            width: calc(100% - 64px);
-          }
-        }
 
-        @media (min-width: 1280px) {
-          .tvrk-header-inner {
-            width: calc(100% - 96px);
-          }
-        }
 
-        @media (max-width: 1240px) and (min-width: 1100px) {
-          .tvrk-header-inner {
-            gap: 15px;
-          }
+        .tvrk-mobile-nav { display: none; }
 
-          .tvrk-header-logo {
-            max-width: 250px;
-          }
+        .tvrk-header-spacer { height: 84px; }
 
-          .tvrk-header-logo img {
-            width: 238px;
-            max-height: 56px;
-          }
+        .tvrk-header-scrolled + .tvrk-header-spacer { height: 72px; }
 
-          .tvrk-header-scrolled .tvrk-header-logo img {
-            width: 222px;
-            max-height: 50px;
-          }
 
-          .tvrk-nav-link {
-            padding-left: 9px;
-            padding-right: 9px;
-            font-size: 13px;
-          }
 
-          .tvrk-ai-btn {
-            padding-left: 15px;
-            padding-right: 15px;
-            margin-left: 3px;
-            font-size: 13px;
-          }
-        }
-
-        /* =========================================================
-           TABLET + MOBILE MENU
-        ========================================================= */
         @media (max-width: 1099px) {
+
           .tvrk-header-inner {
-            min-height: 78px;
-            gap: 16px;
+
+            width: calc(100% - 24px);
+
+            min-height: 72px;
+
+            gap: 12px;
+
           }
 
-          .tvrk-header-scrolled .tvrk-header-inner {
-            min-height: 70px;
-          }
 
-          .tvrk-header-logo {
-            max-width: calc(100% - 68px);
-          }
 
-          .tvrk-header-logo img {
-            width: 230px;
-            max-height: 53px;
-          }
+          .tvrk-header-scrolled .tvrk-header-inner { min-height: 64px; }
 
-          .tvrk-header-scrolled .tvrk-header-logo img {
-            width: 216px;
-            max-height: 49px;
-          }
+          .tvrk-desktop-nav { display: none; }
 
-          .tvrk-desktop-nav {
-            display: none;
-          }
+          .tvrk-menu-toggle { display: grid; }
 
-          .tvrk-menu-toggle {
-            display: flex;
-          }
+
+
+          .tvrk-header-logo { max-width: calc(100% - 58px); }
+
+          .tvrk-header-logo img { width: 205px; max-height: 48px; }
+
+          .tvrk-header-scrolled .tvrk-header-logo img { width: 190px; max-height: 44px; }
+
+
 
           .tvrk-mobile-nav {
+
             display: grid;
-            gap: 5px;
-            width: calc(100% - 48px);
-            max-width: 1720px;
-            max-height: calc(100dvh - 94px);
-            margin: 0 auto 12px;
-            padding: 11px;
-            overflow-x: hidden;
+
+            width: calc(100% - 24px);
+
+            max-height: calc(100dvh - 84px);
+
             overflow-y: auto;
-            overscroll-behavior: contain;
-            -webkit-overflow-scrolling: touch;
-            border: 1px solid rgba(255, 255, 255, .13);
-            border-radius: 18px;
-            background:
-              radial-gradient(circle at 8% 0%, rgba(99, 49, 255, .25), transparent 42%),
-              radial-gradient(circle at 98% 0%, rgba(236, 11, 130, .10), transparent 38%),
-              rgba(8, 7, 38, .985);
-            box-shadow: 0 24px 54px rgba(3, 2, 26, .34);
+
+            margin: 0 auto 10px;
+
+            padding: 9px;
+
+            gap: 4px;
+
+            border: 1px solid rgba(255,255,255,.14);
+
+            border-radius: 16px;
+
+            background: #0e0936;
+
+            box-shadow: 0 18px 50px rgba(4,2,28,.30);
+
           }
+
+
 
           .tvrk-header-scrolled .tvrk-mobile-nav {
-            border-color: rgba(31, 67, 146, .10);
-            background:
-              radial-gradient(circle at top left, rgba(10, 86, 216, .08), transparent 42%),
-              radial-gradient(circle at 96% 0%, rgba(236, 11, 130, .055), transparent 38%),
-              rgba(255, 255, 255, .99);
-            box-shadow: 0 24px 54px rgba(20, 43, 92, .16);
+
+            border-color: rgba(33,27,103,.10);
+
+            background: rgba(255,255,255,.99);
+
           }
 
-          .tvrk-mobile-nav .tvrk-nav-link {
+
+
+          .tvrk-mobile-nav > .tvrk-nav-link,
+          .tvrk-mobile-nav .tvrk-resource-trigger {
             width: 100%;
+            justify-content: space-between;
+            margin: 0;
             min-height: 48px;
-            justify-content: flex-start;
-            padding: 13px 14px;
-            color: rgba(255, 255, 255, .88);
-            border-radius: 11px;
+            padding-inline: 13px;
           }
 
-          .tvrk-header-scrolled .tvrk-mobile-nav .tvrk-nav-link {
-            color: #31425f;
-          }
-
-          .tvrk-mobile-nav .tvrk-nav-link:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, .07);
-            transform: none;
-          }
-
-          .tvrk-header-scrolled .tvrk-mobile-nav .tvrk-nav-link:hover {
-            color: #0a3fae;
-            background: rgba(10, 86, 216, .055);
-          }
-
-          .tvrk-mobile-nav .tvrk-nav-link::after {
-            display: none;
-          }
-
-          .tvrk-mobile-nav .tvrk-nav-link-active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, .075);
-          }
-
-          .tvrk-header-scrolled .tvrk-mobile-nav .tvrk-nav-link-active {
-            color: #0a3fae;
-            background: linear-gradient(
-              90deg,
-              rgba(10, 86, 216, .10),
-              rgba(99, 34, 231, .07),
-              rgba(236, 11, 130, .045)
-            );
-          }
-
-          .tvrk-header-foundation.tvrk-header-top .tvrk-mobile-nav {
-            background:
-              radial-gradient(circle at top left, rgba(81, 184, 91, .16), transparent 42%),
-              radial-gradient(circle at top right, rgba(59, 130, 196, .20), transparent 40%),
-              rgba(5, 44, 65, .985);
-            border-color: rgba(110, 216, 121, .16);
-            box-shadow: 0 24px 54px rgba(4, 37, 58, .30);
-          }
-
-          .tvrk-header-foundation.tvrk-header-scrolled .tvrk-mobile-nav {
-            border-color: rgba(59, 130, 196, .13);
-            background:
-              radial-gradient(circle at top left, rgba(81, 184, 91, .09), transparent 42%),
-              radial-gradient(circle at top right, rgba(59, 130, 196, .10), transparent 40%),
-              rgba(255, 255, 255, .99);
-            box-shadow: 0 24px 54px rgba(24, 77, 101, .14);
-          }
-
-          .tvrk-header-foundation.tvrk-header-scrolled
-            .tvrk-mobile-nav
-            .tvrk-nav-link-active {
-            color: #185f82;
-            background: linear-gradient(
-              90deg,
-              rgba(59, 130, 196, .11),
-              rgba(81, 184, 91, .09)
-            );
-          }
-
-          .tvrk-mobile-nav .tvrk-ai-btn {
+          .tvrk-mobile-nav > .tvrk-ai-btn {
             width: 100%;
             min-height: 50px;
+            justify-content: center;
             margin: 6px 0 0;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-size: 14px;
           }
 
-          .tvrk-header-spacer {
-            height: 78px;
+
+
+          .tvrk-resource-mobile { width: 100%; }
+
+          .tvrk-resource-mobile .tvrk-resource-menu {
+
+            position: static;
+
+            width: 100%;
+
+            margin-top: 4px;
+
+            border-radius: 14px;
+
+            box-shadow: none;
+
           }
+
+
+
+          .tvrk-header-spacer { height: 72px; }
+
         }
 
-        @media (max-width: 639px) {
-          .tvrk-header-inner {
-            width: calc(100% - 24px);
-            min-height: 72px;
-            gap: 10px;
-          }
 
-          .tvrk-header-scrolled .tvrk-header-inner {
-            min-height: 64px;
-          }
-
-          .tvrk-header-logo {
-            max-width: calc(100% - 56px);
-          }
-
-          .tvrk-header-logo img {
-            width: 198px;
-            max-height: 46px;
-          }
-
-          .tvrk-header-scrolled .tvrk-header-logo img {
-            width: 186px;
-            max-height: 43px;
-          }
-
-          .tvrk-menu-toggle {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-          }
-
-          .tvrk-mobile-nav {
-            width: calc(100% - 24px);
-            max-height: calc(100dvh - 84px);
-            margin-bottom: 10px;
-            padding: 9px;
-            border-radius: 16px;
-          }
-
-          .tvrk-header-spacer {
-            height: 72px;
-          }
-        }
 
         @media (max-width: 420px) {
-          .tvrk-header-logo img {
-            width: 176px;
-            max-height: 42px;
+
+          .tvrk-header-logo img { width: 176px; max-height: 42px; }
+
+          .tvrk-header-scrolled .tvrk-header-logo img { width: 164px; max-height: 39px; }
+
+          .tvrk-menu-toggle { width: 42px; height: 42px; }
+
+          .tvrk-mobile-nav > .tvrk-ai-btn {
+            min-height: 48px;
+            padding: 11px 16px;
+            font-size: 13px;
           }
 
-          .tvrk-header-scrolled .tvrk-header-logo img {
-            width: 166px;
-            max-height: 40px;
-          }
         }
 
-        @media (max-width: 360px) {
-          .tvrk-header-inner {
-            width: calc(100% - 18px);
-            gap: 8px;
-          }
 
-          .tvrk-header-logo {
-            max-width: calc(100% - 50px);
-          }
-
-          .tvrk-header-logo img {
-            width: 154px;
-            max-height: 38px;
-          }
-
-          .tvrk-header-scrolled .tvrk-header-logo img {
-            width: 146px;
-            max-height: 36px;
-          }
-
-          .tvrk-menu-toggle {
-            width: 40px;
-            height: 40px;
-          }
-
-          .tvrk-mobile-nav {
-            width: calc(100% - 18px);
-          }
-        }
 
         @media (prefers-reduced-motion: reduce) {
+
           .tvrk-header,
-          .tvrk-header *,
-          .tvrk-header *::before,
-          .tvrk-header *::after {
-            scroll-behavior: auto !important;
-            transition: none !important;
-            animation: none !important;
-          }
+
+          .tvrk-header \* { transition: none !important; }
+
         }
+
       `}</style>
 
       {active !== "home" && (
-        <div
-          className={`tvrk-header-spacer ${
-            active === "foundation" ? "tvrk-header-spacer-foundation" : ""
-          }`}
-          aria-hidden="true"
-        />
+        <div className="tvrk-header-spacer" aria-hidden="true" />
       )}
 
-      <header ref={headerRef} className={headerClassName}>
+      <header
+        ref={headerRef}
+        className={`tvrk-header ${
+          isScrolled ? "tvrk-header-scrolled" : "tvrk-header-top"
+        }`}
+      >
         <div className="tvrk-header-inner">
           <a
             href="/"
@@ -921,7 +914,38 @@ export default function InitiativeHeader({
           </a>
 
           <nav className="tvrk-desktop-nav" aria-label="Main navigation">
-            {navigation}
+            <NavLink href="/#ecosystem">Ecosystem</NavLink>
+
+            <NavLink href="/#vision">Vision</NavLink>
+
+            <NavLink href="/#4p-models">4P Models</NavLink>
+
+            <ResourcesMenu />
+
+            <a
+              href="https://www.askoxy.ai/radhAI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tvrk-ai-btn"
+            >
+              <span>Talk to radhAI</span>
+
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M7 17 17 7" />
+
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
           </nav>
 
           <button
@@ -945,6 +969,7 @@ export default function InitiativeHeader({
                 aria-hidden="true"
               >
                 <path d="M6 6 18 18" />
+
                 <path d="M18 6 6 18" />
               </svg>
             ) : (
@@ -959,7 +984,9 @@ export default function InitiativeHeader({
                 aria-hidden="true"
               >
                 <path d="M4 6h16" />
+
                 <path d="M4 12h16" />
+
                 <path d="M4 18h16" />
               </svg>
             )}
@@ -972,7 +999,39 @@ export default function InitiativeHeader({
             className="tvrk-mobile-nav"
             aria-label="Mobile navigation"
           >
-            {navigation}
+            <NavLink href="/#ecosystem">Ecosystem</NavLink>
+
+            <NavLink href="/#vision">Vision</NavLink>
+
+            <NavLink href="/#4p-models">4P Models</NavLink>
+
+            <ResourcesMenu mobile />
+
+            <a
+              href="https://www.askoxy.ai/radhAI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tvrk-ai-btn"
+              onClick={closeMenu}
+            >
+              <span>Talk to radhAI</span>
+
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M7 17 17 7" />
+
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
           </nav>
         )}
       </header>

@@ -1,10 +1,9 @@
-import React, { useEffect, useState, type ReactNode } from "react";
+import React, { useState, type ReactNode } from "react";
 import InitiativeHeader from "./InitiativeHeader";
+import FourPSection from "./FourPSection";
 
 const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
 
-const GOLD_APPRAISAL_CERTIFICATE_IMAGE =
-  "https://i.ibb.co/tMz1WYq2/iuy.jpg";
 
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 
@@ -296,24 +295,6 @@ function ArrowUpRight({ className = "" }: { className?: string }) {
   );
 }
 
-function CertificateIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
-      <path d="M8.5 8.5h7M8.5 12h7" />
-      <path d="m10 17 2-1.15L14 17l-.45-2.25L15.25 13 13 12.7 12 10.65 11 12.7 8.75 13l1.7 1.75L10 17Z" />
-    </svg>
-  );
-}
 
 function MailIcon() {
   return (
@@ -412,25 +393,6 @@ type CEOLandingPageProps = {
 export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
-  const [certificateOpen, setCertificateOpen] = useState(false);
-
-  useEffect(() => {
-    if (!certificateOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setCertificateOpen(false);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [certificateOpen]);
 
   return (
     <div className="ceo-page min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
@@ -806,36 +768,6 @@ export default function CEOLandingPage({
                 </External>
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center gap-3">
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  aria-label={`Email ${CONTACT_EMAIL}`}
-                  className={`group flex min-h-[42px] max-w-full items-center gap-2.5 text-white transition duration-200 hover:text-[#ffd2bf] ${focus}`}
-                >
-                  <span className="shrink-0 text-[#ffd2bf]">
-                    <MailIcon />
-                  </span>
-
-                  <span className="break-all text-[12px] font-bold sm:text-[13px]">
-                    {CONTACT_EMAIL}
-                  </span>
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => setCertificateOpen(true)}
-                  aria-haspopup="dialog"
-                  aria-controls="gold-appraisal-certificate-dialog"
-                  className={`group inline-flex min-h-[42px] items-center justify-center gap-2 rounded-full border border-white/[0.24] bg-white/[0.10] px-4 py-2 text-[11px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12)] transition duration-200 hover:-translate-y-0.5 hover:border-white/[0.42] hover:bg-white/[0.16] sm:text-[12px] ${focus}`}
-                >
-                  <CertificateIcon className="h-[17px] w-[17px] shrink-0" />
-                  <span>Gold Appraisal Certificate</span>
-                  <span aria-hidden="true" className="text-white/[0.72] transition group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </button>
-              </div>
-
               <div className="mt-4 flex flex-wrap items-center gap-2.5">
                 <span className="mr-1 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/[0.64] sm:text-[10px]">
                   Connect
@@ -1127,7 +1059,7 @@ export default function CEOLandingPage({
         <section
           id="ecosystem"
           aria-labelledby="ecosystem-heading"
-          className="scroll-mt-24 py-10 sm:py-14 lg:py-16"
+          className="scroll-mt-24 pb-16 pt-12 sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20"
         >
           <div className="tvrk-container mx-auto">
             <div className="grid gap-5 lg:grid-cols-[minmax(0,.75fr)_minmax(0,1.25fr)] lg:items-end">
@@ -1197,6 +1129,8 @@ export default function CEOLandingPage({
           </div>
         </section>
 
+        <FourPSection />
+
         {/* =====================================================
             VISION
         ===================================================== */}
@@ -1204,7 +1138,7 @@ export default function CEOLandingPage({
         <section
           id="vision"
           aria-labelledby="vision-heading"
-          className="scroll-mt-24 pb-12 pt-8 text-white sm:pb-16 sm:pt-10 lg:pb-20 lg:pt-12"
+          className="scroll-mt-24 pb-16 pt-14 text-white sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20"
         >
           <div className="vision-panel tvrk-container mx-auto overflow-hidden rounded-[30px] p-5 sm:rounded-[34px] sm:p-8 lg:p-10 xl:p-12">
             <div className="grid gap-9 lg:grid-cols-[minmax(0,.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 xl:gap-16">
@@ -1316,108 +1250,32 @@ export default function CEOLandingPage({
                   {OFFICE_ADDRESS}
                 </p>
 
-                <a
-                  href={OFFICE_MAP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Open office address in Google Maps"
-                  className={`group mt-6 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/[0.22] bg-white px-5 py-2.5 text-[12px] font-extrabold text-[#211b67] shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#fff8f4] sm:text-[13px] ${focus}`}
-                >
-                  Open in Google Maps
-                  <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
+                <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap lg:items-start">
+                  <a
+                    href={OFFICE_MAP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open office address in Google Maps"
+                    className={`group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/[0.22] bg-white px-5 py-2.5 text-[12px] font-extrabold text-[#211b67] shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#fff8f4] sm:text-[13px] ${focus}`}
+                  >
+                    Open in Google Maps
+                    <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    aria-label={`Email ${CONTACT_EMAIL}`}
+                    className={`group inline-flex min-h-[44px] max-w-full items-center justify-center gap-2.5 rounded-full border border-white/[0.20] bg-white/[0.08] px-5 py-2.5 text-[12px] font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:border-white/[0.38] hover:bg-white/[0.14] sm:text-[13px] ${focus}`}
+                  >
+                    <MailIcon />
+                    <span className="break-all">{CONTACT_EMAIL}</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
-
-      {certificateOpen && (
-        <div
-          id="gold-appraisal-certificate-dialog"
-          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-black/80 px-3 py-4 backdrop-blur-[3px] sm:px-5 sm:py-6"
-          style={{
-            paddingTop: "max(16px, env(safe-area-inset-top))",
-            paddingBottom: "max(16px, env(safe-area-inset-bottom))",
-          }}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="gold-certificate-title"
-        >
-          <button
-            type="button"
-            aria-label="Close gold appraisal certificate"
-            onClick={() => setCertificateOpen(false)}
-            className="absolute inset-0 cursor-default"
-          />
-
-          <div
-            className="relative z-10 flex max-h-[calc(100dvh-32px)] w-[94vw] max-w-[620px] flex-col overflow-hidden rounded-[18px] border border-white/20 bg-white shadow-[0_28px_90px_rgba(0,0,0,.48)] sm:max-h-[calc(100dvh-48px)] sm:rounded-[22px]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="relative z-20 flex min-h-[52px] shrink-0 items-center justify-between gap-2 border-b border-black/[0.08] bg-white px-3 sm:min-h-[58px] sm:px-4">
-              <div className="min-w-0 pr-1">
-                <p className="hidden text-[9px] font-extrabold uppercase tracking-[0.15em] text-[#777680] sm:block">
-                  Professional Credential
-                </p>
-                <h2
-                  id="gold-certificate-title"
-                  className="font-display truncate text-[13px] font-extrabold text-[#171525] sm:mt-0.5 sm:text-[15px]"
-                >
-                  Gold Appraisal Certificate
-                </h2>
-              </div>
-
-              <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-                <External
-                  href={GOLD_APPRAISAL_CERTIFICATE_IMAGE}
-                  ariaLabel="Open gold appraisal certificate image in a new tab"
-                  className="hidden min-h-[36px] items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-[#f5f5f7] px-3 text-[10px] font-extrabold text-[#211b67] transition hover:bg-[#ececf1] sm:inline-flex"
-                >
-                  Full View
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </External>
-
-                <button
-                  type="button"
-                  onClick={() => setCertificateOpen(false)}
-                  aria-label="Close certificate"
-                  className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border border-black/[0.10] bg-[#f5f5f7] text-[20px] font-normal leading-none text-[#171525] transition hover:bg-black hover:text-white sm:h-10 sm:w-10 ${focus}`}
-                >
-                  <span aria-hidden="true" className="-mt-px">×</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-[#eef0f3] p-2 sm:p-3">
-              <img
-                src={GOLD_APPRAISAL_CERTIFICATE_IMAGE}
-                alt="Gold appraisal certificate"
-                loading="eager"
-                decoding="async"
-                className="block h-auto w-auto max-w-full rounded-[8px] bg-white object-contain shadow-[0_10px_30px_rgba(0,0,0,.14)] sm:rounded-[10px]"
-                style={{ maxHeight: "min(64dvh, 690px)" }}
-              />
-            </div>
-
-            <div className="flex shrink-0 items-center justify-between gap-2 border-t border-black/[0.08] bg-white px-3 py-2 sm:hidden">
-              <span className="truncate text-[10px] font-semibold text-[#777680]">
-                Tap outside to close
-              </span>
-
-              <External
-                href={GOLD_APPRAISAL_CERTIFICATE_IMAGE}
-                ariaLabel="Open gold appraisal certificate image in a new tab"
-                className="inline-flex min-h-[34px] shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#211b67] px-3 text-[10px] font-extrabold text-white"
-              >
-                Full View
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </External>
-            </div>
-          </div>
-        </div>
-      )}
-
 
       {/* =====================================================
           FOOTER
