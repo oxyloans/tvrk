@@ -245,24 +245,22 @@ export default function FourPSection() {
     <section
       id="4p-models"
       aria-labelledby="four-p-heading"
-      className="scroll-mt-24 bg-transparent py-12 sm:py-14 lg:py-16 xl:py-20"
+      className="scroll-mt-24 bg-transparent py-9 sm:py-11 lg:py-14 xl:py-16"
     >
       <div className="mx-auto w-full max-w-[1580px] px-4 sm:px-6 lg:px-10 xl:px-14">
         {/* Heading */}
         <header className="mx-auto max-w-[980px] text-center">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#6b4ca3] sm:text-[11px]">
-            Strategic Partnership Framework
-          </p>
+
 
           <h2
             id="four-p-heading"
-            className="mt-2 font-display text-[clamp(2rem,4vw,3.65rem)] font-extrabold leading-[1.05] tracking-[-0.045em] text-[#12182a]"
+            className="mt-2 font-display text-[clamp(2rem,4vw,3.65rem)] font-extrabold leading-[1.05] tracking-[-0.045em] text-[#211b3f]"
           >
             4P Strategic{" "}
-            <span className="text-[#2f67b8]">Partnerships</span> Model
+            <span className="text-[#FFF]">Partnerships</span> Model
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[900px] text-[13px] font-medium leading-6 text-[#4f596c] sm:text-[15px] sm:leading-7 lg:text-base">
+          <p className="mx-auto mt-4 max-w-[900px] text-[13px] font-medium leading-6 text-[#4b4458] sm:text-[15px] sm:leading-7 lg:text-base">
             A focused partnership framework covering People, Platforms, Products,
             and Capital to drive scale, innovation, and sustainable business growth.
           </p>
@@ -270,7 +268,7 @@ export default function FourPSection() {
 
         {/* Compact tabs */}
         <div
-          className="mx-auto mt-7 flex max-w-[620px] flex-wrap items-center justify-center gap-2.5 sm:mt-9 sm:gap-3"
+          className="mx-auto mt-6 flex max-w-[620px] flex-wrap items-center justify-center gap-2 sm:mt-7 sm:gap-2.5"
           role="tablist"
           aria-label="4P Strategic Partnerships"
         >
@@ -287,8 +285,8 @@ export default function FourPSection() {
                 className={[
                   "min-w-[92px] rounded-full border px-5 py-2.5 text-[12px] font-bold transition-all duration-200 sm:min-w-[112px] sm:px-6 sm:text-[13px]",
                   selected
-                    ? "border-[#2f67b8] bg-[#2f67b8] text-white shadow-[0_8px_18px_rgba(47,103,184,0.18)]"
-                    : "border-[#dce3ee] bg-white/70 text-[#26324a] hover:border-[#b8c8df] hover:bg-white",
+                    ? "border-[#4d3478] bg-[#4d3478] text-white shadow-[0_8px_20px_rgba(77,52,120,0.20)]"
+                    : "border-[#75669a]/25 bg-white/55 text-[#33294d] hover:border-[#65408e]/40 hover:bg-white/80",
                 ].join(" ")}
               >
                 {tab.label}
@@ -298,37 +296,37 @@ export default function FourPSection() {
         </div>
 
         {/* Main content */}
-        <div className="mt-10 grid items-center gap-8 md:mt-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 xl:gap-16">
+        <div className="mt-7 grid items-center gap-6 sm:mt-8 sm:gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 xl:gap-12">
           {/* Text */}
           <div className="order-2 lg:order-1">
             <div className="max-w-[700px]">
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#6b4ca3] sm:text-[11px]">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#65408e] sm:text-[11px]">
                 {active.eyebrow}
               </p>
 
-              <h3 className="mt-2 font-display text-[2rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-[#12182a] sm:text-[2.5rem] lg:text-[2.8rem]">
+              <h3 className="mt-2 font-display text-[2rem] font-extrabold leading-[1.08] tracking-[-0.04em] text-[#211b3f] sm:text-[2.5rem] lg:text-[2.8rem]">
                 {active.title}
               </h3>
 
-              <div className="mt-4 h-[3px] w-16 rounded-full bg-[#2f67b8]" />
+              <div className="mt-4 h-[3px] w-16 rounded-full bg-[#d96b4f]" />
 
-              <p className="mt-5 max-w-[640px] text-[14px] font-medium leading-7 text-[#4f596c] sm:text-[15px] lg:text-base lg:leading-8">
+              <p className="mt-5 max-w-[640px] text-[14px] font-medium leading-7 text-[#4b4458] sm:text-[15px] lg:text-base lg:leading-8">
                 {active.description}
               </p>
 
               <div className="mt-8 space-y-5 sm:space-y-6">
                 {active.items.map((item) => (
                   <div key={item.title} className="flex items-start gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#edf4ff] text-[#2f67b8] ring-1 ring-[#d8e6f9]">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#edf4ff] text-[#d96b4f] ring-1 ring-[#d8e6f9]">
                       <FeatureIcon type={item.icon} />
                     </span>
 
                     <div className="min-w-0 pt-0.5">
-                      <h4 className="text-[14px] font-extrabold leading-5 text-[#12182a] sm:text-[15px]">
+                      <h4 className="text-[14px] font-extrabold leading-5 text-[#211b3f] sm:text-[15px]">
                         {item.title}
                       </h4>
 
-                      <p className="mt-1 text-[12.5px] font-medium leading-5.5 text-[#647084] sm:text-[13.5px] sm:leading-6">
+                      <p className="mt-1 text-[12.5px] font-medium leading-5.5 text-[#5b5367] sm:text-[13.5px] sm:leading-6">
                         {item.text}
                       </p>
                     </div>

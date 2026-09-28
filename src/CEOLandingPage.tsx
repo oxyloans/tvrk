@@ -1,9 +1,10 @@
 import React, { useState, type ReactNode } from "react";
+
 import InitiativeHeader from "./InitiativeHeader";
+
 import FourPSection from "./FourPSection";
 
 const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
-
 
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 
@@ -31,176 +32,264 @@ const HIDDEN_DRIVE_URL =
   "https://drive.google.com/file/d/1z9C1N2MPy16Nns33VjblcOShiJ6_yIvy/view?usp=sharing";
 
 /* =========================================================
+
    GROUP COMPANIES
+
 ========================================================= */
 
 const brandPlatforms = [
   {
     logo: "https://i.ibb.co/s4CW2mg/l1.png",
+
     name: "OXYGLOBAL.TECH",
+
     href: "https://www.oxyglobal.tech/",
+
     desktopClass:
       "w-[140px] md:w-[150px] lg:w-[128px] xl:w-[150px] 2xl:w-[178px]",
+
     mobileClass: "w-[155px]",
   },
 
   {
     logo: "https://i.ibb.co/B5xsVChY/l2.png",
+
     name: "OXYLOANS",
+
     href: "https://oxyloans.com/",
+
     desktopClass:
       "w-[145px] md:w-[155px] lg:w-[132px] xl:w-[155px] 2xl:w-[185px]",
+
     mobileClass: "w-[160px]",
   },
 
   {
     logo: OXYJOURNEYS_LOGO,
+
     name: "OXY JOURNEYS",
+
     href: "https://www.oxyjourneys.com/",
+
     desktopClass:
       "w-[150px] md:w-[162px] lg:w-[138px] xl:w-[162px] 2xl:w-[190px]",
+
     mobileClass: "w-[168px]",
   },
 
   {
     logo: "https://i.ibb.co/k2snG0YW/l3.png",
+
     name: "OXYBRICKS.WORLD",
+
     href: "https://oxybricks.world/",
+
     desktopClass:
       "w-[140px] md:w-[150px] lg:w-[128px] xl:w-[150px] 2xl:w-[178px]",
+
     mobileClass: "w-[155px]",
   },
 
   {
     logo: "https://i.ibb.co/PGYYDvL9/l4.png",
+
     name: "OXYGOLD.AI",
+
     href: "https://www.oxygold.ai/",
+
     desktopClass:
       "w-[125px] md:w-[135px] lg:w-[118px] xl:w-[140px] 2xl:w-[165px]",
+
     mobileClass: "w-[145px]",
   },
 
   {
     logo: "https://i.ibb.co/B2NcQ7Nj/l5.png",
+
     name: "OXYCHAIN",
+
     href: "http://bmv.money:2750/",
+
     desktopClass:
       "w-[130px] md:w-[140px] lg:w-[120px] xl:w-[145px] 2xl:w-[170px]",
+
     mobileClass: "w-[150px]",
   },
 
   {
     logo: OXYFINSERV_LOGO,
+
     name: "OXYFINSERV",
+
     href: "https://www.oxyfinserv.com/",
+
     desktopClass:
       "w-[140px] md:w-[150px] lg:w-[128px] xl:w-[150px] 2xl:w-[178px]",
+
     mobileClass: "w-[155px]",
   },
 ];
 
 /* =========================================================
+
    SOCIALS
+
 ========================================================= */
 
 const heroSocials = [
   {
     name: "LinkedIn",
+
     href: "https://www.linkedin.com/in/oxyradhakrishna/",
   },
+
   {
     name: "Facebook",
+
     href: "https://www.facebook.com/share/1AcVZzEu7y/",
   },
+
   {
     name: "X",
+
     href: "https://x.com/RadhakrishnaIND",
   },
 ];
 
 /* =========================================================
+
    VISIT PLATFORMS
+
 ========================================================= */
 
 const visitPlatforms = [
   {
     name: "OXY News",
+
     description: "Latest news, updates and announcements",
+
     image: "https://i.ibb.co/jPSbgSTk/u1.png",
+
     href: "https://www.askoxy.ai/oxynews",
   },
+
   {
     name: "Our Journeys",
+
     description: "Explore opportunities, communities and journeys",
+
     image: "https://i.ibb.co/x8fmy8NC/u2.png",
+
     href: "https://www.askoxy.ai/alljourneys",
   },
+
   {
     name: "Our Blogs",
+
     description: "Read ideas, insights and useful articles",
+
     image: "https://i.ibb.co/Qvwnfj5z/u3.png",
+
     href: "https://www.askoxy.ai/myblogs",
   },
+
   {
     name: "Our Jobs",
+
     description: "Discover current opportunities and open roles",
+
     image: "https://i.ibb.co/MkhLvLzY/u4.png",
+
     href: "https://www.askoxy.ai/viewjobdetails/default/ALL",
   },
 ];
 
 /* =========================================================
+
    ECOSYSTEM
+
 ========================================================= */
 
 const ecosystemPlatforms = [
   {
     name: "OxyLoans",
+
     eyebrow: "Lending",
+
     description: "RBI-registered NBFC-P2P platform",
+
     href: "https://oxyloans.com/",
   },
+
   {
     name: "ASKOXY.AI",
+
     eyebrow: "AI Ecosystem",
+
     description: "AI-powered digital ecosystem",
+
     href: "https://www.askoxy.ai/",
   },
+
   {
     name: "RBI Master Directions AI Store",
+
     eyebrow: "RegTech",
+
     description: "RBI regulatory intelligence and guidance",
+
     href: "https://www.askoxy.ai/ai-store/rbi-master-directions-ai-store",
   },
+
   {
     name: "Insurance LLM",
+
     eyebrow: "InsurTech",
+
     description: "AI-powered insurance intelligence",
+
     href: "https://www.askoxy.ai/genoxy/chat?a=insurance-llm",
   },
+
   {
     name: "OXYBFSAI",
+
     eyebrow: "BFSI AI",
+
     description: "AI for banking, financial services & insurance",
+
     href: "https://www.askoxy.ai/oxybfsai",
   },
+
   {
     name: "OXYBFSAI Use Case",
+
     eyebrow: "Use Cases",
+
     description: "Practical BFSI AI use case",
+
     href: "https://vibecoding-finvibe.vercel.app/",
   },
+
   {
     name: "OXYFINSERV",
+
     eyebrow: "Financial Services",
+
     logo: OXYFINSERV_LOGO,
+
     description: "Financial services ecosystem",
+
     href: "https://www.oxyfinserv.com/",
   },
+
   {
     name: "Bharat Sovereign AI",
+
     eyebrow: "Sovereign AI",
+
     description: "Building AI for India’s BFSI ecosystem",
+
     href: "https://www.askoxy.ai/sovereign-ai",
   },
 ];
@@ -209,21 +298,29 @@ const focus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 
 /* =========================================================
+
    ICONS
+
 ========================================================= */
 
 type SocialIconProps = {
   name: string;
+
   className?: string;
 };
 
 function SocialIcon({ name, className = "" }: SocialIconProps) {
   const props = {
     width: 20,
+
     height: 20,
+
     viewBox: "0 0 24 24",
+
     "aria-hidden": true,
+
     focusable: false,
+
     className,
   };
 
@@ -290,11 +387,11 @@ function ArrowUpRight({ className = "" }: { className?: string }) {
       className={className}
     >
       <path d="M7 17 17 7" />
+
       <path d="M7 7h10v10" />
     </svg>
   );
 }
-
 
 function MailIcon() {
   return (
@@ -315,20 +412,28 @@ function MailIcon() {
 }
 
 /* =========================================================
+
    EXTERNAL LINK
+
 ========================================================= */
 
 type ExternalProps = {
   href: string;
+
   children: ReactNode;
+
   className?: string;
+
   ariaLabel?: string;
 };
 
 function External({
   href,
+
   children,
+
   className = "",
+
   ariaLabel,
 }: ExternalProps) {
   return (
@@ -345,11 +450,14 @@ function External({
 }
 
 /* =========================================================
+
    PORTRAIT
+
 ========================================================= */
 
 type PortraitProps = {
   src: string;
+
   className?: string;
 };
 
@@ -383,7 +491,9 @@ function Portrait({ src, className = "" }: PortraitProps) {
 }
 
 /* =========================================================
+
    MAIN PAGE
+
 ========================================================= */
 
 type CEOLandingPageProps = {
@@ -393,7 +503,6 @@ type CEOLandingPageProps = {
 export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
-
   return (
     <div className="ceo-page min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
       <a
@@ -404,289 +513,568 @@ export default function CEOLandingPage({
       </a>
 
       <style>{`
+
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
 
+
+
         #root {
+
           max-width: none;
+
           width: 100%;
+
           margin: 0;
+
           padding: 0;
+
           text-align: left;
+
         }
+
+
 
         html {
+
           scroll-behavior: smooth;
+
         }
+
+
 
         body {
+
           margin: 0;
+
           display: block;
+
           min-width: 320px;
+
           background: #241b67;
+
         }
+
+
 
         /* =========================================================
+
            GLOBAL RESPONSIVE CONTENT WIDTH
+
            Equal left + right gap across all sections
+
         ========================================================= */
 
+
+
         .tvrk-container {
+
           box-sizing: border-box;
+
           width: calc(100% - 32px) !important;
+
           max-width: 1720px !important;
+
           margin-left: auto !important;
+
           margin-right: auto !important;
+
           min-width: 0;
+
         }
+
+
 
         .tvrk-container > * {
+
           min-width: 0;
+
         }
+
+
 
         @media (min-width: 640px) {
+
           .tvrk-container {
+
             width: calc(100% - 48px) !important;
+
           }
+
         }
+
+
 
         @media (min-width: 1024px) {
+
           .tvrk-container {
+
             width: calc(100% - 64px) !important;
+
           }
+
         }
+
+
 
         @media (min-width: 1280px) {
+
           .tvrk-container {
+
             width: calc(100% - 96px) !important;
+
           }
+
         }
 
+
+
         .ceo-page {
+
           font-family:
+
             'Manrope',
+
             'Inter',
+
             'Segoe UI',
+
             Arial,
+
             ui-sans-serif,
+
             system-ui,
+
             sans-serif;
+
+
 
           text-align: left;
 
+
+
           background:
+
             linear-gradient(
+
               180deg,
+
               #211b67 0%,
+
               #3a2875 17%,
+
               #75477f 34%,
+
               #c98798 50%,
+
               #eee7f4 66%,
+
               #d8cee9 81%,
+
               #4a397c 100%
+
             );
+
         }
+
+
 
         .font-display {
+
           font-family:
+
             'Sora',
+
             'Aptos Display',
+
             'Segoe UI Variable Display',
+
             'Segoe UI',
+
             Arial,
+
             ui-sans-serif,
+
             system-ui,
+
             sans-serif;
+
         }
+
+
 
         .hero-kicker {
+
           color: rgba(255,255,255,.86);
+
         }
+
+
 
         .hero-copy {
+
           color: rgba(255,255,255,.90);
+
         }
+
+
 
         .hero-muted {
+
           color: rgba(255,255,255,.76);
+
         }
+
+
 
         .dark-heading {
+
           color: #201a35;
+
         }
+
+
 
         .dark-body {
+
           color: #565064;
+
         }
+
+
 
         .dark-muted {
+
           color: #766e84;
+
         }
+
+
 
         .logo-strip {
+
           width: 100%;
+
           background: #ffffff;
+
           border: 0;
+
           box-shadow: none;
+
         }
+
+
 
         .logo-link {
+
           position: relative;
+
           display: flex;
+
           align-items: center;
+
           justify-content: center;
+
           min-width: 0;
+
         }
+
+
 
         .vision-panel {
+
           border: 1px solid rgba(255,255,255,.16);
 
+
+
           background:
+
             linear-gradient(
+
               135deg,
+
               rgba(31,24,92,.97) 0%,
+
               rgba(71,45,111,.96) 52%,
+
               rgba(111,66,116,.94) 100%
+
             );
 
+
+
           box-shadow:
+
             inset 0 1px 0 rgba(255,255,255,.13),
+
             0 26px 65px rgba(33,23,78,.22);
 
+
+
           -webkit-backdrop-filter:
+
             blur(20px) saturate(130%);
 
+
+
           backdrop-filter:
+
             blur(20px) saturate(130%);
+
         }
+
+
 
         .vision-card {
+
           border: 1px solid rgba(255,255,255,.15);
 
+
+
           background:
+
             linear-gradient(
+
               145deg,
+
               rgba(255,255,255,.105),
+
               rgba(255,255,255,.065)
+
             );
 
+
+
           box-shadow:
+
             inset 0 1px 0 rgba(255,255,255,.10);
 
+
+
           -webkit-backdrop-filter:
+
             blur(16px) saturate(120%);
 
+
+
           backdrop-filter:
+
             blur(16px) saturate(120%);
+
         }
+
+
 
         .liquid-glass {
+
           border: 1px solid rgba(255,255,255,.58);
 
+
+
           background:
+
             linear-gradient(
+
               145deg,
+
               rgba(255,255,255,.68),
+
               rgba(255,255,255,.36)
+
             );
 
+
+
           box-shadow:
+
             inset 0 1px 0 rgba(255,255,255,.82),
+
             0 18px 50px rgba(41,29,91,.11);
 
+
+
           -webkit-backdrop-filter:
+
             blur(22px) saturate(135%);
 
+
+
           backdrop-filter:
+
             blur(22px) saturate(135%);
+
         }
+
+
 
         .glass-card {
+
           border: 1px solid rgba(255,255,255,.66);
 
+
+
           background:
+
             linear-gradient(
+
               145deg,
+
               rgba(255,255,255,.70),
+
               rgba(255,255,255,.42)
+
             );
 
+
+
           box-shadow:
+
             inset 0 1px 0 rgba(255,255,255,.86),
+
             0 16px 42px rgba(58,42,104,.10);
 
+
+
           -webkit-backdrop-filter:
+
             blur(20px) saturate(130%);
+
+
 
           backdrop-filter:
+
             blur(20px) saturate(130%);
+
         }
+
+
 
         @keyframes logo-marquee {
+
           from {
+
             transform: translate3d(0, 0, 0);
+
           }
+
+
 
           to {
+
             transform: translate3d(-50%, 0, 0);
+
           }
+
         }
+
+
 
         .logo-marquee {
+
           display: flex;
+
           width: max-content;
+
           animation: logo-marquee 28s linear infinite;
+
           will-change: transform;
+
         }
+
+
 
         .logo-marquee:hover {
+
           animation-play-state: paused;
+
         }
+
+
 
         @media (max-width: 639px) {
+
           .liquid-glass,
+
           .glass-card,
+
           .vision-panel,
+
           .vision-card {
+
             -webkit-backdrop-filter:
+
               blur(14px) saturate(120%);
+
+
 
             backdrop-filter:
+
               blur(14px) saturate(120%);
+
           }
+
+
 
           .liquid-glass,
+
           .glass-card {
+
             background:
+
               linear-gradient(
+
                 145deg,
+
                 rgba(255,255,255,.76),
+
                 rgba(255,255,255,.48)
+
               );
+
           }
+
         }
+
+
 
         @media (max-width: 380px) {
+
           .mobile-logo-item {
+
             width: 170px !important;
+
           }
+
         }
+
+
 
         @media (prefers-reduced-motion: reduce) {
+
           * {
+
             scroll-behavior: auto !important;
+
           }
 
+
+
           .logo-marquee {
+
             animation: none !important;
+
           }
+
         }
+
       `}</style>
 
       <InitiativeHeader active="home" />
 
       <main>
         {/* =====================================================
+
             HERO
+
         ===================================================== */}
 
         <section
@@ -800,7 +1188,9 @@ export default function CEOLandingPage({
         </section>
 
         {/* =====================================================
+
             OXY COMPANY LOGOS
+
         ===================================================== */}
 
         <section
@@ -809,34 +1199,60 @@ export default function CEOLandingPage({
           className="logo-strip relative z-10 scroll-mt-24 overflow-hidden bg-white"
         >
           {/* Tablet + Desktop */}
+
           <div className="hidden w-full sm:block">
             <div className="mx-auto w-full px-4 sm:px-6 lg:px-5 xl:px-7 2xl:px-10">
               <div
                 className="
+
                   grid
+
                   w-full
+
                   grid-cols-3
+
                   items-center
+
                   justify-items-center
+
                   gap-x-4
+
                   gap-y-3
+
                   py-5
 
+
+
                   md:grid-cols-4
+
                   md:gap-x-5
+
                   md:gap-y-4
+
                   md:py-6
 
+
+
                   lg:grid-cols-7
+
                   lg:gap-x-2
+
                   lg:gap-y-0
+
                   lg:py-6
 
+
+
                   xl:gap-x-4
+
                   xl:py-7
 
+
+
                   2xl:gap-x-6
+
                   2xl:py-8
+
                 "
               >
                 {brandPlatforms.map((item) => (
@@ -845,21 +1261,37 @@ export default function CEOLandingPage({
                     href={item.href}
                     ariaLabel={`Visit ${item.name}`}
                     className="
+
                       logo-link
+
                       group
+
                       flex
+
                       min-h-[82px]
+
                       w-full
+
                       min-w-0
+
                       items-center
+
                       justify-center
+
                       overflow-visible
+
                       px-1
+
                       py-2
 
+
+
                       md:min-h-[90px]
+
                       lg:min-h-[96px]
+
                       xl:min-h-[104px]
+
                     "
                   >
                     <img
@@ -868,20 +1300,35 @@ export default function CEOLandingPage({
                       loading="eager"
                       decoding="async"
                       className={`
+
                         ${item.desktopClass}
+
                         block
+
                         h-auto
+
                         max-h-[70px]
+
                         max-w-full
+
                         object-contain
+
                         transition-transform
+
                         duration-300
+
                         ease-out
+
                         group-hover:scale-[1.04]
 
+
+
                         lg:max-h-[76px]
+
                         xl:max-h-[82px]
+
                         2xl:max-h-[88px]
+
                       `}
                     />
                   </External>
@@ -891,6 +1338,7 @@ export default function CEOLandingPage({
           </div>
 
           {/* Mobile Auto Scroll */}
+
           <div className="w-full overflow-hidden bg-white sm:hidden">
             <div className="logo-marquee flex items-center py-2">
               {[...brandPlatforms, ...brandPlatforms].map((item, index) => (
@@ -899,17 +1347,29 @@ export default function CEOLandingPage({
                   href={item.href}
                   ariaLabel={`Visit ${item.name}`}
                   className="
+
                       mobile-logo-item
+
                       logo-link
+
                       flex
+
                       h-[92px]
+
                       w-[190px]
+
                       shrink-0
+
                       items-center
+
                       justify-center
+
                       overflow-visible
+
                       px-4
+
                       py-2
+
                     "
                 >
                   <img
@@ -918,12 +1378,19 @@ export default function CEOLandingPage({
                     loading="eager"
                     decoding="async"
                     className={`
+
                         ${item.mobileClass}
+
                         block
+
                         h-auto
+
                         max-h-[67px]
+
                         max-w-[165px]
+
                         object-contain
+
                       `}
                   />
                 </External>
@@ -933,7 +1400,9 @@ export default function CEOLandingPage({
         </section>
 
         {/* =====================================================
+
             INSTAGRAM
+
         ===================================================== */}
 
         <section
@@ -1001,7 +1470,9 @@ export default function CEOLandingPage({
         </section>
 
         {/* =====================================================
+
             VISIT PLATFORMS
+
         ===================================================== */}
 
         <section
@@ -1053,7 +1524,9 @@ export default function CEOLandingPage({
         </section>
 
         {/* =====================================================
+
             ECOSYSTEM
+
         ===================================================== */}
 
         <section
@@ -1132,7 +1605,9 @@ export default function CEOLandingPage({
         <FourPSection />
 
         {/* =====================================================
+
             VISION
+
         ===================================================== */}
 
         <section
@@ -1175,17 +1650,25 @@ export default function CEOLandingPage({
                 {[
                   {
                     number: "01",
+
                     title: "AI for everyday work",
+
                     text: "Use AI to answer questions, organize information, and support everyday business tasks.",
                   },
+
                   {
                     number: "02",
+
                     title: "A focus on financial services",
+
                     text: "Discover work around BFSI AI, insurance knowledge, and access to RBI regulatory information.",
                   },
+
                   {
                     number: "03",
+
                     title: "Building for Bharat",
+
                     text: "Develop useful AI experiences shaped by local needs, practical adoption, and people at the center.",
                   },
                 ].map((item) => (
@@ -1214,7 +1697,163 @@ export default function CEOLandingPage({
         </section>
 
         {/* =====================================================
+
+            JOIN / EARN / LEARN
+
+        ===================================================== */}
+
+        <section
+          id="join-earn-learn"
+          aria-labelledby="join-earn-learn-heading"
+          className="relative scroll-mt-24 py-3 sm:py-4 lg:py-5"
+        >
+          <div className="tvrk-container mx-auto">
+            <div className="mx-auto max-w-4xl text-center">
+              <h2
+                id="join-earn-learn-heading"
+                className="font-display text-[clamp(1.9rem,5vw,3.5rem)] font-extrabold leading-[1] tracking-[-0.05em]"
+              >
+                <span className="text-[#d96b4f]">#JOIN</span>{" "}
+                <span className="text-[#211b4b]">#EARN</span>{" "}
+                <span className="text-[#5b3d83]">#LEARN</span>
+              </h2>
+
+              <p className="mx-auto mt-2 max-w-2xl text-[13px] font-semibold leading-5 text-[#463e56] sm:text-sm sm:leading-6 lg:text-[15px]">
+                Learn with AI, build meaningful partnerships and grow through a
+                connected ecosystem of people, ideas and opportunities.
+              </p>
+            </div>
+
+            <div className="mt-3 sm:mt-4 lg:mt-5">
+              {/* AI Co-Founder */}
+
+              <article className="grid items-center gap-2 sm:gap-3 lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] lg:gap-5 xl:gap-7">
+                <div className="order-1 min-w-0 text-center lg:order-1 lg:text-left">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#c95e43] sm:text-[11px]">
+                    #01
+                  </p>
+
+                  <h3 className="font-display mt-1.5 text-[clamp(1.65rem,4vw,2.85rem)] font-extrabold leading-[1.04] tracking-[-0.045em] text-[#211b4b]">
+                    Join as{" "}
+                    <span className="text-[#d96b4f]">AI Co-Founder</span>
+                  </h3>
+
+                  <p className="mx-auto mt-2 max-w-[560px] text-[13px] font-semibold leading-5 text-[#4c445b] sm:text-sm sm:leading-6 lg:mx-0 lg:text-[15px]">
+                    Learn, collaborate and grow with AI-powered knowledge,
+                    practical innovation and real-world opportunities.
+                  </p>
+
+                  <div className="mt-2.5 flex flex-wrap justify-center gap-1.5 lg:justify-start">
+                    {["Learn", "Collaborate", "Build"].map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-[#5b3d83]/25 bg-white/45 px-3.5 py-1.5 text-[10px] font-extrabold text-[#35285f] backdrop-blur-sm sm:text-[11px]"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="order-2 hidden justify-center lg:order-2 lg:flex lg:justify-end">
+                  <img
+                    src="https://i.ibb.co/fzg4RMtj/aicofounder.png"
+                    alt="AI Co-Founder collaboration ecosystem"
+                    loading="lazy"
+                    decoding="async"
+                    className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[410px] md:max-w-[450px] lg:max-w-[520px] xl:max-w-[565px]"
+                  />
+                </div>
+              </article>
+
+              {/* Desktop connector */}
+
+              <div className="-my-1 hidden justify-center lg:flex xl:-my-2">
+                <img
+                  src="https://i.ibb.co/gL3KRxTQ/arrow1.png"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-auto w-[66%] max-w-[920px] object-contain opacity-95 xl:w-[70%]"
+                />
+              </div>
+
+              {/* Mobile / tablet visual flow: AI image -> arrow PNG -> Partner image */}
+              <div className="mt-3 flex flex-col items-center lg:hidden sm:mt-4">
+                <img
+                  src="https://i.ibb.co/fzg4RMtj/aicofounder.png"
+                  alt="AI Co-Founder collaboration ecosystem"
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[390px] md:max-w-[430px]"
+                />
+
+                <img
+                  src="https://i.ibb.co/gL3KRxTQ/arrow1.png"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                  className="-my-1 block h-auto w-[86%] max-w-[360px] object-contain opacity-95 sm:w-[78%] sm:max-w-[410px] md:w-[72%]"
+                />
+
+                <img
+                  src="https://i.ibb.co/gMJXWB7d/partner.png"
+                  alt="Partner collaboration and growth ecosystem"
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[390px] md:max-w-[430px]"
+                />
+              </div>
+
+              {/* Partner */}
+
+              <article className="grid items-center gap-2 sm:gap-3 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-5 xl:gap-7">
+                <div className="hidden justify-center lg:flex lg:justify-start">
+                  <img
+                    src="https://i.ibb.co/gMJXWB7d/partner.png"
+                    alt="Partner collaboration and growth ecosystem"
+                    loading="lazy"
+                    decoding="async"
+                    className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[410px] md:max-w-[450px] lg:max-w-[520px] xl:max-w-[565px]"
+                  />
+                </div>
+
+                <div className="mt-2 min-w-0 text-center sm:mt-3 lg:mt-0 lg:text-left">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#5b3d83] sm:text-[11px]">
+                    #02
+                  </p>
+
+                  <h3 className="font-display mt-1.5 text-[clamp(1.65rem,4vw,2.85rem)] font-extrabold leading-[1.04] tracking-[-0.045em] text-[#211b4b]">
+                    Join as <span className="text-[#5b3d83]">Partner</span>
+                  </h3>
+
+                  <p className="mx-auto mt-2 max-w-[560px] text-[13px] font-semibold leading-5 text-[#4c445b] sm:text-sm sm:leading-6 lg:mx-0 lg:text-[15px]">
+                    Build partnerships, expand your network and unlock new
+                    business and earning opportunities across the ecosystem.
+                  </p>
+
+                  <div className="mt-2.5 flex flex-wrap justify-center gap-1.5 lg:justify-start">
+                    {["Partner", "Connect", "Earn"].map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-[#5b3d83]/25 bg-white/45 px-3.5 py-1.5 text-[10px] font-extrabold text-[#35285f] backdrop-blur-sm sm:text-[11px]"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        {/* =====================================================
+
             CONTACT
+
         ===================================================== */}
 
         <section
@@ -1268,6 +1907,7 @@ export default function CEOLandingPage({
                     className={`group inline-flex min-h-[44px] max-w-full items-center justify-center gap-2.5 rounded-full border border-white/[0.20] bg-white/[0.08] px-5 py-2.5 text-[12px] font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:border-white/[0.38] hover:bg-white/[0.14] sm:text-[13px] ${focus}`}
                   >
                     <MailIcon />
+
                     <span className="break-all">{CONTACT_EMAIL}</span>
                   </a>
                 </div>
@@ -1278,7 +1918,9 @@ export default function CEOLandingPage({
       </main>
 
       {/* =====================================================
+
           FOOTER
+
       ===================================================== */}
 
       <footer className="border-t border-white/[0.12] bg-transparent py-8 text-white">
