@@ -1,4 +1,4 @@
-import React, { useState, type ReactNode } from "react";
+import React, { useState, useRef, type ReactNode } from "react";
 
 import InitiativeHeader from "./InitiativeHeader";
 
@@ -503,6 +503,8 @@ type CEOLandingPageProps = {
 export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
+  const writeToUsDialogRef = useRef<HTMLDialogElement>(null);
+
   return (
     <div className="ceo-page min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
       <a
@@ -512,11 +514,167 @@ export default function CEOLandingPage({
         Skip to content
       </a>
 
+      <dialog
+        ref={writeToUsDialogRef}
+        id="write-to-us-dialog"
+        aria-labelledby="write-to-us-title"
+        aria-describedby="write-to-us-description"
+        className="m-auto w-[calc(100%-32px)] max-w-[480px] rounded-2xl border-0 bg-white p-0 text-[#241b67] shadow-2xl"
+        style={{ width: "calc(100% - 32px)", maxHeight: "calc(100dvh - 32px)", overflowY: "auto" }}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+              event.currentTarget.close();
+            }
+          }
+        }}
+      >
+        <div className="p-5 sm:p-7">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 id="write-to-us-title" className="font-display text-xl font-bold sm:text-2xl">Write to Us</h2>
+              <p id="write-to-us-description" className="mt-2 text-sm leading-6 text-[#565064]">
+                Share your questions or feedback through ASKOXY.AI.
+              </p>
+            </div>
+            <button
+              type="button"
+              aria-label="Close Write to Us instructions"
+              onClick={() => writeToUsDialogRef.current?.close()}
+              className={`${focus} grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#f3f0f8] text-xl hover:bg-[#e8e2f1]`}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-6 text-[#565064]">
+            <li>Go to <strong className="text-[#241b67]">ASKOXY.AI</strong> and register or log in.</li>
+            <li>Open the sidebar and select <strong className="text-[#241b67]">Help &amp; Support</strong>.</li>
+            <li>Choose <strong className="text-[#241b67]">Write to Us</strong> and send your message.</li>
+          </ol>
+
+          <a
+            href="https://www.askoxy.ai/main/writetous"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Continue to Write to Us (opens in a new tab)"
+            className={`${focus} mt-6 flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#241b67] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#3a2875]`}
+          >
+            Continue to Write to Us
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+          <p className="mt-3 text-center text-xs leading-5 text-[#766e84]">
+            You may need to register or log in first.
+          </p>
+        </div>
+      </dialog>
+
       <style>{`
 
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
 
+        .ceo-page .hero-action-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          width: 100%;
+          max-width: 390px;
+        }
+        .ceo-page .hero-gloss-button {
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 7px;
+          min-width: 0;
+          min-height: 48px;
+          padding: 9px 12px;
+          border: 1px solid rgba(255,255,255,.3);
+          border-radius: 13px;
+          color: #fff;
+          font-size: 12px;
+          font-weight: 800;
+          line-height: 1.4;
+          text-align: center;
+          text-decoration: none;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.52), inset 0 -1px 0 rgba(0,0,0,.15), 0 5px 12px rgba(15,10,50,.18);
+          transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+        }
+        .ceo-page .hero-gloss-button > svg { flex-shrink: 0; }
+        .ceo-page .hero-gloss-peach {
+          color: #35204f;
+          background: linear-gradient(180deg, #ffe8dd 0%, #ffd0bb 48%, #f4b393 50%, #ffc4a6 100%);
+        }
+        .ceo-page .hero-gloss-purple {
+          background: linear-gradient(180deg, #8269ae 0%, #644c92 48%, #4c3679 50%, #624a8c 100%);
+        }
+        .ceo-page .hero-video-button { flex-direction: column; gap: 2px; }
+        .ceo-page .hero-button-caption { font-size: 9px; font-weight: 500; line-height: 1.4; color: #f1eafa; }
+        .ceo-page .hero-gloss-button:disabled { cursor: not-allowed; }
+        @media (hover: hover) {
+          .ceo-page .hero-gloss-button:not(:disabled):hover {
+            transform: translateY(-2px);
+            filter: brightness(1.07);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 18px rgba(15,10,50,.24);
+          }
+        }
+        .ceo-page .hero-gloss-button:not(:disabled):active { transform: translateY(0); }
+        @media (max-width: 359px) {
+          .ceo-page .hero-action-grid { gap: 8px; }
+          .ceo-page .hero-gloss-button { padding: 8px; gap: 5px; font-size: 11px; }
+        }
+        @media (min-width: 640px) {
+          .ceo-page .hero-action-grid { grid-template-columns: 170px 200px; width: max-content; max-width: 100%; }
+          .ceo-page .hero-gloss-button { font-size: 13px; }
+          .ceo-page .hero-button-caption { font-size: 10px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ceo-page .hero-gloss-button { transition: none; }
+          .ceo-page .hero-gloss-button:not(:disabled):hover { transform: none; }
+        }
 
+        .ceo-page .hero-journey-gradient {
+          color: #ffe5be;
+        }
+        @supports ((background-clip: text) or (-webkit-background-clip: text)) {
+          .ceo-page .hero-journey-gradient {
+            background-image: linear-gradient(
+              110deg,
+              #fff1cd 0%,
+              #ffd0ac 16%,
+              #ffbedd 33%,
+              #ded0ff 50%,
+              #b9ddff 67%,
+              #aaf1ee 84%,
+              #e1ffef 100%
+            );
+            background-size: 300% 100%;
+            background-position: 0% 50%;
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: hero-journey-colors 30s ease-in-out infinite;
+          }
+        }
+        /* Warm palette at 0s, cool palette at 15s, warm again at 30s. */
+        @keyframes hero-journey-colors {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ceo-page .hero-journey-gradient {
+            animation: none;
+            background-position: 0% 50%;
+          }
+        }
+
+        #write-to-us-dialog::backdrop {
+          background: rgba(15, 10, 40, .65);
+          backdrop-filter: blur(4px);
+        }
 
         #root {
 
@@ -532,15 +690,11 @@ export default function CEOLandingPage({
 
         }
 
-
-
         html {
 
           scroll-behavior: smooth;
 
         }
-
-
 
         body {
 
@@ -554,8 +708,6 @@ export default function CEOLandingPage({
 
         }
 
-
-
         /* =========================================================
 
            GLOBAL RESPONSIVE CONTENT WIDTH
@@ -563,8 +715,6 @@ export default function CEOLandingPage({
            Equal left + right gap across all sections
 
         ========================================================= */
-
-
 
         .tvrk-container {
 
@@ -582,15 +732,11 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .tvrk-container > * {
 
           min-width: 0;
 
         }
-
-
 
         @media (min-width: 640px) {
 
@@ -602,8 +748,6 @@ export default function CEOLandingPage({
 
         }
 
-
-
         @media (min-width: 1024px) {
 
           .tvrk-container {
@@ -614,8 +758,6 @@ export default function CEOLandingPage({
 
         }
 
-
-
         @media (min-width: 1280px) {
 
           .tvrk-container {
@@ -625,8 +767,6 @@ export default function CEOLandingPage({
           }
 
         }
-
-
 
         .ceo-page {
 
@@ -646,11 +786,7 @@ export default function CEOLandingPage({
 
             sans-serif;
 
-
-
           text-align: left;
-
-
 
           background:
 
@@ -676,8 +812,6 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .font-display {
 
           font-family:
@@ -700,15 +834,11 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .hero-kicker {
 
           color: rgba(255,255,255,.86);
 
         }
-
-
 
         .hero-copy {
 
@@ -716,15 +846,11 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .hero-muted {
 
           color: rgba(255,255,255,.76);
 
         }
-
-
 
         .dark-heading {
 
@@ -732,23 +858,17 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .dark-body {
 
           color: #565064;
 
         }
 
-
-
         .dark-muted {
 
           color: #766e84;
 
         }
-
-
 
         .logo-strip {
 
@@ -761,8 +881,6 @@ export default function CEOLandingPage({
           box-shadow: none;
 
         }
-
-
 
         .logo-link {
 
@@ -778,13 +896,9 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .vision-panel {
 
           border: 1px solid rgba(255,255,255,.16);
-
-
 
           background:
 
@@ -800,21 +914,15 @@ export default function CEOLandingPage({
 
             );
 
-
-
           box-shadow:
 
             inset 0 1px 0 rgba(255,255,255,.13),
 
             0 26px 65px rgba(33,23,78,.22);
 
-
-
           -webkit-backdrop-filter:
 
             blur(20px) saturate(130%);
-
-
 
           backdrop-filter:
 
@@ -822,13 +930,9 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .vision-card {
 
           border: 1px solid rgba(255,255,255,.15);
-
-
 
           background:
 
@@ -842,19 +946,13 @@ export default function CEOLandingPage({
 
             );
 
-
-
           box-shadow:
 
             inset 0 1px 0 rgba(255,255,255,.10);
 
-
-
           -webkit-backdrop-filter:
 
             blur(16px) saturate(120%);
-
-
 
           backdrop-filter:
 
@@ -862,13 +960,9 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .liquid-glass {
 
           border: 1px solid rgba(255,255,255,.58);
-
-
 
           background:
 
@@ -882,21 +976,15 @@ export default function CEOLandingPage({
 
             );
 
-
-
           box-shadow:
 
             inset 0 1px 0 rgba(255,255,255,.82),
 
             0 18px 50px rgba(41,29,91,.11);
 
-
-
           -webkit-backdrop-filter:
 
             blur(22px) saturate(135%);
-
-
 
           backdrop-filter:
 
@@ -904,13 +992,9 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .glass-card {
 
           border: 1px solid rgba(255,255,255,.66);
-
-
 
           background:
 
@@ -924,29 +1008,21 @@ export default function CEOLandingPage({
 
             );
 
-
-
           box-shadow:
 
             inset 0 1px 0 rgba(255,255,255,.86),
 
             0 16px 42px rgba(58,42,104,.10);
 
-
-
           -webkit-backdrop-filter:
 
             blur(20px) saturate(130%);
-
-
 
           backdrop-filter:
 
             blur(20px) saturate(130%);
 
         }
-
-
 
         @keyframes logo-marquee {
 
@@ -956,8 +1032,6 @@ export default function CEOLandingPage({
 
           }
 
-
-
           to {
 
             transform: translate3d(-50%, 0, 0);
@@ -965,8 +1039,6 @@ export default function CEOLandingPage({
           }
 
         }
-
-
 
         .logo-marquee {
 
@@ -980,15 +1052,11 @@ export default function CEOLandingPage({
 
         }
 
-
-
         .logo-marquee:hover {
 
           animation-play-state: paused;
 
         }
-
-
 
         @media (max-width: 639px) {
 
@@ -1004,15 +1072,11 @@ export default function CEOLandingPage({
 
               blur(14px) saturate(120%);
 
-
-
             backdrop-filter:
 
               blur(14px) saturate(120%);
 
           }
-
-
 
           .liquid-glass,
 
@@ -1034,8 +1098,6 @@ export default function CEOLandingPage({
 
         }
 
-
-
         @media (max-width: 380px) {
 
           .mobile-logo-item {
@@ -1046,8 +1108,6 @@ export default function CEOLandingPage({
 
         }
 
-
-
         @media (prefers-reduced-motion: reduce) {
 
           * {
@@ -1055,8 +1115,6 @@ export default function CEOLandingPage({
             scroll-behavior: auto !important;
 
           }
-
-
 
           .logo-marquee {
 
@@ -1090,27 +1148,60 @@ export default function CEOLandingPage({
 
               <h1
                 id="hero-heading"
-                className="font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
+                className="hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
               >
                 <span className="block">Every Journey.</span>
 
                 <span className="mt-1 block sm:mt-1.5">One Partner.</span>
               </h1>
 
-              <p className="mt-5 max-w-[720px] text-[16px] font-extrabold leading-7 text-white sm:text-[18px] sm:leading-8 lg:text-[20px]">
-                Build with AI Co-Founders. Learn. Innovate. Launch. Scale.
+              <p className="mt-4 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
+                From birth to legacy, we’re with you at every turn.
               </p>
 
-              <p className="hero-copy mt-3.5 max-w-[720px] text-[14px] font-medium leading-6 sm:text-[15px] sm:leading-7">
-                Empowering founders and professionals with{" "}
-                <span className="font-extrabold text-white">
-                  AI Co-Founders, practical training, real-world use cases and
-                  business opportunities
-                </span>{" "}
-                to turn ideas into scalable ventures.
+              <p className="hero-copy mt-2 max-w-[640px] text-[13px] font-medium leading-6 sm:text-[15px] sm:leading-7">
+                Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
+                Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
 
-              <div className="mt-6 grid max-w-[680px] gap-3 sm:grid-cols-2">
+              <div className="mt-4 max-w-[640px]">
+                <p className="text-[14px] font-bold leading-6 text-white sm:text-[16px]">
+                  Join as an AI Co-Founder &amp; Partner to access our services.
+                </p>
+                <p className="mt-1 text-[13px] font-extrabold leading-6 text-[#ffd0bc] sm:text-[15px]">
+                  Earn Money. Gain Knowledge.
+                </p>
+              </div>
+
+              <div className="hero-action-grid mt-5">
+                <button
+                  type="button"
+                  onClick={() => writeToUsDialogRef.current?.showModal()}
+                  aria-haspopup="dialog"
+                  aria-controls="write-to-us-dialog"
+                  className={`${focus} hero-gloss-button hero-gloss-peach`}
+                >
+                  <MailIcon />
+                  <span>Write to Us</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+                </button>
+                <External
+                  href="https://youtu.be/INIuPOKQMrE"
+                  ariaLabel="Watch Birth to Legacy Journey on YouTube (opens in a new tab)"
+                  className="hero-gloss-button hero-gloss-purple hero-video-button"
+                >
+                  <span className="flex items-center justify-center gap-1.5">
+                    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-3.5 w-3.5 shrink-0">
+                      <path d="M6 3.5v13l10-6.5L6 3.5Z" />
+                    </svg>
+                    Watch Video
+                  </span>
+                  <span className="hero-button-caption">Birth to Legacy Journey</span>
+                </External>
+
+              </div>
+
+              <div className="mt-3 grid max-w-[680px] gap-3 sm:grid-cols-2">
                 <External
                   href={WHATSAPP_CHANNEL_URL}
                   ariaLabel="Join TV Radhakrishna WhatsApp Channel"
@@ -1221,8 +1312,6 @@ export default function CEOLandingPage({
 
                   py-5
 
-
-
                   md:grid-cols-4
 
                   md:gap-x-5
@@ -1230,8 +1319,6 @@ export default function CEOLandingPage({
                   md:gap-y-4
 
                   md:py-6
-
-
 
                   lg:grid-cols-7
 
@@ -1241,13 +1328,9 @@ export default function CEOLandingPage({
 
                   lg:py-6
 
-
-
                   xl:gap-x-4
 
                   xl:py-7
-
-
 
                   2xl:gap-x-6
 
@@ -1284,8 +1367,6 @@ export default function CEOLandingPage({
 
                       py-2
 
-
-
                       md:min-h-[90px]
 
                       lg:min-h-[96px]
@@ -1320,8 +1401,6 @@ export default function CEOLandingPage({
                         ease-out
 
                         group-hover:scale-[1.04]
-
-
 
                         lg:max-h-[76px]
 

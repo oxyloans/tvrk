@@ -4,7 +4,7 @@ type InitiativeHeaderProps = {
   active?: "home" | "foundation" | "bridgital" | "certificates";
 };
 
-const HEADER_LOGO_COLOR = "https://i.ibb.co/kgzy891H/logo-tvrk.png";
+const HEADER_LOGO_COLOR = "https://i.ibb.co/3y8n1mJ1/logo-tvrk.png";
 
 const HEADER_LOGO_WHITE = "https://i.ibb.co/84DGTjKd/tv-white.png";
 
