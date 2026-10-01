@@ -1,341 +1,211 @@
 import React, { useState, useRef, type ReactNode } from "react";
-
+import { SiGooglemeet } from "react-icons/si";
 import InitiativeHeader from "./InitiativeHeader";
-
 import FourPSection from "./FourPSection";
-
 const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
-
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/ymzTDmL9/insta-card.png";
-
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
-
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
-
 const OXYFINSERV_LOGO =
   "https://i.ibb.co/Swx6RWXM/oxyfinservlogo-Cpr9-A3-NT.png";
-
 const OXYJOURNEYS_LOGO = "https://i.ibb.co/XxJJRXx5/jun-logo.png";
-
 const OFFICE_ADDRESS =
   "CC-02, Block-C, Indu Fortune Fields, The Annexe, Phase 13, KPHB, Hyderabad, Telangana - 500085";
-
 const OFFICE_MAP_URL = "https://maps.app.goo.gl/523J7bUc7KNrsV1B8";
-
 const OFFICE_IMAGE =
   "https://i.ibb.co/MxCWpQNv/Chat-GPT-Image-Sep-17-2026-11-09-43-AM.png";
-
 const HIDDEN_DRIVE_URL =
   "https://drive.google.com/file/d/1z9C1N2MPy16Nns33VjblcOShiJ6_yIvy/view?usp=sharing";
-
 /* =========================================================
-
    GROUP COMPANIES
-
 ========================================================= */
-
 const brandPlatforms = [
   {
     logo: "https://i.ibb.co/s4CW2mg/l1.png",
-
     name: "OXYGLOBAL.TECH",
-
     href: "https://www.oxyglobal.tech/",
-
     desktopClass:
       "w-[140px] md:w-[150px] lg:w-[128px] xl:w-[150px] 2xl:w-[178px]",
-
     mobileClass: "w-[155px]",
   },
-
   {
     logo: "https://i.ibb.co/B5xsVChY/l2.png",
-
     name: "OXYLOANS",
-
     href: "https://oxyloans.com/",
-
     desktopClass:
       "w-[145px] md:w-[155px] lg:w-[132px] xl:w-[155px] 2xl:w-[185px]",
-
     mobileClass: "w-[160px]",
   },
-
   {
     logo: OXYJOURNEYS_LOGO,
-
     name: "OXY JOURNEYS",
-
     href: "https://www.oxyjourneys.com/",
-
     desktopClass:
       "w-[150px] md:w-[162px] lg:w-[138px] xl:w-[162px] 2xl:w-[190px]",
-
     mobileClass: "w-[168px]",
   },
-
   {
     logo: "https://i.ibb.co/k2snG0YW/l3.png",
-
     name: "OXYBRICKS.WORLD",
-
     href: "https://oxybricks.world/",
-
     desktopClass:
       "w-[140px] md:w-[150px] lg:w-[128px] xl:w-[150px] 2xl:w-[178px]",
-
     mobileClass: "w-[155px]",
   },
-
   {
     logo: "https://i.ibb.co/PGYYDvL9/l4.png",
-
     name: "OXYGOLD.AI",
-
     href: "https://www.oxygold.ai/",
-
     desktopClass:
       "w-[125px] md:w-[135px] lg:w-[118px] xl:w-[140px] 2xl:w-[165px]",
-
     mobileClass: "w-[145px]",
   },
-
   {
     logo: "https://i.ibb.co/B2NcQ7Nj/l5.png",
-
     name: "OXYCHAIN",
-
     href: "http://bmv.money:2750/",
-
     desktopClass:
       "w-[130px] md:w-[140px] lg:w-[120px] xl:w-[145px] 2xl:w-[170px]",
-
     mobileClass: "w-[150px]",
   },
-
   {
     logo: OXYFINSERV_LOGO,
-
     name: "OXYFINSERV",
-
     href: "https://www.oxyfinserv.com/",
-
     desktopClass:
       "w-[140px] md:w-[150px] lg:w-[128px] xl:w-[150px] 2xl:w-[178px]",
-
     mobileClass: "w-[155px]",
   },
 ];
-
 /* =========================================================
-
    SOCIALS
-
 ========================================================= */
-
 const heroSocials = [
   {
     name: "LinkedIn",
-
     href: "https://www.linkedin.com/in/oxyradhakrishna/",
   },
-
   {
     name: "Facebook",
-
     href: "https://www.facebook.com/share/1AcVZzEu7y/",
   },
-
   {
     name: "X",
-
     href: "https://x.com/RadhakrishnaIND",
   },
 ];
-
 /* =========================================================
-
    VISIT PLATFORMS
-
 ========================================================= */
-
 const visitPlatforms = [
   {
     name: "OXY News",
-
     description: "Latest news, updates and announcements",
-
     image: "https://i.ibb.co/jPSbgSTk/u1.png",
-
     href: "https://www.askoxy.ai/oxynews",
   },
-
   {
     name: "Our Journeys",
-
     description: "Explore opportunities, communities and journeys",
-
     image: "https://i.ibb.co/x8fmy8NC/u2.png",
-
     href: "https://www.askoxy.ai/alljourneys",
   },
-
   {
     name: "Our Blogs",
-
     description: "Read ideas, insights and useful articles",
-
     image: "https://i.ibb.co/Qvwnfj5z/u3.png",
-
     href: "https://www.askoxy.ai/myblogs",
   },
-
   {
     name: "Our Jobs",
-
     description: "Discover current opportunities and open roles",
-
     image: "https://i.ibb.co/MkhLvLzY/u4.png",
-
     href: "https://www.askoxy.ai/viewjobdetails/default/ALL",
   },
 ];
-
 /* =========================================================
-
    ECOSYSTEM
-
 ========================================================= */
-
 const ecosystemPlatforms = [
   {
     name: "OxyLoans",
-
     eyebrow: "Lending",
-
     description: "RBI-registered NBFC-P2P platform",
-
     href: "https://oxyloans.com/",
   },
-
   {
     name: "ASKOXY.AI",
-
     eyebrow: "AI Ecosystem",
-
     description: "AI-powered digital ecosystem",
-
     href: "https://www.askoxy.ai/",
   },
-
   {
     name: "RBI Master Directions AI Store",
-
     eyebrow: "RegTech",
-
     description: "RBI regulatory intelligence and guidance",
-
     href: "https://www.askoxy.ai/ai-store/rbi-master-directions-ai-store",
   },
-
   {
     name: "Insurance LLM",
-
     eyebrow: "InsurTech",
-
     description: "AI-powered insurance intelligence",
-
     href: "https://www.askoxy.ai/genoxy/chat?a=insurance-llm",
   },
-
   {
     name: "OXYBFSAI",
-
     eyebrow: "BFSI AI",
-
     description: "AI for banking, financial services & insurance",
-
     href: "https://www.askoxy.ai/oxybfsai",
   },
-
   {
     name: "OXYBFSAI Use Case",
-
     eyebrow: "Use Cases",
-
     description: "Practical BFSI AI use case",
-
     href: "https://vibecoding-finvibe.vercel.app/",
   },
-
   {
     name: "OXYFINSERV",
-
     eyebrow: "Financial Services",
-
     logo: OXYFINSERV_LOGO,
-
     description: "Financial services ecosystem",
-
     href: "https://www.oxyfinserv.com/",
   },
-
   {
     name: "Bharat Sovereign AI",
-
     eyebrow: "Sovereign AI",
-
     description: "Building AI for India’s BFSI ecosystem",
-
     href: "https://www.askoxy.ai/sovereign-ai",
   },
 ];
-
 const focus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
-
 /* =========================================================
-
    ICONS
-
 ========================================================= */
-
 type SocialIconProps = {
   name: string;
-
   className?: string;
 };
-
 function SocialIcon({ name, className = "" }: SocialIconProps) {
   const props = {
     width: 20,
-
     height: 20,
-
     viewBox: "0 0 24 24",
-
     "aria-hidden": true,
-
     focusable: false,
-
     className,
   };
-
   if (name === "Instagram") {
     return (
       <svg {...props} fill="none" stroke="currentColor" strokeWidth="1.8">
         <rect x="3" y="3" width="18" height="18" rx="5" />
-
         <circle cx="12" cy="12" r="4" />
-
         <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
       </svg>
     );
   }
-
   if (name === "LinkedIn") {
     return (
       <svg {...props} fill="currentColor">
@@ -343,7 +213,6 @@ function SocialIcon({ name, className = "" }: SocialIconProps) {
       </svg>
     );
   }
-
   if (name === "Facebook") {
     return (
       <svg {...props} fill="currentColor">
@@ -351,14 +220,12 @@ function SocialIcon({ name, className = "" }: SocialIconProps) {
       </svg>
     );
   }
-
   return (
     <svg {...props} fill="currentColor">
       <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l8.2-9.4L.8 2h6.5l4.5 6.8L18.9 2ZM17.8 20h1.7L6.3 4H4.5l13.3 16Z" />
     </svg>
   );
 }
-
 function WhatsAppIcon({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -371,7 +238,6 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
     </svg>
   );
 }
-
 function ArrowUpRight({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -387,12 +253,10 @@ function ArrowUpRight({ className = "" }: { className?: string }) {
       className={className}
     >
       <path d="M7 17 17 7" />
-
       <path d="M7 7h10v10" />
     </svg>
   );
 }
-
 function MailIcon() {
   return (
     <svg
@@ -405,35 +269,23 @@ function MailIcon() {
       aria-hidden="true"
     >
       <rect x="3" y="5" width="18" height="14" rx="2" />
-
       <path d="m4 7 8 6 8-6" />
     </svg>
   );
 }
-
 /* =========================================================
-
    EXTERNAL LINK
-
 ========================================================= */
-
 type ExternalProps = {
   href: string;
-
   children: ReactNode;
-
   className?: string;
-
   ariaLabel?: string;
 };
-
 function External({
   href,
-
   children,
-
   className = "",
-
   ariaLabel,
 }: ExternalProps) {
   return (
@@ -448,22 +300,15 @@ function External({
     </a>
   );
 }
-
 /* =========================================================
-
    PORTRAIT
-
 ========================================================= */
-
 type PortraitProps = {
   src: string;
-
   className?: string;
 };
-
 function Portrait({ src, className = "" }: PortraitProps) {
   const [failed, setFailed] = useState(false);
-
   if (failed) {
     return (
       <div
@@ -475,7 +320,6 @@ function Portrait({ src, className = "" }: PortraitProps) {
       </div>
     );
   }
-
   return (
     <img
       src={src}
@@ -489,22 +333,16 @@ function Portrait({ src, className = "" }: PortraitProps) {
     />
   );
 }
-
 /* =========================================================
-
    MAIN PAGE
-
 ========================================================= */
-
 type CEOLandingPageProps = {
   portraitUrl?: string;
 };
-
 export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
   const writeToUsDialogRef = useRef<HTMLDialogElement>(null);
-
   return (
     <div className="ceo-page min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
       <a
@@ -513,7 +351,6 @@ export default function CEOLandingPage({
       >
         Skip to content
       </a>
-
       <dialog
         ref={writeToUsDialogRef}
         id="write-to-us-dialog"
@@ -547,13 +384,11 @@ export default function CEOLandingPage({
               <span aria-hidden="true">×</span>
             </button>
           </div>
-
           <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-6 text-[#565064]">
             <li>Go to <strong className="text-[#241b67]">ASKOXY.AI</strong> and register or log in.</li>
             <li>Open the sidebar and select <strong className="text-[#241b67]">Help &amp; Support</strong>.</li>
             <li>Choose <strong className="text-[#241b67]">Write to Us</strong> and send your message.</li>
           </ol>
-
           <a
             href="https://www.askoxy.ai/main/writetous"
             target="_blank"
@@ -569,11 +404,8 @@ export default function CEOLandingPage({
           </p>
         </div>
       </dialog>
-
       <style>{`
-
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
-
         .ceo-page .hero-action-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -602,6 +434,39 @@ export default function CEOLandingPage({
           transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
         }
         .ceo-page .hero-gloss-button > svg { flex-shrink: 0; }
+        .ceo-page .hero-meet-button {
+          grid-column: 1 / -1;
+          min-height: 54px;
+          padding: 11px 12px;
+          gap: 10px;
+          border: 2px solid transparent;
+          color: #202124;
+          background:
+            linear-gradient(180deg, #ffffff, #f8fafc) padding-box,
+            conic-gradient(from 0deg, #ffba00 0deg 90deg, #00ac47 90deg 180deg, #2684fc 180deg 270deg, #ea4335 270deg 360deg) border-box;
+          box-shadow: 0 6px 18px rgba(0,0,0,.18);
+          font-size: 12px;
+          letter-spacing: .01em;
+        }
+        .ceo-page .hero-meet-icon {
+          display: grid;
+          place-items: center;
+          width: 34px;
+          height: 34px;
+          flex-shrink: 0;
+          border-radius: 9px;
+          background: #e6f4ea;
+          color: #00ac47;
+        }
+        .ceo-page .hero-meet-label { min-width: 0; line-height: 1.5; }
+        .ceo-page .hero-meet-arrow { color: #2684fc; }
+        @media (max-width: 359px) {
+          .ceo-page .hero-gloss-button.hero-meet-button { padding: 10px 8px; gap: 7px; font-size: 11px; }
+          .ceo-page .hero-meet-icon { width: 30px; height: 30px; }
+        }
+        @media (min-width: 640px) {
+          .ceo-page .hero-meet-button { min-height: 56px; font-size: 13px; }
+        }
         .ceo-page .hero-gloss-peach {
           color: #35204f;
           background: linear-gradient(180deg, #ffe8dd 0%, #ffd0bb 48%, #f4b393 50%, #ffc4a6 100%);
@@ -633,7 +498,6 @@ export default function CEOLandingPage({
           .ceo-page .hero-gloss-button { transition: none; }
           .ceo-page .hero-gloss-button:not(:disabled):hover { transform: none; }
         }
-
         .ceo-page .hero-journey-gradient {
           color: #ffe5be;
         }
@@ -670,471 +534,240 @@ export default function CEOLandingPage({
             background-position: 0% 50%;
           }
         }
-
         #write-to-us-dialog::backdrop {
           background: rgba(15, 10, 40, .65);
           backdrop-filter: blur(4px);
         }
-
         #root {
-
           max-width: none;
-
           width: 100%;
-
           margin: 0;
-
           padding: 0;
-
           text-align: left;
-
         }
-
         html {
-
           scroll-behavior: smooth;
-
         }
-
         body {
-
           margin: 0;
-
           display: block;
-
           min-width: 320px;
-
           background: #241b67;
-
         }
-
         /* =========================================================
-
            GLOBAL RESPONSIVE CONTENT WIDTH
-
            Equal left + right gap across all sections
-
         ========================================================= */
-
         .tvrk-container {
-
           box-sizing: border-box;
-
           width: calc(100% - 32px) !important;
-
           max-width: 1720px !important;
-
           margin-left: auto !important;
-
           margin-right: auto !important;
-
           min-width: 0;
-
         }
-
         .tvrk-container > * {
-
           min-width: 0;
-
         }
-
         @media (min-width: 640px) {
-
           .tvrk-container {
-
             width: calc(100% - 48px) !important;
-
           }
-
         }
-
         @media (min-width: 1024px) {
-
           .tvrk-container {
-
             width: calc(100% - 64px) !important;
-
           }
-
         }
-
         @media (min-width: 1280px) {
-
           .tvrk-container {
-
             width: calc(100% - 96px) !important;
-
           }
-
         }
-
         .ceo-page {
-
           font-family:
-
             'Manrope',
-
             'Inter',
-
             'Segoe UI',
-
             Arial,
-
             ui-sans-serif,
-
             system-ui,
-
             sans-serif;
-
           text-align: left;
-
           background:
-
             linear-gradient(
-
               180deg,
-
               #211b67 0%,
-
               #3a2875 17%,
-
               #75477f 34%,
-
               #c98798 50%,
-
               #eee7f4 66%,
-
               #d8cee9 81%,
-
               #4a397c 100%
-
             );
-
         }
-
         .font-display {
-
           font-family:
-
             'Sora',
-
             'Aptos Display',
-
             'Segoe UI Variable Display',
-
             'Segoe UI',
-
             Arial,
-
             ui-sans-serif,
-
             system-ui,
-
             sans-serif;
-
         }
-
         .hero-kicker {
-
           color: rgba(255,255,255,.86);
-
         }
-
         .hero-copy {
-
           color: rgba(255,255,255,.90);
-
         }
-
         .hero-muted {
-
           color: rgba(255,255,255,.76);
-
         }
-
         .dark-heading {
-
           color: #201a35;
-
         }
-
         .dark-body {
-
           color: #565064;
-
         }
-
         .dark-muted {
-
           color: #766e84;
-
         }
-
         .logo-strip {
-
           width: 100%;
-
           background: #ffffff;
-
           border: 0;
-
           box-shadow: none;
-
         }
-
         .logo-link {
-
           position: relative;
-
           display: flex;
-
           align-items: center;
-
           justify-content: center;
-
           min-width: 0;
-
         }
-
         .vision-panel {
-
           border: 1px solid rgba(255,255,255,.16);
-
           background:
-
             linear-gradient(
-
               135deg,
-
               rgba(31,24,92,.97) 0%,
-
               rgba(71,45,111,.96) 52%,
-
               rgba(111,66,116,.94) 100%
-
             );
-
           box-shadow:
-
             inset 0 1px 0 rgba(255,255,255,.13),
-
             0 26px 65px rgba(33,23,78,.22);
-
           -webkit-backdrop-filter:
-
             blur(20px) saturate(130%);
-
           backdrop-filter:
-
             blur(20px) saturate(130%);
-
         }
-
         .vision-card {
-
           border: 1px solid rgba(255,255,255,.15);
-
           background:
-
             linear-gradient(
-
               145deg,
-
               rgba(255,255,255,.105),
-
               rgba(255,255,255,.065)
-
             );
-
           box-shadow:
-
             inset 0 1px 0 rgba(255,255,255,.10);
-
           -webkit-backdrop-filter:
-
             blur(16px) saturate(120%);
-
           backdrop-filter:
-
             blur(16px) saturate(120%);
-
         }
-
         .liquid-glass {
-
           border: 1px solid rgba(255,255,255,.58);
-
           background:
-
             linear-gradient(
-
               145deg,
-
               rgba(255,255,255,.68),
-
               rgba(255,255,255,.36)
-
             );
-
           box-shadow:
-
             inset 0 1px 0 rgba(255,255,255,.82),
-
             0 18px 50px rgba(41,29,91,.11);
-
           -webkit-backdrop-filter:
-
             blur(22px) saturate(135%);
-
           backdrop-filter:
-
             blur(22px) saturate(135%);
-
         }
-
         .glass-card {
-
           border: 1px solid rgba(255,255,255,.66);
-
           background:
-
             linear-gradient(
-
               145deg,
-
               rgba(255,255,255,.70),
-
               rgba(255,255,255,.42)
-
             );
-
           box-shadow:
-
             inset 0 1px 0 rgba(255,255,255,.86),
-
             0 16px 42px rgba(58,42,104,.10);
-
           -webkit-backdrop-filter:
-
             blur(20px) saturate(130%);
-
           backdrop-filter:
-
             blur(20px) saturate(130%);
-
         }
-
         @keyframes logo-marquee {
-
           from {
-
             transform: translate3d(0, 0, 0);
-
           }
-
           to {
-
             transform: translate3d(-50%, 0, 0);
-
           }
-
         }
-
         .logo-marquee {
-
           display: flex;
-
           width: max-content;
-
           animation: logo-marquee 28s linear infinite;
-
           will-change: transform;
-
         }
-
         .logo-marquee:hover {
-
           animation-play-state: paused;
-
         }
-
         @media (max-width: 639px) {
-
           .liquid-glass,
-
           .glass-card,
-
           .vision-panel,
-
           .vision-card {
-
             -webkit-backdrop-filter:
-
               blur(14px) saturate(120%);
-
             backdrop-filter:
-
               blur(14px) saturate(120%);
-
           }
-
           .liquid-glass,
-
           .glass-card {
-
             background:
-
               linear-gradient(
-
                 145deg,
-
                 rgba(255,255,255,.76),
-
                 rgba(255,255,255,.48)
-
               );
-
           }
-
         }
-
         @media (max-width: 380px) {
-
           .mobile-logo-item {
-
             width: 170px !important;
-
           }
-
         }
-
         @media (prefers-reduced-motion: reduce) {
-
           * {
-
             scroll-behavior: auto !important;
-
           }
-
           .logo-marquee {
-
             animation: none !important;
-
           }
-
         }
-
       `}</style>
-
       <InitiativeHeader active="home" />
-
       <main>
         {/* =====================================================
-
             HERO
-
         ===================================================== */}
-
         <section
           id="about"
           aria-labelledby="hero-heading"
@@ -1145,25 +778,20 @@ export default function CEOLandingPage({
               <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
                 FinTech · BFSI · Artificial Intelligence
               </p>
-
               <h1
                 id="hero-heading"
                 className="hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
               >
                 <span className="block">Every Journey.</span>
-
                 <span className="mt-1 block sm:mt-1.5">One Partner.</span>
               </h1>
-
               <p className="mt-4 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
                 From birth to legacy, we’re with you at every turn.
               </p>
-
               <p className="hero-copy mt-2 max-w-[640px] text-[13px] font-medium leading-6 sm:text-[15px] sm:leading-7">
                 Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
-
               <div className="mt-4 max-w-[640px]">
                 <p className="text-[14px] font-bold leading-6 text-white sm:text-[16px]">
                   Join as an AI Co-Founder &amp; Partner to access our services.
@@ -1172,8 +800,19 @@ export default function CEOLandingPage({
                   Earn Money. Gain Knowledge.
                 </p>
               </div>
-
               <div className="hero-action-grid mt-5">
+                <External
+                  href="https://meet.google.com/fwn-kqkc-cmb"
+                  ariaLabel="Join Google Meet every day at 09:30 PM IST (opens in a new tab)"
+                  className="hero-gloss-button hero-meet-button"
+                >
+                  <span className="hero-meet-icon" aria-hidden="true">
+                    <SiGooglemeet className="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+                  </span>
+                  <span className="hero-meet-label">EVERY DAY GOOGLE MEET - 09:30 PM IST</span>
+                  <ArrowUpRight className="hero-meet-arrow h-4 w-4 shrink-0" />
+                </External>
+
                 <button
                   type="button"
                   onClick={() => writeToUsDialogRef.current?.showModal()}
@@ -1198,9 +837,7 @@ export default function CEOLandingPage({
                   </span>
                   <span className="hero-button-caption">Birth to Legacy Journey</span>
                 </External>
-
               </div>
-
               <div className="mt-3 grid max-w-[680px] gap-3 sm:grid-cols-2">
                 <External
                   href={WHATSAPP_CHANNEL_URL}
@@ -1210,20 +847,16 @@ export default function CEOLandingPage({
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#25D366] text-white shadow-sm">
                     <WhatsAppIcon className="h-5 w-5" />
                   </span>
-
                   <span className="min-w-0 flex-1">
                     <span className="block text-[13px] font-extrabold sm:text-sm">
                       Join WhatsApp Channel
                     </span>
-
                     <span className="mt-0.5 block text-[10px] font-semibold text-white/[0.68] sm:text-[11px]">
                       Updates & announcements
                     </span>
                   </span>
-
                   <ArrowUpRight className="h-4 w-4 shrink-0 text-emerald-200 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </External>
-
                 <External
                   href={INSTAGRAM_URL}
                   ariaLabel="Follow TV Radhakrishna on Instagram"
@@ -1232,26 +865,21 @@ export default function CEOLandingPage({
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white shadow-sm">
                     <SocialIcon name="Instagram" className="h-5 w-5" />
                   </span>
-
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13px] font-extrabold sm:text-sm">
                       Instagram @tvradhakrishna
                     </span>
-
                     <span className="mt-0.5 block text-[10px] font-semibold text-white/[0.68] sm:text-[11px]">
                       Posts, insights & updates
                     </span>
                   </span>
-
                   <ArrowUpRight className="h-4 w-4 shrink-0 text-pink-200 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </External>
               </div>
-
               <div className="mt-4 flex flex-wrap items-center gap-2.5">
                 <span className="mr-1 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/[0.64] sm:text-[10px]">
                   Connect
                 </span>
-
                 {heroSocials.map((item) => (
                   <External
                     key={item.name}
@@ -1263,13 +891,11 @@ export default function CEOLandingPage({
                       name={item.name}
                       className="h-[17px] w-[17px]"
                     />
-
                     <span className="sr-only">{item.name}</span>
                   </External>
                 ))}
               </div>
             </div>
-
             <Portrait
               key={portraitUrl}
               src={portraitUrl}
@@ -1277,65 +903,39 @@ export default function CEOLandingPage({
             />
           </div>
         </section>
-
         {/* =====================================================
-
             OXY COMPANY LOGOS
-
         ===================================================== */}
-
         <section
           id="platforms"
           aria-label="OXY Group Companies"
           className="logo-strip relative z-10 scroll-mt-24 overflow-hidden bg-white"
         >
           {/* Tablet + Desktop */}
-
           <div className="hidden w-full sm:block">
             <div className="mx-auto w-full px-4 sm:px-6 lg:px-5 xl:px-7 2xl:px-10">
               <div
                 className="
-
                   grid
-
                   w-full
-
                   grid-cols-3
-
                   items-center
-
                   justify-items-center
-
                   gap-x-4
-
                   gap-y-3
-
                   py-5
-
                   md:grid-cols-4
-
                   md:gap-x-5
-
                   md:gap-y-4
-
                   md:py-6
-
                   lg:grid-cols-7
-
                   lg:gap-x-2
-
                   lg:gap-y-0
-
                   lg:py-6
-
                   xl:gap-x-4
-
                   xl:py-7
-
                   2xl:gap-x-6
-
                   2xl:py-8
-
                 "
               >
                 {brandPlatforms.map((item) => (
@@ -1344,35 +944,20 @@ export default function CEOLandingPage({
                     href={item.href}
                     ariaLabel={`Visit ${item.name}`}
                     className="
-
                       logo-link
-
                       group
-
                       flex
-
                       min-h-[82px]
-
                       w-full
-
                       min-w-0
-
                       items-center
-
                       justify-center
-
                       overflow-visible
-
                       px-1
-
                       py-2
-
                       md:min-h-[90px]
-
                       lg:min-h-[96px]
-
                       xl:min-h-[104px]
-
                     "
                   >
                     <img
@@ -1381,33 +966,19 @@ export default function CEOLandingPage({
                       loading="eager"
                       decoding="async"
                       className={`
-
                         ${item.desktopClass}
-
                         block
-
                         h-auto
-
                         max-h-[70px]
-
                         max-w-full
-
                         object-contain
-
                         transition-transform
-
                         duration-300
-
                         ease-out
-
                         group-hover:scale-[1.04]
-
                         lg:max-h-[76px]
-
                         xl:max-h-[82px]
-
                         2xl:max-h-[88px]
-
                       `}
                     />
                   </External>
@@ -1415,9 +986,7 @@ export default function CEOLandingPage({
               </div>
             </div>
           </div>
-
           {/* Mobile Auto Scroll */}
-
           <div className="w-full overflow-hidden bg-white sm:hidden">
             <div className="logo-marquee flex items-center py-2">
               {[...brandPlatforms, ...brandPlatforms].map((item, index) => (
@@ -1426,29 +995,17 @@ export default function CEOLandingPage({
                   href={item.href}
                   ariaLabel={`Visit ${item.name}`}
                   className="
-
                       mobile-logo-item
-
                       logo-link
-
                       flex
-
                       h-[92px]
-
                       w-[190px]
-
                       shrink-0
-
                       items-center
-
                       justify-center
-
                       overflow-visible
-
                       px-4
-
                       py-2
-
                     "
                 >
                   <img
@@ -1457,19 +1014,12 @@ export default function CEOLandingPage({
                     loading="eager"
                     decoding="async"
                     className={`
-
                         ${item.mobileClass}
-
                         block
-
                         h-auto
-
                         max-h-[67px]
-
                         max-w-[165px]
-
                         object-contain
-
                       `}
                   />
                 </External>
@@ -1477,13 +1027,9 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-
         {/* =====================================================
-
             INSTAGRAM
-
         ===================================================== */}
-
         <section
           id="instagram"
           aria-labelledby="instagram-heading"
@@ -1504,30 +1050,25 @@ export default function CEOLandingPage({
                     decoding="async"
                     className="h-full max-h-[460px] w-full object-contain p-4 transition duration-500 ease-out group-hover:scale-[1.025] sm:p-7 lg:p-9"
                   />
-
                   <span className="pointer-events-none absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/[0.75] bg-white/[0.68] text-[#30238d] shadow-[0_8px_24px_rgba(48,35,141,.14)] backdrop-blur-md transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:right-6 sm:top-6">
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </External>
-
                 <div className="flex min-w-0 flex-col justify-center p-6 sm:p-9 lg:p-12 xl:p-14">
                   <div className="flex items-center gap-2.5">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white shadow-[0_8px_20px_rgba(225,48,108,.18)]">
                       <SocialIcon name="Instagram" className="h-4 w-4" />
                     </span>
-
                     <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#7a356f] sm:text-xs">
                       Instagram · @tvradhakrishna
                     </p>
                   </div>
-
                   <h2
                     id="instagram-heading"
                     className="font-display dark-heading mt-4 max-w-xl text-[2rem] font-bold leading-[1.08] tracking-[-0.045em] sm:text-[2.6rem] lg:text-[3rem]"
                   >
                     All the latest updates, in one place.
                   </h2>
-
                   <p className="dark-body mt-4 max-w-xl text-sm font-medium leading-7 sm:text-[15px]">
                     For the latest information, announcements, business updates,
                     AI insights, fintech conversations, and ecosystem activity,
@@ -1537,7 +1078,6 @@ export default function CEOLandingPage({
                     </span>{" "}
                     on Instagram.
                   </p>
-
                   <p className="mt-4 inline-flex items-center gap-2 text-[12px] font-extrabold text-[#704a86] sm:text-[13px]">
                     Click the Instagram card to open the latest posts
                     <ArrowUpRight className="h-4 w-4" />
@@ -1547,13 +1087,9 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-
         {/* =====================================================
-
             VISIT PLATFORMS
-
         ===================================================== */}
-
         <section
           id="visit-platforms"
           aria-labelledby="visit-platforms-heading"
@@ -1565,7 +1101,6 @@ export default function CEOLandingPage({
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/[0.78] sm:text-xs">
                   Explore ASKOXY.AI
                 </p>
-
                 <h2
                   id="visit-platforms-heading"
                   className="font-display mt-2.5 text-[2rem] font-extrabold leading-[1.08] tracking-[-0.045em] text-white sm:text-[2.55rem] lg:text-[2.8rem]"
@@ -1573,12 +1108,10 @@ export default function CEOLandingPage({
                   Visit My Platforms
                 </h2>
               </div>
-
               <p className="max-w-xl text-sm font-semibold leading-6 text-white/[0.82] sm:text-right sm:text-[15px] sm:leading-7">
                 Explore journeys, blogs, jobs and the latest OXY News.
               </p>
             </div>
-
             <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-5 lg:grid-cols-4 lg:gap-6">
               {visitPlatforms.map((item) => (
                 <External
@@ -1601,13 +1134,9 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-
         {/* =====================================================
-
             ECOSYSTEM
-
         ===================================================== */}
-
         <section
           id="ecosystem"
           aria-labelledby="ecosystem-heading"
@@ -1619,7 +1148,6 @@ export default function CEOLandingPage({
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/[0.76] sm:text-xs">
                   Our ecosystem
                 </p>
-
                 <h2
                   id="ecosystem-heading"
                   className="font-display mt-3 max-w-xl text-[2rem] font-bold leading-[1.08] tracking-[-0.045em] text-white sm:text-[2.75rem]"
@@ -1627,13 +1155,11 @@ export default function CEOLandingPage({
                   Building across AI, lending & financial platforms.
                 </h2>
               </div>
-
               <p className="max-w-2xl text-sm font-semibold leading-7 text-white/[0.78] sm:text-[15px] lg:justify-self-end lg:text-right">
                 Discover connected work across lending, financial services,
                 regulatory intelligence, insurance, and AI.
               </p>
             </div>
-
             <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {ecosystemPlatforms.map((item, index) => (
                 <External
@@ -1645,12 +1171,10 @@ export default function CEOLandingPage({
                     <span className="rounded-full border border-white/[0.6] bg-white/[0.46] px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.13em] text-[#654782] backdrop-blur">
                       {item.eyebrow}
                     </span>
-
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/[0.65] bg-white/[0.44] text-[#5a3b87] backdrop-blur transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:bg-[#211b67] group-hover:text-white">
                       <ArrowUpRight className="h-4 w-4" />
                     </span>
                   </div>
-
                   {"logo" in item && item.logo ? (
                     <div className="mt-7 flex h-14 w-fit items-center rounded-[16px] bg-white px-3">
                       <img
@@ -1665,11 +1189,9 @@ export default function CEOLandingPage({
                       {item.name}
                     </h3>
                   )}
-
                   <p className="dark-body mt-3 text-sm font-medium leading-6">
                     {item.description}
                   </p>
-
                   <div className="mt-auto flex items-end justify-end gap-3 pt-7">
                     <span className="font-display dark-muted text-[11px] font-bold">
                       {String(index + 1).padStart(2, "0")}
@@ -1680,15 +1202,10 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-
         <FourPSection />
-
         {/* =====================================================
-
             VISION
-
         ===================================================== */}
-
         <section
           id="vision"
           aria-labelledby="vision-heading"
@@ -1700,7 +1217,6 @@ export default function CEOLandingPage({
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#e6d8f6] sm:text-xs">
                   Vision & AI
                 </p>
-
                 <h2
                   id="vision-heading"
                   className="font-display mt-3 max-w-xl text-[clamp(2.15rem,6vw,3.35rem)] font-extrabold leading-[1.04] tracking-[-0.05em] text-white"
@@ -1710,44 +1226,33 @@ export default function CEOLandingPage({
                     Creating opportunities.
                   </span>
                 </h2>
-
                 <p className="mt-5 max-w-xl text-sm font-medium leading-7 text-white/[0.84] sm:text-[15px]">
                   Our ecosystem brings together finance, technology, and
                   artificial intelligence. The focus is simple: make information
                   easier to understand, simplify everyday work, and help people
                   explore new opportunities.
                 </p>
-
                 <p className="mt-4 max-w-xl text-sm font-medium leading-7 text-white/[0.72] sm:text-[15px]">
                   Across connected platforms, we are exploring practical ways to
                   apply AI to banking, financial services, insurance,
                   regulation, and business workflows.
                 </p>
               </div>
-
               <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-1">
                 {[
                   {
                     number: "01",
-
                     title: "AI for everyday work",
-
                     text: "Use AI to answer questions, organize information, and support everyday business tasks.",
                   },
-
                   {
                     number: "02",
-
                     title: "A focus on financial services",
-
                     text: "Discover work around BFSI AI, insurance knowledge, and access to RBI regulatory information.",
                   },
-
                   {
                     number: "03",
-
                     title: "Building for Bharat",
-
                     text: "Develop useful AI experiences shaped by local needs, practical adoption, and people at the center.",
                   },
                 ].map((item) => (
@@ -1758,12 +1263,10 @@ export default function CEOLandingPage({
                     <span className="font-display grid h-11 w-11 shrink-0 place-items-center rounded-[14px] border border-white/[0.1] bg-white/[0.09] text-[11px] font-extrabold text-[#ffc09f]">
                       {item.number}
                     </span>
-
                     <div className="min-w-0">
                       <h3 className="font-display text-base font-bold leading-6 text-white sm:text-lg">
                         {item.title}
                       </h3>
-
                       <p className="mt-1.5 text-sm font-medium leading-6 text-white/[0.72]">
                         {item.text}
                       </p>
@@ -1774,13 +1277,9 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-
         {/* =====================================================
-
             JOIN / EARN / LEARN
-
         ===================================================== */}
-
         <section
           id="join-earn-learn"
           aria-labelledby="join-earn-learn-heading"
@@ -1796,32 +1295,26 @@ export default function CEOLandingPage({
                 <span className="text-[#211b4b]">#EARN</span>{" "}
                 <span className="text-[#5b3d83]">#LEARN</span>
               </h2>
-
               <p className="mx-auto mt-2 max-w-2xl text-[13px] font-semibold leading-5 text-[#463e56] sm:text-sm sm:leading-6 lg:text-[15px]">
                 Learn with AI, build meaningful partnerships and grow through a
                 connected ecosystem of people, ideas and opportunities.
               </p>
             </div>
-
             <div className="mt-3 sm:mt-4 lg:mt-5">
               {/* AI Co-Founder */}
-
               <article className="grid items-center gap-2 sm:gap-3 lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] lg:gap-5 xl:gap-7">
                 <div className="order-1 min-w-0 text-center lg:order-1 lg:text-left">
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#c95e43] sm:text-[11px]">
                     #01
                   </p>
-
                   <h3 className="font-display mt-1.5 text-[clamp(1.65rem,4vw,2.85rem)] font-extrabold leading-[1.04] tracking-[-0.045em] text-[#211b4b]">
                     Join as{" "}
                     <span className="text-[#d96b4f]">AI Co-Founder</span>
                   </h3>
-
                   <p className="mx-auto mt-2 max-w-[560px] text-[13px] font-semibold leading-5 text-[#4c445b] sm:text-sm sm:leading-6 lg:mx-0 lg:text-[15px]">
                     Learn, collaborate and grow with AI-powered knowledge,
                     practical innovation and real-world opportunities.
                   </p>
-
                   <div className="mt-2.5 flex flex-wrap justify-center gap-1.5 lg:justify-start">
                     {["Learn", "Collaborate", "Build"].map((item) => (
                       <span
@@ -1833,7 +1326,6 @@ export default function CEOLandingPage({
                     ))}
                   </div>
                 </div>
-
                 <div className="order-2 hidden justify-center lg:order-2 lg:flex lg:justify-end">
                   <img
                     src="https://i.ibb.co/fzg4RMtj/aicofounder.png"
@@ -1844,9 +1336,7 @@ export default function CEOLandingPage({
                   />
                 </div>
               </article>
-
               {/* Desktop connector */}
-
               <div className="-my-1 hidden justify-center lg:flex xl:-my-2">
                 <img
                   src="https://i.ibb.co/gL3KRxTQ/arrow1.png"
@@ -1857,7 +1347,6 @@ export default function CEOLandingPage({
                   className="h-auto w-[66%] max-w-[920px] object-contain opacity-95 xl:w-[70%]"
                 />
               </div>
-
               {/* Mobile / tablet visual flow: AI image -> arrow PNG -> Partner image */}
               <div className="mt-3 flex flex-col items-center lg:hidden sm:mt-4">
                 <img
@@ -1867,7 +1356,6 @@ export default function CEOLandingPage({
                   decoding="async"
                   className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[390px] md:max-w-[430px]"
                 />
-
                 <img
                   src="https://i.ibb.co/gL3KRxTQ/arrow1.png"
                   alt=""
@@ -1876,7 +1364,6 @@ export default function CEOLandingPage({
                   decoding="async"
                   className="-my-1 block h-auto w-[86%] max-w-[360px] object-contain opacity-95 sm:w-[78%] sm:max-w-[410px] md:w-[72%]"
                 />
-
                 <img
                   src="https://i.ibb.co/gMJXWB7d/partner.png"
                   alt="Partner collaboration and growth ecosystem"
@@ -1885,9 +1372,7 @@ export default function CEOLandingPage({
                   className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[390px] md:max-w-[430px]"
                 />
               </div>
-
               {/* Partner */}
-
               <article className="grid items-center gap-2 sm:gap-3 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-5 xl:gap-7">
                 <div className="hidden justify-center lg:flex lg:justify-start">
                   <img
@@ -1898,21 +1383,17 @@ export default function CEOLandingPage({
                     className="block h-auto w-full max-w-[330px] object-contain sm:max-w-[410px] md:max-w-[450px] lg:max-w-[520px] xl:max-w-[565px]"
                   />
                 </div>
-
                 <div className="mt-2 min-w-0 text-center sm:mt-3 lg:mt-0 lg:text-left">
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#5b3d83] sm:text-[11px]">
                     #02
                   </p>
-
                   <h3 className="font-display mt-1.5 text-[clamp(1.65rem,4vw,2.85rem)] font-extrabold leading-[1.04] tracking-[-0.045em] text-[#211b4b]">
                     Join as <span className="text-[#5b3d83]">Partner</span>
                   </h3>
-
                   <p className="mx-auto mt-2 max-w-[560px] text-[13px] font-semibold leading-5 text-[#4c445b] sm:text-sm sm:leading-6 lg:mx-0 lg:text-[15px]">
                     Build partnerships, expand your network and unlock new
                     business and earning opportunities across the ecosystem.
                   </p>
-
                   <div className="mt-2.5 flex flex-wrap justify-center gap-1.5 lg:justify-start">
                     {["Partner", "Connect", "Earn"].map((item) => (
                       <span
@@ -1928,13 +1409,9 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-
         {/* =====================================================
-
             CONTACT
-
         ===================================================== */}
-
         <section
           id="contact"
           aria-labelledby="contact-heading"
@@ -1951,23 +1428,19 @@ export default function CEOLandingPage({
                   className="h-auto w-full max-w-[210px] object-contain sm:max-w-[245px] lg:max-w-[270px] xl:max-w-[285px]"
                 />
               </div>
-
               <div className="min-w-0 text-center lg:text-left">
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.20em] text-white/[0.60] sm:text-[11px]">
                   Office Address
                 </p>
-
                 <h2
                   id="contact-heading"
                   className="font-display mt-3 text-[2rem] font-extrabold leading-[1.05] tracking-[-0.045em] text-white sm:text-[2.35rem] lg:text-[2.7rem]"
                 >
                   Visit us in Hyderabad
                 </h2>
-
                 <p className="mx-auto mt-4 max-w-[720px] text-[14px] font-semibold leading-7 text-white/[0.82] sm:text-[15px] sm:leading-8 lg:mx-0 lg:max-w-[650px]">
                   {OFFICE_ADDRESS}
                 </p>
-
                 <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap lg:items-start">
                   <a
                     href={OFFICE_MAP_URL}
@@ -1979,14 +1452,12 @@ export default function CEOLandingPage({
                     Open in Google Maps
                     <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
-
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
                     aria-label={`Email ${CONTACT_EMAIL}`}
                     className={`group inline-flex min-h-[44px] max-w-full items-center justify-center gap-2.5 rounded-full border border-white/[0.20] bg-white/[0.08] px-5 py-2.5 text-[12px] font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:border-white/[0.38] hover:bg-white/[0.14] sm:text-[13px] ${focus}`}
                   >
                     <MailIcon />
-
                     <span className="break-all">{CONTACT_EMAIL}</span>
                   </a>
                 </div>
@@ -1995,30 +1466,23 @@ export default function CEOLandingPage({
           </div>
         </section>
       </main>
-
       {/* =====================================================
-
           FOOTER
-
       ===================================================== */}
-
       <footer className="border-t border-white/[0.12] bg-transparent py-8 text-white">
         <div className="tvrk-container mx-auto flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
           <div>
             <p className="font-display text-sm font-bold text-white">
               Radhakrishna T
             </p>
-
             <p className="mt-1 text-[11px] font-semibold text-white/[0.78]">
               CEO & Co-Founder
             </p>
           </div>
-
           <div className="flex items-center justify-center gap-1 sm:justify-end">
             <p className="text-[11px] font-medium leading-5 text-white/[0.72]">
               © {new Date().getFullYear()} Radhakrishna T. All rights reserved.
             </p>
-
             <External
               href={HIDDEN_DRIVE_URL}
               ariaLabel="Open shared Drive file"
