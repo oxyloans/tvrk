@@ -3,540 +3,181 @@ import { SiGooglemeet } from "react-icons/si";
 import InitiativeHeader from "./InitiativeHeader";
 
 const GOOGLE_MEET_URL = "https://meet.google.com/fwn-kqkc-cmb";
-
-const GOOGLE_MEET_IMAGE =
-  "https://i.ibb.co/4R5DgFLy/ereee.png";
+const GOOGLE_MEET_IMAGE = "https://i.ibb.co/4R5DgFLy/ereee.png";
 
 function GoogleMeetSection() {
   return (
-    <div className="min-h-screen bg-[#211b67]">
-      {/* =========================
-          HEADER
-      ========================== */}
+    <div className="meet-page min-h-screen bg-[#211b67] text-white">
+      <style>{`
+        .meet-page .meet-background {
+          background: linear-gradient(125deg, #211b67, #35247a, #70467f, #35247a);
+          background-size: 250% 250%;
+          animation: meet-gradient 24s ease-in-out infinite;
+        }
+
+        .meet-page .meet-content > * {
+          animation: meet-reveal 700ms cubic-bezier(.22, 1, .36, 1) both;
+        }
+        .meet-page .meet-content > :nth-child(2) { animation-delay: 80ms; }
+        .meet-page .meet-content > :nth-child(3) { animation-delay: 160ms; }
+        .meet-page .meet-content > :nth-child(4) { animation-delay: 240ms; }
+        .meet-page .meet-content > :nth-child(5) { animation-delay: 320ms; }
+        .meet-page .meet-content > :nth-child(6) { animation-delay: 400ms; }
+
+        .meet-page .meet-poster {
+          animation: meet-fade 900ms ease-out 200ms both,
+                     meet-float 7s ease-in-out 1100ms infinite;
+          filter: drop-shadow(0 18px 28px rgba(12, 7, 42, .22));
+        }
+
+        .meet-page .meet-join {
+          overflow: hidden;
+          isolation: isolate;
+          transition: background-color 200ms ease, box-shadow 200ms ease;
+        }
+        .meet-page .meet-join::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.8) 50%, transparent 75%);
+          transform: translateX(-110%);
+        }
+        .meet-page .meet-arrow { transition: transform 200ms ease; }
+        .meet-page .meet-join:focus-visible .meet-arrow { transform: translateX(3px); }
+
+        @media (hover: hover) {
+          .meet-page .meet-join:hover {
+            box-shadow: 0 12px 30px rgba(0,0,0,.24);
+          }
+          .meet-page .meet-join:hover::before {
+            animation: meet-shine 650ms ease-out;
+          }
+          .meet-page .meet-join:hover .meet-arrow { transform: translateX(3px); }
+        }
+
+        @keyframes meet-reveal {
+          from { opacity: 0; transform: translateY(14px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes meet-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes meet-gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes meet-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        @keyframes meet-shine {
+          to { transform: translateX(110%); }
+        }
+
+        @media (max-width: 639px) {
+          .meet-page .meet-poster { animation: meet-fade 700ms ease-out 200ms both; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .meet-page .meet-background,
+          .meet-page .meet-content > *,
+          .meet-page .meet-poster,
+          .meet-page .meet-join::before {
+            animation: none !important;
+          }
+          .meet-page .meet-join,
+          .meet-page .meet-arrow { transition: none; }
+          .meet-page .meet-join .meet-arrow { transform: none; }
+        }
+      `}</style>
       <InitiativeHeader active="home" />
 
-      {/* =========================
-          GOOGLE MEET SECTION
-      ========================== */}
-      <main>
+      <main className="meet-background">
+        {/* Top spacing allows for the existing fixed header. */}
         <section
           id="google-meet"
-          className="
-            relative
-            overflow-hidden
-            pb-10
-            pt-[96px]
-            sm:pb-14
-            sm:pt-[108px]
-            lg:pb-16
-            lg:pt-[120px]
-          "
+          aria-labelledby="google-meet-title"
+          className="mx-auto grid min-h-screen w-full max-w-7xl items-center gap-10 px-5 pb-10 pt-28 sm:px-8 sm:pb-14 sm:pt-32 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:py-36"
         >
-          {/* Background */}
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-32 top-10 h-[360px] w-[360px] rounded-full bg-[#795cff]/20 blur-[110px]" />
-            <div className="absolute -right-32 bottom-0 h-[380px] w-[380px] rounded-full bg-[#ffb88c]/20 blur-[120px]" />
-          </div>
+          <div className="meet-content min-w-0">
+            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#f5d6bc] sm:text-sm">
+              <SiGooglemeet
+                aria-hidden="true"
+                className="h-5 w-5 shrink-0 text-[#80e2b2]"
+              />
+              Daily Google Meet
+            </p>
 
-          <div
-            className="
-              relative
-              mx-auto
-              w-[calc(100%-32px)]
-              max-w-[1500px]
-              sm:w-[calc(100%-48px)]
-              lg:w-[calc(100%-64px)]
-              xl:w-[calc(100%-96px)]
-            "
-          >
-            {/* PAGE HEADING */}
-            <div className="mb-6 text-center sm:mb-8 lg:mb-10">
-              <div
-                className="
-                  mx-auto
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-full
-                  border
-                  border-white/15
-                  bg-white/[0.08]
-                  px-4
-                  py-2
-                  backdrop-blur-md
-                "
-              >
-                <SiGooglemeet className="h-4 w-4 text-[#64d89d]" />
-
-                <span
-                  className="
-                    text-[10px]
-                    font-extrabold
-                    uppercase
-                    tracking-[0.15em]
-                    text-white/80
-                    sm:text-[11px]
-                  "
-                >
-                  Daily Live Session
-                </span>
-              </div>
-
-              <h1
-                className="
-                  mt-4
-                  font-display
-                  text-[2rem]
-                  font-extrabold
-                  leading-[1.05]
-                  tracking-[-0.045em]
-                  text-white
-                  sm:text-[2.8rem]
-                  lg:text-[3.5rem]
-                  xl:text-[4rem]
-                "
-              >
-                EVERY DAY GOOGLE MEET
-              </h1>
-
-              <p
-                className="
-                  mx-auto
-                  mt-3
-                  max-w-[760px]
-                  text-[13px]
-                  font-medium
-                  leading-6
-                  text-white/70
-                  sm:text-[15px]
-                  sm:leading-7
-                "
-              >
-                Connect every day, understand opportunities, ask questions,
-                and explore the OXY ecosystem directly with our team.
-              </p>
-            </div>
-
-            {/* MAIN CARD */}
-            <div
-              className="
-                relative
-                overflow-hidden
-                rounded-[24px]
-                border
-                border-white/20
-                bg-[linear-gradient(135deg,#171052_0%,#31206f_42%,#70467f_100%)]
-                shadow-[0_24px_65px_rgba(10,5,55,0.35)]
-                sm:rounded-[30px]
-                lg:rounded-[34px]
-              "
+            <h1
+              id="google-meet-title"
+              className="mt-4 max-w-xl text-[30px] font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl"
             >
-              {/* Decorative Glow */}
-              <div className="pointer-events-none absolute -left-20 -top-24 h-64 w-64 rounded-full bg-[#8c7cff]/20 blur-3xl" />
+              Let’s connect.
+              <br />
+              Every day at <span className="text-[#f5d6bc]">9:30 PM.</span>
+            </h1>
 
-              <div className="pointer-events-none absolute -bottom-28 right-0 h-72 w-72 rounded-full bg-[#ffbc8d]/20 blur-3xl" />
+            <p className="mt-4 max-w-lg text-[15px] leading-7 text-white/80 sm:text-base">
+              Understand how loans and funds are processed, ask your questions,
+              and explore opportunities across our marketplace platforms.
+            </p>
 
-              <div
-                className="
-                  relative
-                  grid
-                  items-center
-                  gap-7
-                  px-5
-                  py-7
-                  sm:px-8
-                  sm:py-9
-                  md:gap-9
-                  lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,.95fr)]
-                  lg:gap-12
-                  lg:px-12
-                  lg:py-12
-                  xl:px-14
-                  xl:py-14
-                "
-              >
-                {/* =========================
-                    LEFT CONTENT
-                ========================== */}
-                <div className="min-w-0">
-                  <div
-                    className="
-                      inline-flex
-                      items-center
-                      gap-2
-                      rounded-full
-                      border
-                      border-white/20
-                      bg-white/10
-                      px-3
-                      py-2
-                      text-[10px]
-                      font-extrabold
-                      uppercase
-                      tracking-[0.14em]
-                      text-white
-                      backdrop-blur-md
-                      sm:text-[11px]
-                    "
-                  >
-                    <SiGooglemeet className="h-4 w-4 shrink-0 text-[#65d89e]" />
-
-                    Daily Google Meet
-                  </div>
-
-                  <h2
-                    className="
-                      mt-4
-                      max-w-[760px]
-                      font-display
-                      text-[1.75rem]
-                      font-extrabold
-                      leading-[1.08]
-                      tracking-[-0.04em]
-                      text-white
-                      sm:text-[2.3rem]
-                      lg:text-[2.7rem]
-                      xl:text-[3rem]
-                    "
-                  >
-                    Join Our Daily Live Discussion
-                  </h2>
-
-                  <p
-                    className="
-                      mt-4
-                      max-w-[720px]
-                      text-[13px]
-                      font-medium
-                      leading-6
-                      text-white/85
-                      sm:text-[15px]
-                      sm:leading-7
-                    "
-                  >
-                    RBI Approved P2P NBFC — understand lending, loans, jobs,
-                    real estate, AI, gold &amp; silver, and explore opportunities
-                    across our marketplace platforms.
-                  </p>
-
-                  {/* =========================
-                      TIME CARD
-                  ========================== */}
-                  <div
-                    className="
-                      mt-5
-                      flex
-                      max-w-[650px]
-                      items-start
-                      gap-3
-                      rounded-2xl
-                      border
-                      border-white/15
-                      bg-white/[0.09]
-                      p-4
-                      backdrop-blur-md
-                      sm:gap-4
-                      sm:p-5
-                    "
-                  >
-                    <span
-                      className="
-                        grid
-                        h-11
-                        w-11
-                        shrink-0
-                        place-items-center
-                        rounded-xl
-                        bg-white
-                        shadow-md
-                        sm:h-12
-                        sm:w-12
-                      "
-                    >
-                      <SiGooglemeet className="h-5 w-5 text-[#00897B] sm:h-6 sm:w-6" />
-                    </span>
-
-                    <div className="min-w-0">
-                      <p
-                        className="
-                          text-[10px]
-                          font-extrabold
-                          uppercase
-                          tracking-[0.14em]
-                          text-[#ffd0bc]
-                          sm:text-xs
-                        "
-                      >
-                        Every Day
-                      </p>
-
-                      <p
-                        className="
-                          mt-1
-                          text-[17px]
-                          font-extrabold
-                          leading-tight
-                          text-white
-                          sm:text-[21px]
-                        "
-                      >
-                        09:30 PM – 10:30 PM IST
-                      </p>
-
-                      <p
-                        className="
-                          mt-1.5
-                          text-[11px]
-                          font-medium
-                          leading-5
-                          text-white/65
-                          sm:text-[13px]
-                        "
-                      >
-                        Live Google Meet with Thatavarti Venkata RadhaKrishna
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* =========================
-                      PRIMARY FOCUS
-                  ========================== */}
-                  <div className="mt-5 max-w-[720px]">
-                    <p
-                      className="
-                        text-[11px]
-                        font-extrabold
-                        uppercase
-                        tracking-[0.13em]
-                        text-[#ffd0bc]
-                        sm:text-[13px]
-                      "
-                    >
-                      Primary Focus
-                    </p>
-
-                    <p
-                      className="
-                        mt-2
-                        text-[12px]
-                        font-medium
-                        leading-6
-                        text-white/80
-                        sm:text-[14px]
-                        sm:leading-7
-                      "
-                    >
-                      Priority is given to lenders and buyers to understand how
-                      loans and funds are processed. The discussion then covers
-                      loan queries, jobs, agents, marketplace opportunities and
-                      related platform services.
-                    </p>
-                  </div>
-
-                  {/* SPEAKER */}
-                  <div
-                    className="
-                      mt-5
-                      flex
-                      flex-wrap
-                      items-center
-                      gap-x-2
-                      gap-y-1
-                      text-[12px]
-                      text-white/70
-                      sm:text-[13px]
-                    "
-                  >
-                    <span className="font-extrabold text-white">
-                      Speaker:
-                    </span>
-
-                    <span>Thatavarti Venkata RadhaKrishna</span>
-                  </div>
-
-                  {/* =========================
-                      JOIN BUTTON
-                  ========================== */}
-                  <div className="mt-6">
-                    <a
-                      href={GOOGLE_MEET_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Join Google Meet every day at 09:30 PM IST"
-                      className="
-                        group
-                        inline-flex
-                        min-h-[54px]
-                        w-full
-                        items-center
-                        justify-center
-                        gap-3
-                        rounded-[15px]
-                        border
-                        border-white/30
-                        bg-[linear-gradient(180deg,#ffffff_0%,#eefaf6_47%,#d6eee7_100%)]
-                        px-4
-                        py-3
-                        text-center
-                        font-extrabold
-                        text-[#17493c]
-                        shadow-[inset_0_1px_0_rgba(255,255,255,.95),0_10px_26px_rgba(0,0,0,.22)]
-                        transition
-                        duration-200
-                        hover:-translate-y-0.5
-                        hover:shadow-[inset_0_1px_0_rgba(255,255,255,.95),0_15px_34px_rgba(0,0,0,.28)]
-                        sm:w-auto
-                        sm:min-w-[330px]
-                        sm:px-6
-                      "
-                    >
-                      <SiGooglemeet className="h-5 w-5 shrink-0 text-[#00897B]" />
-
-                      <span className="flex flex-col items-start leading-tight">
-                        <span className="text-[13px] sm:text-[14px]">
-                          Join Google Meet
-                        </span>
-
-                        <span
-                          className="
-                            mt-0.5
-                            text-[9px]
-                            font-bold
-                            tracking-[0.03em]
-                            text-[#4c726a]
-                            sm:text-[11px]
-                          "
-                        >
-                          EVERY DAY · 09:30 PM IST
-                        </span>
-                      </span>
-
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="
-                          ml-1
-                          h-4
-                          w-4
-                          shrink-0
-                          transition-transform
-                          duration-200
-                          group-hover:translate-x-1
-                        "
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M5 12h14M13 6l6 6-6 6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-
-                  <p
-                    className="
-                      mt-4
-                      max-w-[650px]
-                      text-[10px]
-                      font-medium
-                      leading-5
-                      text-white/55
-                      sm:text-[12px]
-                    "
-                  >
-                    Share the meeting with your friends and family and explore
-                    opportunities across tvradhakrishna.com.
-                  </p>
-                </div>
-
-                {/* =========================
-                    RIGHT IMAGE
-                ========================== */}
-                <div className="relative min-w-0">
-                  <div
-                    className="
-                      relative
-                      mx-auto
-                      flex
-                      w-full
-                      max-w-[570px]
-                      items-center
-                      justify-center
-                      overflow-hidden
-                      rounded-[20px]
-                      border
-                      border-white/20
-                      bg-white/[0.07]
-                      p-2.5
-                      shadow-[0_18px_45px_rgba(15,10,50,.25)]
-                      backdrop-blur-md
-                      sm:rounded-[24px]
-                      sm:p-4
-                      lg:max-w-none
-                    "
-                  >
-                    <img
-                      src={GOOGLE_MEET_IMAGE}
-                      alt="Every Day Google Meet live discussion"
-                      loading="lazy"
-                      decoding="async"
-                      className="
-                        block
-                        h-auto
-                        max-h-[430px]
-                        w-full
-                        rounded-[14px]
-                        object-contain
-                        sm:rounded-[18px]
-                      "
-                    />
-                  </div>
-
-                  {/* Image Label */}
-                  <div
-                    className="
-                      absolute
-                      bottom-4
-                      left-1/2
-                      flex
-                      -translate-x-1/2
-                      items-center
-                      gap-2
-                      whitespace-nowrap
-                      rounded-full
-                      border
-                      border-white/20
-                      bg-[#171052]/80
-                      px-3
-                      py-2
-                      text-[9px]
-                      font-extrabold
-                      uppercase
-                      tracking-[0.1em]
-                      text-white
-                      shadow-lg
-                      backdrop-blur-md
-                      sm:bottom-6
-                      sm:px-4
-                      sm:text-[10px]
-                    "
-                  >
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#69e5a5] opacity-75" />
-
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#69e5a5]" />
-                    </span>
-
-                    Live Every Day · 09:30 PM IST
-                  </div>
-                </div>
+            <dl className="mt-7 space-y-4 border-y border-white/20 py-5 text-sm sm:text-base">
+              <div className="grid grid-cols-[64px_minmax(0,1fr)] gap-3 sm:grid-cols-[80px_minmax(0,1fr)]">
+                <dt className="text-white/70">When</dt>
+                <dd className="m-0 font-semibold">
+                  Every day · 9:30–10:30 PM IST
+                </dd>
               </div>
-            </div>
+              <div className="grid grid-cols-[64px_minmax(0,1fr)] gap-3 sm:grid-cols-[80px_minmax(0,1fr)]">
+                <dt className="text-white/70">Speaker</dt>
+                <dd className="m-0 leading-6">
+                  Thatavarti Venkata RadhaKrishna
+                </dd>
+              </div>
+            </dl>
+
+            <a
+              href={GOOGLE_MEET_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Join the daily Google Meet at 9:30 PM IST (opens in a new tab)"
+              className="meet-join group relative mt-7 inline-flex min-h-[52px] w-full items-center justify-center gap-3 rounded-xl bg-[#e8f5ee] px-6 py-3 text-sm font-semibold text-[#17493c] shadow-lg hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:text-base"
+            >
+              <SiGooglemeet
+                aria-hidden="true"
+                className="h-5 w-5 shrink-0 text-[#00897B]"
+              />
+              Join Google Meet
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="meet-arrow h-4 w-4 shrink-0"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+
+            <p className="mt-6 max-w-lg text-xs leading-6 text-white/75 sm:text-sm">
+              <strong className="font-semibold text-white">Priority Q&amp;A:</strong>{" "}
+              Lenders and buyers first, followed by questions on loans, jobs,
+              agents, real estate, AI, gold and silver.
+            </p>
+
           </div>
+
+          <img
+            src={GOOGLE_MEET_IMAGE}
+            alt="Daily Google Meet event poster"
+            decoding="async"
+            className="meet-poster mx-auto block h-auto max-h-[560px] w-full max-w-md rounded-xl object-contain lg:max-w-full"
+          />
         </section>
       </main>
     </div>
