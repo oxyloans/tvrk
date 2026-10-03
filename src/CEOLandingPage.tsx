@@ -4,7 +4,7 @@ import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
 const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/ymzTDmL9/insta-card.png";
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/JWPHXRFz/insta-card.png" ;
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -329,7 +329,7 @@ function Portrait({ src, className = "" }: PortraitProps) {
       fetchPriority="high"
       decoding="async"
       onError={() => setFailed(true)}
-      className={`mx-auto block h-auto max-h-[500px] w-full object-contain object-bottom ${className}`}
+      className={`mx-auto block h-auto max-h-[550px] w-full object-contain object-bottom ${className}`}
     />
   );
 }
@@ -406,6 +406,146 @@ export default function CEOLandingPage({
       </dialog>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
+        /* Equal dimensions keep icon buttons perfectly circular. */
+        .ceo-page .hero-social-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px;
+          width: 100%;
+          min-width: 0;
+        }
+        .ceo-page .hero-social-rectangles {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: stretch;
+          gap: 10px;
+          min-width: 0;
+          max-width: 100%;
+        }
+        .ceo-page .hero-social-rectangle {
+          box-sizing: border-box;
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          min-height: 54px;
+          min-width: 0;
+          max-width: 100%;
+          padding: 9px 12px;
+          border: 1px solid rgba(255,255,255,.25);
+          border-radius: 8px;
+          background: rgba(255,255,255,.09);
+          color: #fff;
+          text-decoration: none;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+          transition: background .2s ease, border-color .2s ease;
+        }
+        .ceo-page .hero-social-brand {
+          display: grid;
+          place-items: center;
+          width: 30px;
+          height: 30px;
+          flex: 0 0 30px;
+          border-radius: 6px;
+        }
+        .ceo-page .hero-social-brand-whatsapp { background: #168b49; }
+        .ceo-page .hero-social-brand-instagram {
+          background: linear-gradient(145deg,#833ab4,#e1306c,#f77737);
+        }
+        .ceo-page .hero-social-copy { min-width: 0; text-align: left; }
+        .ceo-page .hero-social-title {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          line-height: 1.5;
+          overflow-wrap: anywhere;
+        }
+        .ceo-page .hero-social-subtitle {
+          display: block;
+          margin-top: 2px;
+          font-size: 9px;
+          font-weight: 500;
+          line-height: 1.5;
+          color: rgba(255,255,255,.74);
+        }
+        .ceo-page .hero-social-arrow {
+          width: 14px;
+          height: 14px;
+          flex: 0 0 14px;
+          margin-left: auto;
+          color: rgba(255,255,255,.85);
+        }
+        .ceo-page .hero-social-circles {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex: 0 0 auto;
+        }
+        .ceo-page .hero-social-circle {
+          box-sizing: border-box;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          min-width: 48px;
+          min-height: 48px;
+          max-width: 48px;
+          max-height: 48px;
+          flex: 0 0 48px;
+          aspect-ratio: 1 / 1;
+          padding: 0;
+          border: 1px solid rgba(255,255,255,.28);
+          border-radius: 50%;
+          background: rgba(255,255,255,.09);
+          color: #fff;
+          text-decoration: none;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+          transition: background .2s ease, border-color .2s ease;
+        }
+        .ceo-page .hero-social-circle > svg {
+          display: block;
+          width: 20px;
+          height: 20px;
+          flex: 0 0 20px;
+        }
+        @media (hover: hover) {
+          .ceo-page .hero-social-rectangle:hover,
+          .ceo-page .hero-social-circle:hover {
+            border-color: rgba(255,255,255,.55);
+            background: rgba(255,255,255,.18);
+          }
+          .ceo-page .hero-social-whatsapp:hover { border-color: #25d366; }
+          .ceo-page .hero-social-instagram:hover { border-color: #f39bc0; }
+        }
+        @media (max-width: 639px) {
+          .ceo-page .hero-social-rectangles {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            width: 100%;
+            gap: 8px;
+          }
+          .ceo-page .hero-social-rectangle {
+            gap: 6px;
+            padding: 9px 8px;
+          }
+          .ceo-page .hero-social-brand {
+            width: 26px;
+            height: 26px;
+            flex-basis: 26px;
+          }
+          .ceo-page .hero-social-title { font-size: 10px; }
+          .ceo-page .hero-social-subtitle { font-size: 8px; }
+          .ceo-page .hero-social-arrow {
+            width: 12px;
+            height: 12px;
+            flex-basis: 12px;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ceo-page .hero-social-rectangle,
+          .ceo-page .hero-social-circle { transition: none; }
+        }
         .ceo-page .hero-action-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -838,68 +978,56 @@ export default function CEOLandingPage({
                   <span className="hero-button-caption">Birth to Legacy Journey</span>
                 </External>
               </div>
-              <div className="mt-3 grid max-w-[680px] gap-3 sm:grid-cols-2">
-                <External
-                  href={WHATSAPP_CHANNEL_URL}
-                  ariaLabel="Join TV Radhakrishna WhatsApp Channel"
-                  className="group flex min-h-[58px] min-w-0 items-center gap-3 rounded-2xl border border-white/[0.18] bg-white/[0.10] px-3.5 py-3 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_12px_28px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/60 hover:bg-white/[0.15] sm:px-4"
-                >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#25D366] text-white shadow-sm">
-                    <WhatsAppIcon className="h-5 w-5" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-[13px] font-extrabold sm:text-sm">
-                      Join WhatsApp Channel
-                    </span>
-                    <span className="mt-0.5 block text-[10px] font-semibold text-white/[0.68] sm:text-[11px]">
-                      Updates & announcements
-                    </span>
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-emerald-200 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </External>
-                <External
-                  href={INSTAGRAM_URL}
-                  ariaLabel="Follow TV Radhakrishna on Instagram"
-                  className="group flex min-h-[58px] min-w-0 items-center gap-3 rounded-2xl border border-white/[0.18] bg-white/[0.10] px-3.5 py-3 text-white transition duration-200 hover:-translate-y-0.5 hover:border-[#e1306c]/60 hover:bg-white/[0.15] sm:px-4"
-                >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white shadow-sm">
-                    <SocialIcon name="Instagram" className="h-5 w-5" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[13px] font-extrabold sm:text-sm">
-                      Instagram @tvradhakrishna
-                    </span>
-                    <span className="mt-0.5 block text-[10px] font-semibold text-white/[0.68] sm:text-[11px]">
-                      Posts, insights & updates
-                    </span>
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-pink-200 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </External>
-              </div>
-              <div className="mt-4 flex flex-wrap items-center gap-2.5">
-                <span className="mr-1 text-[9px] font-extrabold uppercase tracking-[0.16em] text-white/[0.64] sm:text-[10px]">
-                  Connect
-                </span>
-                {heroSocials.map((item) => (
+              <div className="hero-social-row mt-4" role="group" aria-label="Connect on social media">
+                <div className="hero-social-rectangles">
                   <External
-                    key={item.name}
-                    href={item.href}
-                    ariaLabel={`Visit ${item.name} profile`}
-                    className="grid h-9 w-9 place-items-center rounded-full border border-white/[0.16] bg-white/[0.08] text-white transition duration-200 hover:-translate-y-0.5 hover:border-white/[0.32] hover:bg-white/[0.15] sm:h-10 sm:w-10"
+                    href={WHATSAPP_CHANNEL_URL}
+                    ariaLabel="Join TV Radhakrishna WhatsApp Channel"
+                    className="hero-social-rectangle hero-social-whatsapp"
                   >
-                    <SocialIcon
-                      name={item.name}
-                      className="h-[17px] w-[17px]"
-                    />
-                    <span className="sr-only">{item.name}</span>
+                    <span className="hero-social-brand hero-social-brand-whatsapp" aria-hidden="true">
+                      <WhatsAppIcon className="h-4 w-4 text-white" />
+                    </span>
+                    <span className="hero-social-copy">
+                      <span className="hero-social-title">Join WhatsApp Channel</span>
+                      <span className="hero-social-subtitle">Updates &amp; announcements</span>
+                    </span>
+                    <ArrowUpRight className="hero-social-arrow" />
                   </External>
-                ))}
+                  <External
+                    href={INSTAGRAM_URL}
+                    ariaLabel="Follow @tvradhakrishna on Instagram"
+                    className="hero-social-rectangle hero-social-instagram"
+                  >
+                    <span className="hero-social-brand hero-social-brand-instagram" aria-hidden="true">
+                      <SocialIcon name="Instagram" className="h-4 w-4 text-white" />
+                    </span>
+                    <span className="hero-social-copy">
+                      <span className="hero-social-title">Instagram @tvradhakrishna</span>
+                      <span className="hero-social-subtitle">Posts, insights &amp; updates</span>
+                    </span>
+                    <ArrowUpRight className="hero-social-arrow" />
+                  </External>
+                </div>
+                <div className="hero-social-circles">
+                  {heroSocials.map((item) => (
+                    <External
+                      key={item.name}
+                      href={item.href}
+                      ariaLabel={`Visit ${item.name} profile`}
+                      className="hero-social-circle"
+                    >
+                      <SocialIcon name={item.name} className="h-5 w-5" />
+                      <span className="sr-only">{item.name}</span>
+                    </External>
+                  ))}
+                </div>
               </div>
             </div>
             <Portrait
               key={portraitUrl}
               src={portraitUrl}
-              className="max-w-[345px] self-end sm:max-w-[385px] lg:max-w-[410px] lg:justify-self-end xl:max-w-[435px]"
+              className="max-w-[379.5px] self-end sm:max-w-[423.5px] lg:max-w-[451px] lg:justify-self-end xl:max-w-[478.5px]"
             />
           </div>
         </section>
