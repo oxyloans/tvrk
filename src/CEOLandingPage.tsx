@@ -674,6 +674,45 @@ export default function CEOLandingPage({
             background-position: 0% 50%;
           }
         }
+
+        /* =========================================================
+           CEO FACTORY — COLOR CHANGE EVERY 2 SECONDS
+        ========================================================= */
+        @keyframes ceo-factory-color {
+          0%, 19.99% { color: #ffd0bc; }
+          20%, 39.99% { color: #ffdf6c; }
+          40%, 59.99% { color: #8ce8ff; }
+          60%, 79.99% { color: #ff9ed2; }
+          80%, 100% { color: #aef5c7; }
+        }
+
+        @keyframes ceo-pincode-color {
+          0%, 19.99% { color: #ffffff; }
+          20%, 39.99% { color: #aef5c7; }
+          40%, 59.99% { color: #ffd0bc; }
+          60%, 79.99% { color: #ffdf6c; }
+          80%, 100% { color: #8ce8ff; }
+        }
+
+        .ceo-page .ceo-factory-text {
+          animation: ceo-factory-color 10s steps(1, end) infinite;
+          will-change: color;
+        }
+
+        .ceo-page .ceo-pincode-text {
+          animation: ceo-pincode-color 10s steps(1, end) infinite;
+          will-change: color;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .ceo-page .ceo-factory-text,
+          .ceo-page .ceo-pincode-text {
+            animation: none;
+          }
+
+          .ceo-page .ceo-factory-text { color: #ffd0bc; }
+          .ceo-page .ceo-pincode-text { color: #ffffff; }
+        }
         #write-to-us-dialog::backdrop {
           background: rgba(15, 10, 40, .65);
           backdrop-filter: blur(4px);
@@ -933,12 +972,19 @@ export default function CEOLandingPage({
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
               <div className="mt-4 max-w-[640px]">
-                <p className="text-[14px] font-bold leading-6 text-white sm:text-[16px]">
-                  Join as an AI Co-Founder &amp; Partner to access our services.
-                </p>
-                <p className="mt-1 text-[13px] font-extrabold leading-6 text-[#ffd0bc] sm:text-[15px]">
-                  Earn Money. Gain Knowledge.
-                </p>
+                <External
+                  href="https://www.askoxy.ai/oxyloans-partner"
+                  ariaLabel="Join as CEO for your PINCODE through CEO Factory"
+                  className="group inline-flex flex-col items-start"
+                >
+                  <span className="ceo-factory-text text-[13px] font-extrabold leading-6 sm:text-[15px]">
+                    #CEOFactory
+                  </span>
+                  <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
+                    Join as CEO For Your PINCODE
+                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </External>
               </div>
               <div className="hero-action-grid mt-5">
                 <External
