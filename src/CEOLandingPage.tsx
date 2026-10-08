@@ -988,14 +988,14 @@ export default function CEOLandingPage({
               </div>
               <div className="hero-action-grid mt-5">
                 <External
-                  href="https://meet.google.com/fwn-kqkc-cmb"
-                  ariaLabel="Join Google Meet every day at 09:30 PM IST (opens in a new tab)"
+                  href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
+                  ariaLabel="Join Zoom Meet every day at 09:30 PM IST (opens in a new tab)"
                   className="hero-gloss-button hero-meet-button"
                 >
                   <span className="hero-meet-icon" aria-hidden="true">
                     <SiGooglemeet className="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
                   </span>
-                  <span className="hero-meet-label">EVERY DAY GOOGLE MEET - 09:30 PM IST</span>
+                  <span className="hero-meet-label">EVERY DAY ZOOM MEET - 09:30 PM IST</span>
                   <ArrowUpRight className="hero-meet-arrow h-4 w-4 shrink-0" />
                 </External>
 
