@@ -973,7 +973,7 @@ export default function CEOLandingPage({
               </p>
               <div className="mt-4 max-w-[640px]">
                 <External
-                  href="https://www.askoxy.ai/oxyloans-partner"
+                  href="https://www.askoxy.ai/partner"
                   ariaLabel="Join as CEO for your PINCODE through CEO Factory"
                   className="group inline-flex flex-col items-start"
                 >
