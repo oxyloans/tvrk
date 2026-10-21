@@ -1,4 +1,4 @@
-import React, { useState, useRef, type ReactNode } from "react";
+import React, { useState, useRef, useEffect, type ReactNode } from "react";
 import { SiGooglemeet } from "react-icons/si";
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
@@ -179,6 +179,17 @@ const ecosystemPlatforms = [
     href: "https://www.askoxy.ai/sovereign-ai",
   },
 ];
+const ceoOpportunities = [
+  "Lender",
+  "Borrower",
+  "Partner",
+  "Real Estate",
+  "Study Abroad",
+  "Gold & Silver",
+  "Jobs & Careers",
+  "Loans",
+];
+
 const focus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 /* =========================================================
@@ -343,6 +354,25 @@ export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
   const writeToUsDialogRef = useRef<HTMLDialogElement>(null);
+  const [activeOpportunity, setActiveOpportunity] = useState(0);
+  const [slideEnabled, setSlideEnabled] = useState(true);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      // Move exactly one pill to the left on each tick.
+      setSlideEnabled(true);
+      setActiveOpportunity((previous) => previous + 1);
+    }, 2400);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const handleOpportunitySlideEnd = () => {
+    // The extra first pills make the last-to-first loop seamless.
+    if (activeOpportunity >= ceoOpportunities.length) {
+      setSlideEnabled(false);
+      setActiveOpportunity(0);
+    }
+  };
   return (
     <div className="ceo-page min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
       <a
@@ -675,6 +705,57 @@ export default function CEOLandingPage({
           }
         }
 
+        /* Five pills on desktop, three on mobile. Slide one at a time. */
+        .ceo-page .ceo-pills-viewport {
+          --ceo-gap: 8px;
+          --ceo-visible: 5;
+          overflow: hidden;
+          width: 100%;
+          min-width: 0;
+          -webkit-mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+        }
+        .ceo-page .ceo-pills-track {
+          display: flex;
+          gap: var(--ceo-gap);
+          width: 100%;
+          align-items: center;
+          transform: translate3d(calc(-1 * var(--ceo-index) * (100% + var(--ceo-gap)) / var(--ceo-visible)), 0, 0);
+          transition: transform 650ms cubic-bezier(.22, 1, .36, 1);
+          will-change: transform;
+        }
+        .ceo-page .ceo-pills-track.ceo-no-transition {
+          transition: none;
+        }
+        .ceo-page .ceo-opportunity-pill {
+          box-sizing: border-box;
+          flex: 0 0 calc((100% - (var(--ceo-visible) - 1) * var(--ceo-gap)) / var(--ceo-visible));
+          min-width: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          min-height: 36px;
+          padding: 7px 6px;
+          border: 1px solid rgba(255,255,255,.25);
+          border-radius: 999px;
+          background: rgba(255,255,255,.10);
+          color: #fff;
+          font-weight: 700;
+          font-size: 11px;
+          line-height: 1.25;
+          text-align: center;
+        }
+        @media (max-width: 639px) {
+          .ceo-page .ceo-pills-viewport { --ceo-visible: 3; --ceo-gap: 6px; }
+          .ceo-page .ceo-opportunity-pill { font-size: 10px; padding: 7px 3px; min-height: 34px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ceo-page .ceo-pills-track { transition: none; }
+        }
+
         /* =========================================================
            CEO FACTORY — COLOR CHANGE EVERY 2 SECONDS
         ========================================================= */
@@ -986,26 +1067,20 @@ export default function CEOLandingPage({
                   </span>
                 </External>
                 <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
-                  Connect People. Create Opportunities. Earn & Grow.
+                  Connect People. Create Opportunities. Earn &amp; Grow.
                 </p>
-                <div className="mt-3 flex max-w-[640px] flex-wrap gap-2" aria-label="CEO Factory opportunity sectors">
-                  {[
-                    "Lender",
-                    "Borrower",
-                    "Partner",
-                    "Real Estate",
-                    "Study Abroad",
-                    "Gold & Silver",
-                    "Jobs & Careers",
-                    "Loans",
-                  ].map((sector) => (
-                    <span
-                      key={sector}
-                      className="inline-flex min-h-[34px] items-center rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold leading-5 text-white shadow-sm backdrop-blur-sm sm:text-[12px]"
-                    >
-                      {sector}
-                    </span>
-                  ))}
+                <div className="ceo-pills-viewport mt-3" aria-label="CEO Factory opportunities">
+                  <div
+                    className={`ceo-pills-track ${slideEnabled ? "" : "ceo-no-transition"}`}
+                    style={{ "--ceo-index": activeOpportunity } as React.CSSProperties}
+                    onTransitionEnd={handleOpportunitySlideEnd}
+                  >
+                    {[...ceoOpportunities, ...ceoOpportunities.slice(0, 5)].map((opportunity, index) => (
+                      <span className="ceo-opportunity-pill" key={`${opportunity}-${index}`}>
+                        {opportunity}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="hero-action-grid mt-5">
