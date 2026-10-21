@@ -981,10 +981,32 @@ export default function CEOLandingPage({
                     #CEOFactory
                   </span>
                   <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
-                    Join as CEO For Your PINCODE
+                    Join as CEO for Your PINCODE &amp; Earn Money
                     <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
                 </External>
+                <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
+                  Connect People. Create Opportunities. Earn & Grow.
+                </p>
+                <div className="mt-3 flex max-w-[640px] flex-wrap gap-2" aria-label="CEO Factory opportunity sectors">
+                  {[
+                    "Lender",
+                    "Borrower",
+                    "Partner",
+                    "Real Estate",
+                    "Study Abroad",
+                    "Gold & Silver",
+                    "Jobs & Careers",
+                    "Loans",
+                  ].map((sector) => (
+                    <span
+                      key={sector}
+                      className="inline-flex min-h-[34px] items-center rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold leading-5 text-white shadow-sm backdrop-blur-sm sm:text-[12px]"
+                    >
+                      {sector}
+                    </span>
+                  ))}
+                </div>
               </div>
               <div className="hero-action-grid mt-5">
                 <External
