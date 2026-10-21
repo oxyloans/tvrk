@@ -995,7 +995,7 @@ export default function CEOLandingPage({
                   <span className="hero-meet-icon" aria-hidden="true">
                     <SiGooglemeet className="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
                   </span>
-                  <span className="hero-meet-label">EVERY DAY ZOOM MEET - 09:30 PM IST</span>
+                  <span className="hero-meet-label">EVERY DAY ZOOM MEET - 08:00 PM IST</span>
                   <ArrowUpRight className="hero-meet-arrow h-4 w-4 shrink-0" />
                 </External>
 

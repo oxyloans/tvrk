@@ -12,7 +12,7 @@ import CEOLandingPage from "./CEOLandingPage";
 import OxyFoundationPage from "./OxyFoundationPage";
 import BridgitalNationPage from "./BridgitalNationPage";
 import CertificatesPage from "./CertificatesPage";
-import GoogleMeetSection from "./GoogleMeetSection";
+import ZoomMeetSection from "./GoogleMeetSection";
 
 const GA_MEASUREMENT_ID = "G-NJXNYGP1EZ";
 
@@ -78,7 +78,7 @@ function App() {
           element={<BridgitalNationPage />}
         />
         <Route path="/certificates" element={<CertificatesPage />} />
-         <Route path="/googlemeet" element={<GoogleMeetSection />} />
+         <Route path="/zoommeet" element={<ZoomMeetSection />} />
 
         {/* Invalid URL → Home */}
         <Route
