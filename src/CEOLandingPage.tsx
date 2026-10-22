@@ -2,6 +2,23 @@ import React, { useState, useRef, useEffect, type ReactNode } from "react";
 import { SiGooglemeet } from "react-icons/si";
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
+// Vite bundles walkincard.png from any folder inside src/.
+// Example: src/assets/walkincard.png or src/pages/assets/walkincard.png.
+// No fragile relative import is required.
+const walkinLocalAssets = import.meta.glob<string>(
+  "/src/**/walkincard.{png,PNG,jpg,jpeg,webp}",
+  { eager: true, query: "?url", import: "default" }
+);
+
+// Prefer the bundled local asset. If it does not exist, also support
+// public/assets/walkincard.png and finally the original hosted image.
+const WALKIN_IMAGE_SOURCES = [
+  ...Object.values(walkinLocalAssets),
+  "/assets/walkincard.png",
+  "https://i.ibb.co/1fZvDyLM/walkincard.png",
+];
+const WALKIN_INTERVIEW_URL =
+  "https://www.askoxy.ai/main/viewjobdetails/default/ASKOXY_AI";
 const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/JWPHXRFz/insta-card.png" ;
@@ -356,6 +373,7 @@ export default function CEOLandingPage({
   const writeToUsDialogRef = useRef<HTMLDialogElement>(null);
   const [activeOpportunity, setActiveOpportunity] = useState(0);
   const [slideEnabled, setSlideEnabled] = useState(true);
+  const [walkinImageSourceIndex, setWalkinImageSourceIndex] = useState(0);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -1182,6 +1200,27 @@ export default function CEOLandingPage({
           aria-label="OXY Group Companies"
           className="logo-strip relative z-10 scroll-mt-24 overflow-hidden bg-white"
         >
+          {/* Walk-in interview: top of the logos section, no hero card. */}
+          <div className="tvrk-container pt-5 sm:pt-7 lg:pt-9">
+            <a
+              href={WALKIN_INTERVIEW_URL}
+              aria-label="Walk-in Interview — view details and apply at ASKOXY.AI"
+              className={`${focus} group mx-auto block w-full max-w-[1040px] overflow-hidden rounded-lg transition-opacity duration-200 hover:opacity-95 sm:rounded-xl`}
+            >
+              <img
+                src={WALKIN_IMAGE_SOURCES[walkinImageSourceIndex]}
+                onError={() => {
+                  setWalkinImageSourceIndex((current) =>
+                    Math.min(current + 1, WALKIN_IMAGE_SOURCES.length - 1)
+                  );
+                }}
+                alt="walkincard — ASKOXY.AI Walk-in Interview. Click to view details and apply."
+                loading="eager"
+                decoding="async"
+                className="block h-auto w-full object-contain"
+              />
+            </a>
+          </div>
           {/* Tablet + Desktop */}
           <div className="hidden w-full sm:block">
             <div className="mx-auto w-full px-4 sm:px-6 lg:px-5 xl:px-7 2xl:px-10">
