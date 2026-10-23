@@ -13,6 +13,7 @@ import OxyFoundationPage from "./OxyFoundationPage";
 import BridgitalNationPage from "./BridgitalNationPage";
 import CertificatesPage from "./CertificatesPage";
 import ZoomMeetSection from "./GoogleMeetSection";
+import OxyLinksPage from "./OxyLinksPage";
 
 const GA_MEASUREMENT_ID = "G-NJXNYGP1EZ";
 
@@ -71,6 +72,7 @@ function App() {
           path="/oxy-foundation"
           element={<OxyFoundationPage />}
         />
+        <Route path="/links" element={<OxyLinksPage />} />
 
         {/* Bridgital Nation */}
         <Route

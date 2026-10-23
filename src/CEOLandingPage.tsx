@@ -5,15 +5,9 @@ import FourPSection from "./FourPSection";
 // Vite bundles walkincard.png from any folder inside src/.
 // Example: src/assets/walkincard.png or src/pages/assets/walkincard.png.
 // No fragile relative import is required.
-const walkinLocalAssets = import.meta.glob<string>(
-  "/src/**/walkincard.{png,PNG,jpg,jpeg,webp}",
-  { eager: true, query: "?url", import: "default" }
-);
-
-// Prefer the bundled local asset. If it does not exist, also support
-// public/assets/walkincard.png and finally the original hosted image.
+// Put walkincard.png in public/assets/ (Vite/CRA public folder).
+// This direct URL avoids the import.meta.glob TypeScript error.
 const WALKIN_IMAGE_SOURCES = [
-  ...Object.values(walkinLocalAssets),
   "/assets/walkincard.png",
   "https://i.ibb.co/1fZvDyLM/walkincard.png",
 ];

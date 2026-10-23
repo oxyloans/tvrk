@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, type ReactNode } from "react";
 
 type InitiativeHeaderProps = {
-  active?: "home" | "foundation" | "bridgital" | "certificates";
+  active?: "home" | "foundation" | "bridgital" | "certificates" | "links";
 };
 
 const HEADER_LOGO_COLOR = "https://i.ibb.co/3y8n1mJ1/logo-tvrk.png";
@@ -14,6 +14,8 @@ const resourceLinks = [
   { href: "/bridgital-nation", label: "Bridgital Nation", key: "bridgital" },
 
   { href: "/certificates", label: "Certificates", key: "certificates" },
+
+  { href: "/links", label: "OXY Links & Jobs", key: "links" },
 ] as const;
 
 export default function InitiativeHeader({
@@ -123,7 +125,8 @@ export default function InitiativeHeader({
   const resourcesActive =
     active === "foundation" ||
     active === "bridgital" ||
-    active === "certificates";
+    active === "certificates" ||
+    active === "links";
 
   const ResourcesMenu = ({ mobile = false }: { mobile?: boolean }) => (
     <div
