@@ -1195,7 +1195,7 @@ export default function CEOLandingPage({
           className="logo-strip relative z-10 scroll-mt-24 overflow-hidden bg-white"
         >
           {/* Walk-in interview: top of the logos section, no hero card. */}
-          <div className="tvrk-container pt-5 sm:pt-7 lg:pt-9">
+          {/* <div className="tvrk-container pt-5 sm:pt-7 lg:pt-9">
             <a
               href={WALKIN_INTERVIEW_URL}
               aria-label="Walk-in Interview — view details and apply at ASKOXY.AI"
@@ -1214,7 +1214,7 @@ export default function CEOLandingPage({
                 className="block h-auto w-full object-contain"
               />
             </a>
-          </div>
+          </div> */}
           {/* Tablet + Desktop */}
           <div className="hidden w-full sm:block">
             <div className="mx-auto w-full px-4 sm:px-6 lg:px-5 xl:px-7 2xl:px-10">
