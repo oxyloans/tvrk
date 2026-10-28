@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, type ReactNode } from "react";
-import { SiGooglemeet } from "react-icons/si";
+import { SiZoom } from "react-icons/si";
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
 // Vite bundles walkincard.png from any folder inside src/.
@@ -15,7 +15,7 @@ const WALKIN_INTERVIEW_URL =
   "https://www.askoxy.ai/main/viewjobdetails/default/ASKOXY_AI";
 const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/JWPHXRFz/insta-card.png" ;
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/LXsSQcg0/insta-card.png";
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -368,14 +368,58 @@ export default function CEOLandingPage({
   const [activeOpportunity, setActiveOpportunity] = useState(0);
   const [slideEnabled, setSlideEnabled] = useState(true);
   const [walkinImageSourceIndex, setWalkinImageSourceIndex] = useState(0);
+  const [motionEnabled, setMotionEnabled] = useState(true);
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setMotionEnabled(!query.matches);
+    sync();
+    query.addEventListener?.("change", sync);
+    return () => query.removeEventListener?.("change", sync);
+  }, []);
 
   useEffect(() => {
+    if (!motionEnabled) return;
     const timer = window.setInterval(() => {
+      if (document.hidden) return;
       // Move exactly one pill to the left on each tick.
       setSlideEnabled(true);
       setActiveOpportunity((previous) => previous + 1);
     }, 2400);
     return () => window.clearInterval(timer);
+  }, [motionEnabled]);
+
+  // A single observer handles directional, staggered entrance motion.
+  // Elements remain visible when IntersectionObserver is unavailable.
+  useEffect(() => {
+    const root = document.querySelector<HTMLElement>(".ceo-modern");
+    if (!root || !("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const items = Array.from(root.querySelectorAll<HTMLElement>(
+      "#about h1, #about p, #about .hero-action-grid, #about .ceo-portrait-stage, " +
+      "#platforms .logo-link, #instagram .instagram-showcase, " +
+      "#platforms ~ section h2, #platforms ~ section .glass-card, " +
+      "#platforms ~ section .vision-card, #platforms ~ section .platform-visual, " +
+      "#platforms ~ section article, #platforms ~ section .liquid-glass"
+    ));
+    const observer = new IntersectionObserver((entries, observerInstance) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("motion-in");
+        observerInstance.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -24px 0px" });
+    items.forEach((el, index) => {
+      // Never hide content already in the first viewport.
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
+      el.classList.add("motion-ready");
+      el.style.setProperty("--motion-delay", `${(index % 3) * 45}ms`);
+      observer.observe(el);
+    });
+    return () => { observer.disconnect(); items.forEach(el => {
+      el.classList.remove("motion-ready", "motion-in", "motion-from-left", "motion-from-right");
+      el.style.removeProperty("--motion-delay");
+    }); };
   }, []);
 
   const handleOpportunitySlideEnd = () => {
@@ -386,7 +430,7 @@ export default function CEOLandingPage({
     }
   };
   return (
-    <div className="ceo-page min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
+    <div className="ceo-page ceo-modern min-h-screen overflow-x-clip text-[#171525] selection:bg-[#f6c2ae] selection:text-[#211b67]">
       <a
         href="#about"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[80] focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-bold"
@@ -448,6 +492,38 @@ export default function CEOLandingPage({
       </dialog>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
+        /* 2026 cinematic polish — fast transforms, no GIF or scroll polling. */
+        .ceo-modern { isolation:isolate; }
+        .ceo-modern main section { position:relative; }
+        .ceo-modern main section:not(#platforms) { scroll-margin-top:92px; }
+        .ceo-modern .ceo-reveal { opacity:0; transform:translate3d(0,22px,0); filter:blur(5px); transition:opacity .72s ease,transform .8s cubic-bezier(.2,.75,.2,1),filter .8s ease; transition-delay:var(--reveal-delay,0ms); }
+        .ceo-modern .ceo-reveal.is-visible { opacity:1; transform:translate3d(0,0,0); filter:blur(0); }
+        .ceo-modern .ceo-portrait-stage { min-height:315px; isolation:isolate; }
+        .ceo-modern .ceo-portrait-orb { position:absolute; inset:10% 8% 4%; border-radius:48% 52% 40% 60%; background:radial-gradient(circle at 38% 29%,rgba(251,193,251,.62),rgba(153,111,253,.34) 38%,rgba(255,182,165,.16) 64%,transparent 74%); filter:blur(2px); box-shadow:0 0 90px rgba(242,149,244,.19); animation:ceo-orb-flow 13s ease-in-out infinite alternate; }
+        .ceo-modern .ceo-orbit { position:absolute; inset:10% 10% 12%; border:1px solid rgba(255,255,255,.21); border-radius:50%; pointer-events:none; }
+        .ceo-modern .ceo-orbit-one { transform:rotate(-25deg) scaleX(.85); }
+        .ceo-modern .ceo-orbit-two { transform:rotate(25deg) scaleX(.82); border-color:rgba(250,185,237,.17); }
+        .ceo-modern .ceo-portrait-image { filter:drop-shadow(0 22px 32px rgba(25,13,58,.24)); -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 91%,transparent 100%); mask-image:linear-gradient(to bottom,#000 0%,#000 91%,transparent 100%); }
+        .ceo-modern .ceo-portrait-caption { border:1px solid rgba(255,255,255,.32); background:linear-gradient(135deg,rgba(44,26,108,.8),rgba(103,55,139,.62)); backdrop-filter:blur(16px); box-shadow:inset 0 1px rgba(255,255,255,.23),0 12px 35px rgba(24,10,61,.24); }
+        @keyframes ceo-orb-flow {from{transform:scale(.96) rotate(-7deg)}to{transform:scale(1.045) rotate(7deg)}}
+        .ceo-modern .hero-action-grid {gap:12px;}
+        .ceo-modern .hero-gloss-button,.ceo-modern .insta-follow-cta {position:relative;overflow:hidden;isolation:isolate; border-radius:17px;transition:transform .28s ease,box-shadow .28s ease,filter .28s ease;}
+        .ceo-modern .hero-gloss-button::after,.ceo-modern .insta-follow-cta::after {content:"";pointer-events:none;position:absolute;inset:1px 4px auto;height:45%;border-radius:16px 16px 50% 50%;background:linear-gradient(180deg,rgba(255,255,255,.33),transparent);opacity:.7;}
+        .ceo-modern .hero-gloss-button > *,.ceo-modern .insta-follow-cta > * {position:relative;z-index:2;}
+        .ceo-modern .hero-meet-button {background:linear-gradient(180deg,#fff,#e9f2ff) padding-box,conic-gradient(#ffb400,#00af52,#4285f4,#ea4335,#ffb400) border-box;}
+        .ceo-modern .gloss-link {transition:background .25s ease,border-color .25s ease,transform .28s ease;}
+        .ceo-modern .insta-image-stage {background:radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.7),rgba(253,208,246,.14) 56%,transparent 76%);}
+        .ceo-modern .instagram-profile-graphic {filter:drop-shadow(0 24px 22px rgba(80,42,121,.16));}
+        .ceo-modern .instagram-showcase {border:1px solid rgba(255,255,255,.8);box-shadow:0 28px 65px rgba(51,30,101,.17),inset 0 1px rgba(255,255,255,.9);}
+        .ceo-modern .platform-visual {position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.77),rgba(255,255,255,.32));border:1px solid rgba(255,255,255,.85);box-shadow:inset 0 1px rgba(255,255,255,.92),0 14px 32px rgba(33,22,85,.13);}
+        .ceo-modern .platform-visual:after {content:"";position:absolute;top:-35%;left:-100%;width:38%;height:165%;transform:rotate(20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.46),transparent);transition:left .7s ease;pointer-events:none;}
+        .ceo-modern .glass-card {position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(249,238,255,.49));box-shadow:inset 0 1px rgba(255,255,255,.95),0 16px 40px rgba(44,30,92,.12);}
+        .ceo-modern .glass-card:before {content:"";pointer-events:none;position:absolute;inset:0 0 auto;height:45%;background:linear-gradient(180deg,rgba(255,255,255,.32),transparent);}
+        .ceo-modern .vision-card {transition:transform .3s ease,background .3s ease,box-shadow .3s ease;}
+        @media(hover:hover) and (pointer:fine){.ceo-modern .platform-visual:hover:after{left:170%}.ceo-modern .gloss-link:hover{transform:translateY(-2px)}.ceo-modern .hero-gloss-button:hover{filter:brightness(1.08)}}
+        @media(max-width:1023px){.ceo-modern .ceo-portrait-stage{max-width:420px}.ceo-modern .ceo-portrait-caption{left:0}}
+        @media(max-width:639px){.ceo-modern .ceo-portrait-stage{min-height:260px;max-width:360px}.ceo-modern .ceo-portrait-image{max-height:365px}.ceo-modern .ceo-portrait-caption{bottom:9px;padding:9px 12px}.ceo-modern .ceo-reveal{transform:translate3d(0,14px,0);filter:none;transition-duration:.56s}.ceo-modern .instagram-showcase{border-radius:24px}.ceo-modern .hero-gloss-button{min-height:50px}}
+        @media(prefers-reduced-motion:reduce){.ceo-modern .ceo-reveal,.ceo-modern .ceo-reveal.is-visible{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.ceo-modern .ceo-portrait-orb{animation:none!important}.ceo-modern .hero-gloss-button,.ceo-modern .insta-follow-cta{transition:none!important}}
         /* Equal dimensions keep icon buttons perfectly circular. */
         .ceo-page .hero-social-row {
           display: flex;
@@ -1034,6 +1110,210 @@ export default function CEOLandingPage({
             animation: none !important;
           }
         }
+
+        /* ========= 2026 polished glossy design system ========= */
+        .ceo-modern { isolation:isolate; background:linear-gradient(166deg,#120c3a 0%,#32206b 17%,#7951a3 37%,#e4b8d1 55%,#e9e4f7 70%,#6650a0 88%,#191041 100%); }
+        .ceo-modern #about { background:radial-gradient(ellipse at 88% 12%,rgba(245,109,225,.24),transparent 48%),radial-gradient(ellipse at 4% 85%,rgba(76,142,251,.17),transparent 42%); }
+        .ceo-modern #about::before {content:"";pointer-events:none;position:absolute;inset:0;background:linear-gradient(117deg,transparent 30%,rgba(255,255,255,.055) 53%,transparent 67%);}
+        .ceo-modern .hero-gloss-button,.ceo-modern .hero-social-rectangle,.ceo-modern .hero-social-circle,.ceo-modern .glass-card,.ceo-modern .vision-card,.ceo-modern .platform-visual {position:relative;isolation:isolate;overflow:hidden;}
+        .ceo-modern .hero-gloss-button::after,.ceo-modern .hero-social-rectangle::after,.ceo-modern .glass-card::after,.ceo-modern .platform-visual::after {content:"";position:absolute;pointer-events:none;inset:1px 2px auto;height:48%;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0));opacity:.52;z-index:-1;}
+        .ceo-modern .hero-gloss-button {border-radius:17px;box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -2px 3px rgba(31,14,66,.14),0 12px 28px rgba(19,10,63,.23);}
+        .ceo-modern .hero-gloss-peach {background:linear-gradient(135deg,#fff5e9 0%,#ffc9bb 46%,#fbacac 100%);}
+        .ceo-modern .hero-gloss-purple {background:linear-gradient(135deg,#a17af5 0%,#6845b5 48%,#402c82 100%);}
+        .ceo-modern .hero-meet-button {background:linear-gradient(155deg,#fff 0%,#f3f5ff 70%,#e9e8fa 100%) padding-box,linear-gradient(110deg,#70e5bf,#8ea9ff,#eeb2fb) border-box;}
+        .ceo-modern .hero-social-rectangle {border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.065));box-shadow:inset 0 1px rgba(255,255,255,.28),0 12px 26px rgba(16,8,52,.12);}
+        .ceo-modern .hero-social-circle {background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.065));box-shadow:inset 0 1px rgba(255,255,255,.31),0 8px 18px rgba(16,8,52,.13);}
+        .ceo-modern .liquid-glass,.ceo-modern .glass-card {background:linear-gradient(145deg,rgba(255,255,255,.85),rgba(252,244,255,.61) 55%,rgba(246,232,255,.55));border:1px solid rgba(255,255,255,.83);box-shadow:0 22px 65px rgba(35,20,94,.16),inset 0 1px 1px rgba(255,255,255,.96);}
+        .ceo-modern .vision-panel {background:linear-gradient(130deg,rgba(25,18,73,.98),rgba(86,46,133,.95) 65%,rgba(134,73,131,.91));box-shadow:0 24px 65px rgba(29,18,73,.24),inset 0 1px rgba(255,255,255,.25);}
+        .ceo-modern .vision-card {background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.07));}
+        .ceo-modern .instagram-showcase {box-shadow:0 24px 70px rgba(100,42,125,.23),inset 0 1px rgba(255,255,255,.95);}
+        .ceo-modern .insta-stat {border:1px solid rgba(255,255,255,.86);background:linear-gradient(145deg,rgba(255,255,255,.85),rgba(247,233,255,.55));box-shadow:inset 0 1px rgba(255,255,255,.95),0 8px 20px rgba(106,62,138,.09);}
+        .ceo-modern .insta-follow-cta {background:linear-gradient(105deg,#6843ff,#c42be3 32%,#ff3585 64%,#ff9c1a);border:1px solid rgba(255,255,255,.55);box-shadow:inset 0 2px rgba(255,255,255,.36),0 12px 26px rgba(184,48,135,.24);transition:transform .3s,box-shadow .3s;}
+        .ceo-modern .platform-visual {border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.19),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.24);box-shadow:inset 0 1px rgba(255,255,255,.3),0 15px 30px rgba(24,14,73,.13);padding:12px;}
+        .ceo-modern .platform-visual img {border-radius:17px;}
+        .ceo-modern .glass-card {transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s;}
+        .ceo-modern .logo-link img {filter:drop-shadow(0 6px 9px rgba(35,25,64,.08));}
+        .ceo-modern a:focus-visible,.ceo-modern button:focus-visible {outline:3px solid #f4acff;outline-offset:4px;}
+        @keyframes gloss-breathe {0%,100%{box-shadow:inset 0 1px 1px rgba(255,255,255,.7),0 10px 24px rgba(65,42,127,.2)}50%{box-shadow:inset 0 1px 1px rgba(255,255,255,.85),0 14px 31px rgba(174,94,229,.32)}}
+        @keyframes gloss-glint {0%,76%,100%{transform:translateX(-170%) rotate(22deg);opacity:0}82%{opacity:.58}94%{transform:translateX(480%) rotate(22deg);opacity:0}}
+        .ceo-modern .motion-cta {animation:gloss-breathe 5s ease-in-out infinite;}
+        .ceo-modern .motion-cta::before {content:"";pointer-events:none;position:absolute;inset:-70% auto -70% 0;width:25%;z-index:1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-170%) rotate(22deg);animation:gloss-glint 8s ease-in-out infinite;}
+        .ceo-modern .motion-cta:nth-child(2)::before {animation-delay:1.5s}.ceo-modern .motion-cta:nth-child(3)::before {animation-delay:3s}
+        @media (hover:hover) and (pointer:fine) { .ceo-modern .gloss-tile:hover {transform:translateY(-6px);box-shadow:0 22px 48px rgba(54,24,113,.22),inset 0 1px 1px rgba(255,255,255,.95)} .ceo-modern .motion-cta:hover {transform:translateY(-3px) scale(1.015)} .ceo-modern .insta-follow-cta:hover {box-shadow:inset 0 2px rgba(255,255,255,.45),0 18px 37px rgba(184,48,135,.35)} }
+        @media(max-width:639px){.ceo-modern .ceo-pills-viewport{--ceo-visible:3}.ceo-modern .platform-visual{padding:7px;border-radius:17px}.ceo-modern .glass-card{min-height:205px}.ceo-modern .instagram-showcase{border-radius:24px}.ceo-modern .instagram-profile-graphic{max-height:330px}.ceo-modern .hero-social-rectangle{min-height:58px}.ceo-modern .hero-action-grid{max-width:none}}
+        @media(max-width:379px){.ceo-modern .hero-social-rectangles{grid-template-columns:1fr}.ceo-modern .hero-social-rectangle{min-height:48px}.ceo-modern .platform-visual{padding:5px}}
+        @media(prefers-reduced-motion:reduce){.ceo-modern .motion-cta,.ceo-modern .motion-cta::before{animation:none!important}.ceo-modern .gloss-tile,.ceo-modern .hero-gloss-button,.ceo-modern .insta-follow-cta{transition:none!important}.ceo-modern .gloss-tile:hover,.ceo-modern .motion-cta:hover{transform:none!important}}
+
+        /* ===== Refined minimal premium visual system ===== */
+        .ceo-modern { background:linear-gradient(180deg,#20174f 0%,#3e2d70 24%,#d4c3e1 51%,#f6f3fa 71%,#dcd3eb 89%,#251c55 100%); }
+        .ceo-modern #about {background:radial-gradient(circle at 85% 35%,rgba(186,151,232,.16),transparent 45%);}
+        .ceo-modern #about::before {display:none;}
+        .ceo-modern .motion-cta,.ceo-modern .motion-cta::before {animation:none!important;}
+        .ceo-modern .ceo-reveal {opacity:1!important;transform:none!important;filter:none!important;transition:none!important;}
+        .ceo-modern .hero-gloss-button {border-radius:14px;box-shadow:inset 0 1px rgba(255,255,255,.5),0 5px 18px rgba(19,10,63,.14);transition:transform .22s ease,box-shadow .22s ease,background .22s ease;}
+        .ceo-modern .hero-gloss-button::after,.ceo-modern .hero-social-rectangle::after,.ceo-modern .glass-card::after,.ceo-modern .platform-visual::after {display:none;}
+        .ceo-modern .hero-social-rectangle {border-radius:14px;box-shadow:0 5px 16px rgba(18,10,54,.11);}
+        .ceo-modern .hero-social-circle {box-shadow:0 4px 12px rgba(18,10,54,.1);}
+        .ceo-modern .liquid-glass,.ceo-modern .glass-card {background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.82);box-shadow:0 12px 38px rgba(37,25,90,.1);}
+        .ceo-modern .glass-card {transition:transform .22s ease,box-shadow .22s ease;}
+        .ceo-modern .vision-card {transition:background .2s ease;}
+        .ceo-modern .insta-image-stage {background:transparent;}
+        .ceo-modern .instagram-showcase {background:rgba(255,255,255,.9);box-shadow:0 16px 40px rgba(43,28,105,.12);}
+        .ceo-modern .instagram-profile-graphic {max-height:390px;filter:none;object-fit:contain;transition:transform .25s ease;}
+        .ceo-modern .insta-follow-cta {background:linear-gradient(110deg,#6844e8,#bd38aa 50%,#f36a6e);border-radius:14px;box-shadow:0 8px 22px rgba(156,61,157,.2);transition:transform .2s ease,box-shadow .2s ease;}
+        .ceo-modern .platform-visual {background:rgba(255,255,255,.1);box-shadow:none;border:1px solid rgba(255,255,255,.24);}
+        .ceo-modern .ceo-portrait-orb {animation:none!important;}
+        .ceo-modern .ceo-factory-text,.ceo-modern .ceo-pincode-text,.ceo-modern .hero-journey-gradient {animation:none!important;}
+        .ceo-modern .ceo-factory-text {color:#ffdfb9;}
+        .ceo-modern .ceo-pincode-text {color:#fff;}
+        .ceo-modern .hero-journey-gradient {background-position:0 50%;}
+        .ceo-modern .logo-marquee {animation-duration:48s;}
+        @media(hover:hover) and (pointer:fine){
+          .ceo-modern .hero-gloss-button:hover,.ceo-modern .insta-follow-cta:hover {transform:translateY(-2px);box-shadow:0 12px 26px rgba(43,27,96,.19);}
+          .ceo-modern .glass-card:hover {transform:translateY(-3px);box-shadow:0 15px 32px rgba(43,27,96,.14);}
+          .ceo-modern .instagram-profile-graphic:hover {transform:scale(1.015);}
+        }
+        @media(max-width:767px){
+          .ceo-modern .tvrk-container {width:calc(100% - 28px)!important;}
+          .ceo-modern #about {padding-top:76px;}
+          .ceo-modern #about > div {gap:14px;}
+          .ceo-modern .hero-action-grid {width:100%;max-width:none;gap:9px;}
+          .ceo-modern .hero-gloss-button {min-height:50px;font-size:12px;}
+          .ceo-modern .hero-social-row {gap:12px;}
+          .ceo-modern .hero-social-rectangles {width:100%;grid-template-columns:repeat(2,minmax(0,1fr));}
+          .ceo-modern .hero-social-rectangle {min-height:54px;padding:8px;}
+          .ceo-modern .hero-social-title {font-size:10px;}
+          .ceo-modern .hero-social-subtitle {font-size:8px;}
+          .ceo-modern .ceo-portrait-stage {max-width:310px;min-height:0;margin-inline:auto;}
+          .ceo-modern .ceo-portrait-image {max-height:340px;}
+          .ceo-modern .instagram-showcase {border-radius:20px;}
+          .ceo-modern .insta-image-stage {min-height:0;padding:16px 12px 0;}
+          .ceo-modern .instagram-profile-graphic {height:auto;max-height:310px;padding:0;}
+          .ceo-modern #instagram .instagram-showcase > div {grid-template-columns:minmax(0,1fr);}
+          .ceo-modern #instagram .instagram-showcase > div > div:last-child {padding:20px 20px 26px;}
+          .ceo-modern #instagram h2 {font-size:clamp(1.55rem,6vw,2.1rem);}
+          .ceo-modern .insta-follow-cta {width:100%;}
+          .ceo-modern .glass-card {min-height:0;}
+          .ceo-modern .platform-visual {padding:7px;}
+        }
+        @media(max-width:359px){
+          .ceo-modern .hero-social-rectangles {grid-template-columns:1fr;}
+          .ceo-modern #instagram .instagram-showcase > div > div:last-child {padding:16px;}
+          .ceo-modern .ceo-opportunity-pill {font-size:9px;}
+        }
+        @media(prefers-reduced-motion:reduce){
+          .ceo-modern *, .ceo-modern *::before, .ceo-modern *::after {animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}
+        }
+        /* Refined motion system — no scroll-blur or bouncing. */
+        .ceo-modern .motion-ready {opacity:0;transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);transition-delay:var(--motion-delay,0ms);}
+        .ceo-modern .motion-ready.motion-from-left {transform:translate3d(-38px,0,0);}
+        .ceo-modern .motion-ready.motion-from-right {transform:translate3d(38px,0,0);}
+        .ceo-modern .motion-ready.motion-in {opacity:1;transform:translate3d(0,0,0);}
+        .ceo-modern .ceo-portrait-caption {display:none!important;}
+        .ceo-modern .hero-journey-gradient {background:linear-gradient(110deg,#ffdfae,#ff9ecd,#d4b4ff,#89e8ff,#a8f7d6,#ffe5aa);background-size:260% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:ceo-title-colorcycle 11s ease-in-out infinite!important;}
+        .ceo-modern .ceo-factory-text {animation:ceo-cta-colors 9s linear infinite!important;}
+        .ceo-modern .ceo-pincode-text {animation:ceo-cta-colors 9s linear infinite reverse!important;}
+        @keyframes ceo-title-colorcycle {0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+        @keyframes ceo-cta-colors {0%,100%{color:#fff1cb}33%{color:#ffafdd}66%{color:#9be6ff}}
+        .ceo-modern .hero-gloss-button {transform:translateZ(0);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 7px 20px rgba(25,17,65,.17);}
+        .ceo-modern .hero-gloss-button:focus-visible,.ceo-modern a:focus-visible {outline:2px solid #ffbb83;outline-offset:3px;}
+        .ceo-modern .ceo-portrait-stage {overflow:hidden;}
+        @media (max-width:767px) {
+          .ceo-modern .motion-ready.motion-from-left {transform:translate3d(-18px,0,0);}
+          .ceo-modern .motion-ready.motion-from-right {transform:translate3d(18px,0,0);}
+          .ceo-modern .hero-action-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+          .ceo-modern .hero-meet-button {grid-column:1/-1;}
+          .ceo-modern .ceo-portrait-stage {width:min(100%,340px);}
+          .ceo-modern .tvrk-container {width:calc(100% - 28px)!important;}
+          .ceo-modern .glass-card,.ceo-modern .vision-card {overflow-wrap:anywhere;}
+        }
+        @media (max-width:380px){.ceo-modern .hero-gloss-button{font-size:11px;}.ceo-modern .hero-social-row{width:100%;}}
+        @media (prefers-reduced-motion:reduce){
+          .ceo-modern .motion-ready {opacity:1!important;transform:none!important;transition:none!important;}
+          .ceo-modern .hero-journey-gradient,.ceo-modern .ceo-factory-text,.ceo-modern .ceo-pincode-text {animation:none!important;}
+        }
+
+        /* FINAL UX REFINEMENT — keep the original page gradient, remove
+           only the extra hero decoration and unnecessary heavy effects. */
+        .ceo-modern #about,
+        .ceo-modern #about::before,
+        .ceo-modern #about::after {
+          background: transparent !important;
+          box-shadow: none !important;
+          filter: none !important;
+        }
+        .ceo-modern #about::before,
+        .ceo-modern #about::after { content: none !important; display: none !important; }
+        .ceo-modern .ceo-portrait-stage { overflow: visible; isolation: auto; }
+        .ceo-modern .ceo-portrait-stage::before,
+        .ceo-modern .ceo-portrait-stage::after,
+        .ceo-modern .ceo-portrait-orb,
+        .ceo-modern .ceo-orbit { display:none !important; }
+        .ceo-modern .ceo-portrait-image {
+          filter: none !important;
+          -webkit-mask-image:none !important;
+          mask-image:none !important;
+          transform:none !important;
+          object-fit:contain;
+          object-position:bottom center;
+        }
+        /* Short, elegant opacity/vertical entrance. No sideways slides or blur. */
+        .ceo-modern .motion-ready,
+        .ceo-modern .motion-ready.motion-from-left,
+        .ceo-modern .motion-ready.motion-from-right {
+          opacity:0;
+          transform:translate3d(0,14px,0);
+          filter:none !important;
+          transition:opacity .52s ease-out,transform .62s cubic-bezier(.22,1,.36,1);
+          transition-delay:var(--motion-delay,0ms);
+        }
+        .ceo-modern .motion-ready.motion-in {opacity:1;transform:none;}
+        .ceo-modern .hero-gloss-button,
+        .ceo-modern .hero-social-rectangle,
+        .ceo-modern .hero-social-circle,
+        .ceo-modern .insta-follow-cta,
+        .ceo-modern .glass-card {
+          transition: transform .24s cubic-bezier(.22,1,.36,1),
+                      box-shadow .24s ease, background-color .24s ease,
+                      border-color .24s ease;
+        }
+        .ceo-modern .hero-gloss-button,
+        .ceo-modern .hero-social-rectangle,
+        .ceo-modern .hero-social-circle {box-shadow:none !important;}
+        .ceo-modern .hero-journey-gradient {animation-duration:18s !important;}
+        .ceo-modern .ceo-factory-text,
+        .ceo-modern .ceo-pincode-text {animation-duration:14s !important;}
+        .ceo-modern .ceo-pills-track {transition-duration:760ms;will-change:auto;}
+        .ceo-modern #about h1 {text-wrap:balance;}
+        .ceo-modern #about p {text-wrap:pretty;}
+        .ceo-modern a, .ceo-modern button {touch-action: manipulation;}
+        @media(max-width:767px) {
+          .ceo-modern #about {padding-top:clamp(72px,12vw,92px);}
+          .ceo-modern #about > .tvrk-container {row-gap:22px;}
+          .ceo-modern #about h1 {font-size:clamp(2.15rem,9vw,3.35rem);line-height:1.08;letter-spacing:-.045em;}
+          .ceo-modern .ceo-portrait-stage {width:min(100%,350px);max-width:100%;}
+          .ceo-modern .ceo-portrait-image {max-height:min(370px,68vw);width:auto;max-width:100%;}
+          .ceo-modern .hero-action-grid {max-width:100%;}
+          .ceo-modern .hero-social-rectangles {min-width:0;}
+          .ceo-modern .hero-social-circle {min-width:44px;min-height:44px;}
+          .ceo-modern .motion-ready {transform:translate3d(0,9px,0);}
+        }
+        @media(max-width:380px) {
+          .ceo-modern #about h1 {font-size:clamp(1.9rem,8.8vw,2.3rem);}
+          .ceo-modern .hero-social-rectangles {grid-template-columns:1fr;}
+          .ceo-modern .hero-gloss-button {font-size:11px;line-height:1.3;}
+          .ceo-modern .ceo-portrait-image {max-height:270px;}
+        }
+        @media(hover:none) {
+          .ceo-modern .logo-marquee:hover {animation-play-state:running;}
+        }
+        @media(prefers-reduced-motion:reduce) {
+          .ceo-modern .motion-ready,.ceo-modern .motion-ready.motion-in {opacity:1!important;transform:none!important;transition:none!important;}
+          .ceo-modern .hero-journey-gradient,
+          .ceo-modern .ceo-factory-text,.ceo-modern .ceo-pincode-text,
+          .ceo-modern .logo-marquee {animation:none!important;}
+          .ceo-modern .ceo-pills-track {transition:none!important;}
+        }
       `}</style>
       <InitiativeHeader active="home" />
       <main>
@@ -1052,7 +1332,7 @@ export default function CEOLandingPage({
               </p>
               <h1
                 id="hero-heading"
-                className="hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
+                className="ceo-gradient-heading hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
               >
                 <span className="block">Every Journey.</span>
                 <span className="mt-1 block sm:mt-1.5">One Partner.</span>
@@ -1098,13 +1378,13 @@ export default function CEOLandingPage({
               <div className="hero-action-grid mt-5">
                 <External
                   href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
-                  ariaLabel="Join Zoom Meet every day at 09:30 PM IST (opens in a new tab)"
+                  ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
                   className="hero-gloss-button hero-meet-button"
                 >
                   <span className="hero-meet-icon" aria-hidden="true">
-                    <SiGooglemeet className="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+                    <SiZoom className="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
                   </span>
-                  <span className="hero-meet-label">EVERY DAY ZOOM MEET - 08:00 PM IST</span>
+                  <span className="hero-meet-label">LIVE Q&A · DAILY ZOOM · 8:00 PM IST</span>
                   <ArrowUpRight className="hero-meet-arrow h-4 w-4 shrink-0" />
                 </External>
 
@@ -1138,7 +1418,7 @@ export default function CEOLandingPage({
                   <External
                     href={WHATSAPP_CHANNEL_URL}
                     ariaLabel="Join TV Radhakrishna WhatsApp Channel"
-                    className="hero-social-rectangle hero-social-whatsapp"
+                    className="hero-social-rectangle hero-social-whatsapp gloss-link"
                   >
                     <span className="hero-social-brand hero-social-brand-whatsapp" aria-hidden="true">
                       <WhatsAppIcon className="h-4 w-4 text-white" />
@@ -1152,7 +1432,7 @@ export default function CEOLandingPage({
                   <External
                     href={INSTAGRAM_URL}
                     ariaLabel="Follow @tvradhakrishna on Instagram"
-                    className="hero-social-rectangle hero-social-instagram"
+                    className="hero-social-rectangle hero-social-instagram gloss-link"
                   >
                     <span className="hero-social-brand hero-social-brand-instagram" aria-hidden="true">
                       <SocialIcon name="Instagram" className="h-4 w-4 text-white" />
@@ -1170,7 +1450,7 @@ export default function CEOLandingPage({
                       key={item.name}
                       href={item.href}
                       ariaLabel={`Visit ${item.name} profile`}
-                      className="hero-social-circle"
+                      className="hero-social-circle gloss-link"
                     >
                       <SocialIcon name={item.name} className="h-5 w-5" />
                       <span className="sr-only">{item.name}</span>
@@ -1179,11 +1459,13 @@ export default function CEOLandingPage({
                 </div>
               </div>
             </div>
-            <Portrait
-              key={portraitUrl}
-              src={portraitUrl}
-              className="max-w-[379.5px] self-end sm:max-w-[423.5px] lg:max-w-[451px] lg:justify-self-end xl:max-w-[478.5px]"
-            />
+            <div className="ceo-portrait-stage relative mx-auto flex w-full max-w-[530px] items-end justify-center self-end lg:mx-0 lg:justify-self-end" aria-label="CEO portrait">
+              <Portrait
+                key={portraitUrl}
+                src={portraitUrl}
+                className="ceo-portrait-image relative z-10 max-w-[370px] self-end sm:max-w-[430px] lg:max-w-[480px]"
+              />
+            </div>
           </div>
         </section>
         {/* =====================================================
@@ -1340,19 +1622,19 @@ export default function CEOLandingPage({
           className="scroll-mt-24 py-8 sm:py-12 lg:py-14"
         >
           <div className="tvrk-container mx-auto">
-            <div className="liquid-glass overflow-hidden rounded-[30px] sm:rounded-[34px]">
-              <div className="grid lg:grid-cols-[minmax(0,.96fr)_minmax(0,1.04fr)]">
+            <div className="liquid-glass instagram-showcase overflow-hidden rounded-[30px] sm:rounded-[34px]">
+              <div className="grid lg:grid-cols-[minmax(0,1.07fr)_minmax(0,.93fr)]">
                 <External
                   href={INSTAGRAM_URL}
                   ariaLabel="Open @tvradhakrishna on Instagram"
-                  className="group relative flex min-h-[280px] items-center justify-center overflow-hidden bg-white/[0.18] sm:min-h-[380px] lg:min-h-[470px]"
+                  className="group insta-image-stage relative flex min-h-[280px] items-center justify-center overflow-hidden sm:min-h-[380px] lg:min-h-[470px]"
                 >
                   <img
                     src={INSTAGRAM_CARD_IMAGE}
                     alt="@tvradhakrishna Instagram card"
                     loading="lazy"
                     decoding="async"
-                    className="h-full max-h-[460px] w-full object-contain p-4 transition duration-500 ease-out group-hover:scale-[1.025] sm:p-7 lg:p-9"
+                    className="instagram-profile-graphic h-full max-h-[460px] w-full object-contain p-2 transition duration-700 ease-out group-hover:scale-[1.035] sm:p-5 lg:p-7"
                   />
                   <span className="pointer-events-none absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/[0.75] bg-white/[0.68] text-[#30238d] shadow-[0_8px_24px_rgba(48,35,141,.14)] backdrop-blur-md transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:right-6 sm:top-6">
                     <ArrowUpRight className="h-4 w-4" />
@@ -1371,21 +1653,20 @@ export default function CEOLandingPage({
                     id="instagram-heading"
                     className="font-display dark-heading mt-4 max-w-xl text-[2rem] font-bold leading-[1.08] tracking-[-0.045em] sm:text-[2.6rem] lg:text-[3rem]"
                   >
-                    All the latest updates, in one place.
+                    Connect. Discover. Stay inspired.
                   </h2>
                   <p className="dark-body mt-4 max-w-xl text-sm font-medium leading-7 sm:text-[15px]">
-                    For the latest information, announcements, business updates,
-                    AI insights, fintech conversations, and ecosystem activity,
-                    follow{" "}
+                    Explore practical ideas across AI, financial services, technology, and entrepreneurial journeys. Follow{" "}
                     <span className="font-extrabold text-[#2b2150]">
                       @tvradhakrishna
                     </span>{" "}
                     on Instagram.
                   </p>
-                  <p className="mt-4 inline-flex items-center gap-2 text-[12px] font-extrabold text-[#704a86] sm:text-[13px]">
-                    Click the Instagram card to open the latest posts
+                  <External href={INSTAGRAM_URL} className="insta-follow-cta mt-6 inline-flex min-h-[52px] w-fit max-w-full items-center justify-center gap-3 rounded-2xl px-6 py-3 text-sm font-extrabold text-white sm:text-[15px]" ariaLabel="Follow @tvradhakrishna on Instagram">
+                    <SocialIcon name="Instagram" className="h-5 w-5" />
+                    Follow on Instagram
                     <ArrowUpRight className="h-4 w-4" />
-                  </p>
+                  </External>
                 </div>
               </div>
             </div>
@@ -1422,7 +1703,7 @@ export default function CEOLandingPage({
                   key={item.name}
                   href={item.href}
                   ariaLabel={`Visit ${item.name}`}
-                  className="group block min-w-0"
+                  className="platform-visual gloss-tile group block min-w-0"
                 >
                   <div className="flex aspect-[5/3] w-full items-center justify-center">
                     <img
@@ -1469,7 +1750,7 @@ export default function CEOLandingPage({
                 <External
                   key={item.href}
                   href={item.href}
-                  className="glass-card group flex min-h-[235px] min-w-0 flex-col rounded-[26px] p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(47,35,111,.13)] sm:p-6"
+                  className="glass-card gloss-tile group flex min-h-[235px] min-w-0 flex-col rounded-[26px] p-5 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(47,35,111,.13)] sm:p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="rounded-full border border-white/[0.6] bg-white/[0.46] px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.13em] text-[#654782] backdrop-blur">
@@ -1562,7 +1843,7 @@ export default function CEOLandingPage({
                 ].map((item) => (
                   <article
                     key={item.title}
-                    className="vision-card group flex items-start gap-4 rounded-[22px] p-[18px] transition duration-300 hover:-translate-y-0.5 hover:bg-white/[0.13] sm:p-5 lg:p-6"
+                    className="vision-card gloss-tile group flex items-start gap-4 rounded-[22px] p-[18px] transition duration-300 hover:-translate-y-0.5 hover:bg-white/[0.13] sm:p-5 lg:p-6"
                   >
                     <span className="font-display grid h-11 w-11 shrink-0 place-items-center rounded-[14px] border border-white/[0.1] bg-white/[0.09] text-[11px] font-extrabold text-[#ffc09f]">
                       {item.number}
