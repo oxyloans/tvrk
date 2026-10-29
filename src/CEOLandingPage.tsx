@@ -13,9 +13,9 @@ const WALKIN_IMAGE_SOURCES = [
 ];
 const WALKIN_INTERVIEW_URL =
   "https://www.askoxy.ai/main/viewjobdetails/default/ASKOXY_AI";
-const HERO_IMAGE = "https://i.ibb.co/XZyrLcM3/ceo-image2.png";
+const HERO_IMAGE = "https://i.ibb.co/tTDvSJQt/ceo-img0.png" ;
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/LXsSQcg0/insta-card.png";
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/jPB3MPT4/insta-card.png" ;
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -355,6 +355,136 @@ function Portrait({ src, className = "" }: PortraitProps) {
     />
   );
 }
+
+/* =========================================================
+   10 YEARS OF OXYLOANS — RESPONSIVE VIDEO FEATURE
+========================================================= */
+const OXYLOANS_ANNIVERSARY_VIDEO = "3pdK0_JRXVo";
+const OXYLOANS_LENDER_URL =
+  "https://www.user.oxyloans.com/register?ref=LR55026";
+
+function OxyLoansAnniversarySection() {
+  const [playVideo, setPlayVideo] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!("IntersectionObserver" in window)) {
+      section.classList.add("oxy-anniversary-visible");
+      if (!reducedMotion) setPlayVideo(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        section.classList.add("oxy-anniversary-visible");
+        // Start playback only once the video section is on screen.
+        // Muted autoplay is much more reliable across browsers and phones.
+        if (!reducedMotion) setPlayVideo(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="oxyloans-10-years"
+      aria-labelledby="oxyloans-anniversary-title"
+      className="oxy-anniversary relative isolate scroll-mt-24 overflow-hidden bg-[#241b67] py-8 text-white sm:py-11 lg:py-12"
+    >
+      <style>{`
+        .oxy-anniversary .oxy-enter{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .72s cubic-bezier(.2,.8,.2,1)}
+        .oxy-anniversary-visible .oxy-enter{opacity:1;transform:none}
+        .oxy-anniversary .oxy-delay-1{transition-delay:90ms}
+        .oxy-anniversary .oxy-delay-2{transition-delay:180ms}
+        .oxy-anniversary .oxy-delay-3{transition-delay:260ms}
+        .oxy-anniversary .oxy-video{opacity:0;transform:translateX(25px);transition:opacity .8s ease .15s,transform .8s cubic-bezier(.2,.8,.2,1) .15s}
+        .oxy-anniversary-visible .oxy-video{opacity:1;transform:none}
+        .oxy-anniversary .oxy-rate{background-size:180% 100%;animation:oxy-gold-shift 8s ease-in-out infinite alternate}
+        @keyframes oxy-gold-shift{from{background-position:0% 50%}to{background-position:100% 50%}}
+        .oxy-anniversary::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 15% 25%,rgba(153,112,222,.23),transparent 46%),radial-gradient(ellipse at 88% 72%,rgba(233,102,172,.14),transparent 43%);background-size:120% 120%;animation:oxy-ambient 18s ease-in-out infinite alternate}
+        .oxy-anniversary::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;background:linear-gradient(115deg,transparent 35%,rgba(255,225,189,.24) 50%,transparent 65%);background-size:230% 100%;animation:oxy-light-pass 14s ease-in-out infinite}
+        @keyframes oxy-ambient{from{background-position:0% 35%}to{background-position:100% 65%}}
+        @keyframes oxy-light-pass{0%,25%{background-position:100% 0}75%,100%{background-position:0% 0}}
+        .oxy-anniversary .oxy-video-gradient{position:relative;padding:3px;border-radius:20px;background:linear-gradient(120deg,#ffcd9d,#ab8aff,#ff7db2,#73c9ff,#ffcd9d);background-size:350% 350%;animation:oxy-video-color-cycle 12s ease-in-out infinite;box-shadow:0 14px 34px rgba(14,8,53,.18)}
+        @keyframes oxy-video-color-cycle{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        .oxy-anniversary .oxy-video-gradient:hover{animation-duration:5s}
+        .oxy-anniversary .oxy-action svg{transition:transform .25s ease}
+        .oxy-anniversary .oxy-action:hover svg{transform:translate(3px,-3px)}
+        @media(prefers-reduced-motion:reduce){.oxy-anniversary .oxy-enter,.oxy-anniversary .oxy-video{opacity:1!important;transform:none!important;transition:none!important}.oxy-anniversary::before,.oxy-anniversary::after{animation:none!important}.oxy-anniversary .oxy-rate,.oxy-anniversary .oxy-video-gradient{animation:none!important}}
+      `}</style>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
+      <div className="tvrk-container relative z-10">
+        <div className="grid min-w-0 items-center gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-9 xl:gap-12">
+          <div className="min-w-0">
+            <div className="oxy-enter flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[.14em] text-[#ffdbb8] sm:text-[11px]">
+              <span aria-hidden="true" className="text-base leading-none">✦</span>
+              Celebrating 10 Years of OXYLOANS
+            </div>
+            <h2 id="oxyloans-anniversary-title" className="oxy-enter oxy-delay-1 mt-2.5 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.025em]">
+              A Decade of Connecting <span className="text-[#ffd5b1]">Lenders &amp; Borrowers</span>
+            </h2>
+            <p className="oxy-enter oxy-delay-1 mt-2 text-[12px] leading-relaxed text-white/75 sm:text-[13px]">
+              RBI-registered NBFC-P2P lending platform.
+            </p>
+            <div className="oxy-enter oxy-delay-2 mt-4">
+              <p className="text-xs font-extrabold uppercase tracking-[.12em] text-white/85">Lend &amp; Earn</p>
+              <p className="oxy-rate mt-1 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.7rem,3.3vw,3.15rem)] font-extrabold leading-[1.16] tracking-[-.047em] text-transparent">
+                Up to 1.75% Monthly
+                <span className="block">&amp; 24% Yearly ROI</span>
+              </p>
+            </div>
+            <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <strong className="font-display text-[clamp(1.18rem,1.8vw,1.5rem)] font-extrabold text-white">₹1,800+ Crore</strong>
+              <span className="text-[11px] font-medium text-white/70 sm:text-xs">Cumulative Loan Disbursements</span>
+            </div>
+            <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a href={OXYLOANS_LENDER_URL} target="_blank" rel="noopener noreferrer" className="oxy-action inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffd8b5] px-5 py-2.5 text-xs font-extrabold text-[#251b63] transition-[background,transform] hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#241b67]">
+                Start Lending Today <ArrowUpRight className="h-4 w-4" />
+              </a>
+           
+            </div>
+          </div>
+          <div className="oxy-video min-w-0">
+            <div className="oxy-video-gradient">
+            <div className="group relative aspect-video overflow-hidden rounded-[17px] bg-[#130f31]">
+              {playVideo ? (
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src={`https://www.youtube-nocookie.com/embed/${OXYLOANS_ANNIVERSARY_VIDEO}?autoplay=1&mute=1&playsinline=1&controls=1&rel=0`}
+                  title="10 Years of OXYLOANS — Celebration Video"
+                  loading="lazy"
+                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              ) : (
+                <button type="button" onClick={() => setPlayVideo(true)} aria-label="Play the 10 Years of OXYLOANS video" className="absolute inset-0 grid h-full w-full place-items-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#ffdbbb]">
+                  <img src={`https://i.ytimg.com/vi/${OXYLOANS_ANNIVERSARY_VIDEO}/hqdefault.jpg`} alt="OXYLOANS anniversary video preview" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <span aria-hidden="true" className="absolute inset-0 bg-black/30" />
+                  <span aria-hidden="true" className="relative grid h-14 w-14 place-items-center rounded-full bg-[#ff0033] text-white transition-transform duration-300 group-hover:scale-110"><svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 translate-x-0.5"><path d="m8 5 12 7-12 7V5Z" /></svg></span>
+                </button>
+              )}
+            </div>
+            </div>
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+              <span className="text-[11px] font-semibold text-white/75">10 Years of OXYLOANS · Our Journey</span>
+              <a href="https://youtu.be/3pdK0_JRXVo?si=KzvMyJAOeCynIvvt" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] font-bold text-[#ffdbbb] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4">
+                Watch on YouTube <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/15" />
+    </section>
+  );
+}
+
 /* =========================================================
    MAIN PAGE
 ========================================================= */
@@ -375,6 +505,21 @@ export default function CEOLandingPage({
     sync();
     query.addEventListener?.("change", sync);
     return () => query.removeEventListener?.("change", sync);
+  }, []);
+
+  // Instagram art and text reveal only once the section is visible.
+  useEffect(() => {
+    const section = document.getElementById("instagram");
+    if (!section || !("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      section.classList.add("ig-in-view");
+      observer.disconnect();
+    }, { threshold: 0.12, rootMargin: "0px 0px -25px 0px" });
+    section.classList.add("ig-motion-enabled");
+    observer.observe(section);
+    return () => { observer.disconnect(); section.classList.remove("ig-motion-enabled", "ig-in-view"); };
   }, []);
 
   useEffect(() => {
@@ -1613,6 +1758,7 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
+        <OxyLoansAnniversarySection />
         {/* =====================================================
             INSTAGRAM
         ===================================================== */}
@@ -1622,52 +1768,53 @@ export default function CEOLandingPage({
           className="scroll-mt-24 py-8 sm:py-12 lg:py-14"
         >
           <div className="tvrk-container mx-auto">
-            <div className="liquid-glass instagram-showcase overflow-hidden rounded-[30px] sm:rounded-[34px]">
-              <div className="grid lg:grid-cols-[minmax(0,1.07fr)_minmax(0,.93fr)]">
-                <External
-                  href={INSTAGRAM_URL}
-                  ariaLabel="Open @tvradhakrishna on Instagram"
-                  className="group insta-image-stage relative flex min-h-[280px] items-center justify-center overflow-hidden sm:min-h-[380px] lg:min-h-[470px]"
-                >
-                  <img
-                    src={INSTAGRAM_CARD_IMAGE}
-                    alt="@tvradhakrishna Instagram card"
-                    loading="lazy"
-                    decoding="async"
-                    className="instagram-profile-graphic h-full max-h-[460px] w-full object-contain p-2 transition duration-700 ease-out group-hover:scale-[1.035] sm:p-5 lg:p-7"
-                  />
-                  <span className="pointer-events-none absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/[0.75] bg-white/[0.68] text-[#30238d] shadow-[0_8px_24px_rgba(48,35,141,.14)] backdrop-blur-md transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:right-6 sm:top-6">
-                    <ArrowUpRight className="h-4 w-4" />
+            <style>{`
+              #instagram .ig-open-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-items:center}
+              #instagram .ig-open-visual{min-width:0;position:relative;display:flex;align-items:center;justify-content:center;min-height:250px;overflow:visible;perspective:900px}
+              #instagram .ig-open-visual img{max-height:430px;width:100%;object-fit:contain;transform-origin:50% 58%;transition:transform .75s cubic-bezier(.19,1,.22,1);will-change:transform}
+              #instagram .ig-open-visual:hover img{transform:translate3d(0,-8px,0) scale(1.055) rotate(-1deg)}
+              #instagram .ig-copy{min-width:0;padding:12px 0 18px}
+              /* Light typography on the existing dark purple page background. */
+              #instagram .ig-kicker{color:#ffd5ec}
+              #instagram .ig-heading{color:#fff2fb;background:linear-gradient(105deg,#fff8ff 0%,#ffc0e6 32%,#ff91bd 57%,#ffffff 82%,#fff8ff 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:ig-color-flow 11s ease-in-out infinite}
+              #instagram .ig-description{color:rgba(255,255,255,.9)}
+              #instagram .ig-description strong{color:#ffe0f1}
+              @keyframes ig-color-flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+              /* Reveal is enabled only by JS after the section is observed. */
+              #instagram.ig-motion-enabled .ig-open-visual img{opacity:0;transform:translate3d(-22px,24px,0) scale(.89) rotate(-3deg);transition:transform 1.1s cubic-bezier(.19,1,.22,1),opacity .85s ease}
+              #instagram.ig-motion-enabled .ig-copy>*{opacity:0;transform:translate3d(16px,18px,0);transition:transform .8s cubic-bezier(.19,1,.22,1),opacity .7s ease}
+              #instagram.ig-motion-enabled.ig-in-view .ig-open-visual img{opacity:1;transform:none}
+              #instagram.ig-motion-enabled.ig-in-view .ig-copy>*{opacity:1;transform:none}
+              #instagram.ig-motion-enabled.ig-in-view .ig-copy>*:nth-child(2){transition-delay:100ms}
+              #instagram.ig-motion-enabled.ig-in-view .ig-copy>*:nth-child(3){transition-delay:180ms}
+              #instagram.ig-motion-enabled.ig-in-view .ig-copy>*:nth-child(4){transition-delay:260ms}
+              #instagram.ig-motion-enabled.ig-in-view .ig-open-visual:hover img{transform:translate3d(0,-8px,0) scale(1.055) rotate(-1deg)}
+              @media(min-width:1024px){#instagram .ig-open-layout{grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:clamp(24px,4vw,90px)}#instagram .ig-open-visual{min-height:390px}#instagram .ig-copy{padding:0}}
+              @media(max-width:639px){#instagram .ig-open-layout{gap:0}#instagram .ig-open-visual{min-height:0}#instagram .ig-open-visual img{max-height:330px}#instagram .ig-copy{padding:4px 2px 14px}#instagram .ig-copy h2{font-size:clamp(1.7rem,7vw,2.2rem);line-height:1.12}#instagram .ig-copy p{line-height:1.7}#instagram .ig-copy .insta-follow-cta{width:100%;justify-content:center}}
+              @media(prefers-reduced-motion:reduce){#instagram .ig-heading{animation:none!important}#instagram.ig-motion-enabled .ig-open-visual img,#instagram.ig-motion-enabled .ig-copy>*{opacity:1!important;transform:none!important;transition:none!important}#instagram .ig-open-visual:hover img{transform:none!important}}
+            `}</style>
+            <div className="ig-open-layout">
+              <External href={INSTAGRAM_URL} ariaLabel="Open @tvradhakrishna on Instagram" className="ig-open-visual group">
+                <img src={INSTAGRAM_CARD_IMAGE} alt="@tvradhakrishna Instagram profile illustration" loading="lazy" decoding="async" />
+              </External>
+              <div className="ig-copy flex flex-col justify-center">
+                <div className="flex items-center gap-2.5">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white">
+                    <SocialIcon name="Instagram" className="h-4 w-4" />
                   </span>
-                </External>
-                <div className="flex min-w-0 flex-col justify-center p-6 sm:p-9 lg:p-12 xl:p-14">
-                  <div className="flex items-center gap-2.5">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white shadow-[0_8px_20px_rgba(225,48,108,.18)]">
-                      <SocialIcon name="Instagram" className="h-4 w-4" />
-                    </span>
-                    <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#7a356f] sm:text-xs">
-                      Instagram · @tvradhakrishna
-                    </p>
-                  </div>
-                  <h2
-                    id="instagram-heading"
-                    className="font-display dark-heading mt-4 max-w-xl text-[2rem] font-bold leading-[1.08] tracking-[-0.045em] sm:text-[2.6rem] lg:text-[3rem]"
-                  >
-                    Connect. Discover. Stay inspired.
-                  </h2>
-                  <p className="dark-body mt-4 max-w-xl text-sm font-medium leading-7 sm:text-[15px]">
-                    Explore practical ideas across AI, financial services, technology, and entrepreneurial journeys. Follow{" "}
-                    <span className="font-extrabold text-[#2b2150]">
-                      @tvradhakrishna
-                    </span>{" "}
-                    on Instagram.
-                  </p>
-                  <External href={INSTAGRAM_URL} className="insta-follow-cta mt-6 inline-flex min-h-[52px] w-fit max-w-full items-center justify-center gap-3 rounded-2xl px-6 py-3 text-sm font-extrabold text-white sm:text-[15px]" ariaLabel="Follow @tvradhakrishna on Instagram">
-                    <SocialIcon name="Instagram" className="h-5 w-5" />
-                    Follow on Instagram
-                    <ArrowUpRight className="h-4 w-4" />
-                  </External>
+                  <p className="ig-kicker text-[10px] font-extrabold uppercase tracking-[.12em] sm:text-xs">Instagram · @tvradhakrishna</p>
                 </div>
+                <h2 id="instagram-heading" className="ig-heading font-display mt-4 max-w-xl text-[clamp(1.85rem,3.3vw,3.05rem)] font-extrabold leading-[1.12] tracking-[-.045em]">
+                  Connect. Discover. Stay inspired.
+                </h2>
+                <p className="ig-description mt-4 max-w-xl text-sm font-medium leading-7 sm:text-[15px]">
+                  Explore practical ideas across AI, financial services, technology, and entrepreneurial journeys. Follow <strong>@tvradhakrishna</strong> on Instagram.
+                </p>
+                <External href={INSTAGRAM_URL} className="insta-follow-cta mt-6 inline-flex min-h-[50px] w-fit max-w-full items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-extrabold text-white sm:text-[15px]" ariaLabel="Follow @tvradhakrishna on Instagram">
+                  <SocialIcon name="Instagram" className="h-5 w-5" />
+                  Follow on Instagram
+                  <ArrowUpRight className="h-4 w-4" />
+                </External>
               </div>
             </div>
           </div>
