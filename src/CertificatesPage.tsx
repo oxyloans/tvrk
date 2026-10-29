@@ -7,9 +7,24 @@ type Certificate = {
   category: string;
   driveUrl: string;
   previewUrl: string;
+  imageUrl?: string;
 };
 
+// Google Drive document supplied for the OXYLOANS RBI Certificate.
+// Use Drive's embed preview rather than passing a /view link to <img>.
+const RBI_CERTIFICATE_DRIVE_URL =
+  "https://drive.google.com/file/d/1Ql698giIusjs3CQ50tFzJmAYtqOExOcH/view?usp=sharing";
+const RBI_CERTIFICATE_PREVIEW_URL =
+  "https://drive.google.com/file/d/1Ql698giIusjs3CQ50tFzJmAYtqOExOcH/preview";
+
 const CERTIFICATES: Certificate[] = [
+  {
+    id: "oxyloans-rbi-registration",
+    title: "OXYLOANS RBI Certificate",
+    category: "RBI NBFC-P2P Registration",
+    driveUrl: RBI_CERTIFICATE_DRIVE_URL,
+    previewUrl: RBI_CERTIFICATE_PREVIEW_URL,
+  },
   {
     id: "oxyideas-membership-p1340",
     title: "OXYIDEAS Platinum Membership Certificate – P-1340",
@@ -65,6 +80,36 @@ const CERTIFICATES: Certificate[] = [
       "https://drive.google.com/file/d/1X34Oa6_QMNK1brgVHgEV3GUlxnDiDuBK/preview",
   },
 ];
+
+function CertificateImage({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [src]);
+
+  if (failed) {
+    return (
+      <div className={`flex items-center justify-center bg-[#f5f7fb] px-5 text-center ${className}`} role="status">
+        <div>
+          <p className="text-sm font-bold text-[#293858]">Certificate image unavailable</p>
+          <p className="mt-2 text-xs leading-relaxed text-[#667085]">
+            Check that RBI certificate.png exists in public/assets/ (including spaces and capitalization).
+          </p>
+          <a href={src} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-xs font-bold text-[#2F5FAA] underline">
+            Open image URL
+          </a>
+        </div>
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} className={className} loading="lazy" decoding="async" onError={() => setFailed(true)} />;
+}
 
 function OpenIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
@@ -159,13 +204,21 @@ export default function CertificatesPage() {
                     aria-label={`View ${certificate.title}`}
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-[#e9edf2]">
-                      <iframe
-                        src={certificate.previewUrl}
-                        title={`${certificate.title} preview`}
-                        className="pointer-events-none h-full w-full border-0 bg-white"
-                        loading="lazy"
-                        tabIndex={-1}
-                      />
+                      {certificate.imageUrl ? (
+                        <CertificateImage
+                          src={certificate.imageUrl}
+                          alt={certificate.title}
+                          className="h-full w-full object-contain bg-white p-3"
+                        />
+                      ) : (
+                        <iframe
+                          src={certificate.previewUrl}
+                          title={`${certificate.title} preview`}
+                          className="pointer-events-none h-full w-full border-0 bg-white"
+                          loading="lazy"
+                          tabIndex={-1}
+                        />
+                      )}
 
                       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent opacity-0 transition group-hover:opacity-100" />
 
@@ -228,7 +281,7 @@ export default function CertificatesPage() {
                   rel="noopener noreferrer"
                   className="hidden min-h-[38px] items-center gap-2 rounded-full bg-[#edf4ff] px-4 text-[11px] font-extrabold text-[#2F5FAA] transition hover:bg-[#dfeafb] sm:inline-flex"
                 >
-                  Open in Drive
+                  Open Certificate
                   <OpenIcon />
                 </a>
 
@@ -244,17 +297,25 @@ export default function CertificatesPage() {
             </div>
 
             <div className="min-h-0 flex-1 bg-[#e9edf2] p-1 sm:p-2.5">
-              <iframe
-                src={selected.previewUrl}
-                title={`${selected.title} document preview`}
-                className="h-full w-full rounded-[9px] border-0 bg-white sm:rounded-[12px]"
-                allow="autoplay"
-              />
+              {selected.imageUrl ? (
+                <CertificateImage
+                  src={selected.imageUrl}
+                  alt={`${selected.title} full preview`}
+                  className="h-full w-full rounded-[9px] bg-white object-contain sm:rounded-[12px]"
+                />
+              ) : (
+                <iframe
+                  src={selected.previewUrl}
+                  title={`${selected.title} document preview`}
+                  className="h-full w-full rounded-[9px] border-0 bg-white sm:rounded-[12px]"
+                  allow="autoplay"
+                />
+              )}
             </div>
 
             <div className="flex shrink-0 items-center justify-between gap-3 border-t border-[#e5e7eb] bg-white px-3 py-2.5 sm:hidden">
               <span className="truncate text-[10px] font-semibold text-[#667085]">
-                Google Drive preview
+                Certificate preview
               </span>
 
               <a

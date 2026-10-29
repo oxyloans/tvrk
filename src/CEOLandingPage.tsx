@@ -13,7 +13,7 @@ const WALKIN_IMAGE_SOURCES = [
 ];
 const WALKIN_INTERVIEW_URL =
   "https://www.askoxy.ai/main/viewjobdetails/default/ASKOXY_AI";
-const HERO_IMAGE = "https://i.ibb.co/tTDvSJQt/ceo-img0.png" ;
+const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png" ;
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/jPB3MPT4/insta-card.png" ;
 const WHATSAPP_CHANNEL_URL =
