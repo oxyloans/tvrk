@@ -287,7 +287,9 @@ export default function OxyLinksPage() {
                       <a href={TOLL_FREE_TEL} className="mt-0.5 block font-mono text-base font-extrabold text-slate-950 hover:text-violet-700 sm:text-lg">
                         {TOLL_FREE_DISPLAY}
                       </a>
-                      <p className="text-[11px] text-slate-500">Mon – Sat · Free consultation</p>
+                   <p className="text-[11px] font-medium text-slate-500">
+  24/7 · 365 Days Available
+</p>
                     </div>
                   </div>
                   <div>
