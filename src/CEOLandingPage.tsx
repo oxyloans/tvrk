@@ -3,7 +3,7 @@ import { SiZoom } from "react-icons/si";
 
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
-
+import Tvrk from "../src/assets/tvrk.png";
 const WALKIN_IMAGE_SOURCES = [
   "https://i.ibb.co/9mkt7t0x/walkin-nov-1.png",
   "/assets/walkincard.png",
@@ -414,69 +414,203 @@ function Portrait({ src, className = "" }: PortraitProps) {
 }
 
 /* =========================================================
-   10 YEARS OF OXYLOANS — RESPONSIVE VIDEO FEATURE
+   THE BOSS & 10 YEARS OF OXYLOANS — RESPONSIVE VIDEO FEATURES
 ========================================================= */
+const BOSS_LEGACY_VIDEO = "pvHC_cVrfqk";
+const BOSS_LEGACY_YOUTUBE_URL = "https://youtu.be/pvHC_cVrfqk";
 const OXYLOANS_ANNIVERSARY_VIDEO = "3pdK0_JRXVo";
 const OXYLOANS_LENDER_URL =
   "https://www.user.oxyloans.com/register?ref=LR55026";
 
-function OxyLoansAnniversarySection() {
+function useSectionVideoReveal(visibleClass: string) {
   const [playVideo, setPlayVideo] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const blockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const block = blockRef.current;
+    if (!block) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!("IntersectionObserver" in window)) {
-      section.classList.add("oxy-anniversary-visible");
+      block.classList.add(visibleClass);
       if (!reducedMotion) setPlayVideo(true);
       return;
     }
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        section.classList.add("oxy-anniversary-visible");
-        // Start playback only once the video section is on screen.
+        block.classList.add(visibleClass);
+        // Start playback only once the video block is on screen.
         // Muted autoplay is much more reliable across browsers and phones.
         if (!reducedMotion) setPlayVideo(true);
         observer.disconnect();
       }
     }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
-    observer.observe(section);
+    observer.observe(block);
     return () => observer.disconnect();
-  }, []);
+  }, [visibleClass]);
+
+  return { blockRef, playVideo, setPlayVideo };
+}
+
+function FeatureVideoStyles() {
+  return (
+    <style>{`
+      .oxy-anniversary .oxy-enter{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .72s cubic-bezier(.2,.8,.2,1)}
+      .oxy-anniversary-visible .oxy-enter{opacity:1;transform:none}
+      .oxy-anniversary .oxy-delay-1{transition-delay:90ms}
+      .oxy-anniversary .oxy-delay-2{transition-delay:180ms}
+      .oxy-anniversary .oxy-delay-3{transition-delay:260ms}
+      .oxy-anniversary .oxy-video{opacity:0;transform:translateX(25px);transition:opacity .8s ease .15s,transform .8s cubic-bezier(.2,.8,.2,1) .15s}
+      .oxy-anniversary .oxy-video.oxy-video-left{transform:translateX(-25px)}
+      .oxy-anniversary-visible .oxy-video,.oxy-anniversary-visible .oxy-video.oxy-video-left{opacity:1;transform:none}
+      .oxy-anniversary .oxy-rate{background-size:180% 100%;animation:oxy-gold-shift 8s ease-in-out infinite alternate}
+      @keyframes oxy-gold-shift{from{background-position:0% 50%}to{background-position:100% 50%}}
+      .oxy-anniversary::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 15% 25%,rgba(153,112,222,.23),transparent 46%),radial-gradient(ellipse at 88% 72%,rgba(233,102,172,.14),transparent 43%);background-size:120% 120%;animation:oxy-ambient 18s ease-in-out infinite alternate}
+      .oxy-anniversary::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;background:linear-gradient(115deg,transparent 35%,rgba(255,225,189,.24) 50%,transparent 65%);background-size:230% 100%;animation:oxy-light-pass 14s ease-in-out infinite}
+      @keyframes oxy-ambient{from{background-position:0% 35%}to{background-position:100% 65%}}
+      @keyframes oxy-light-pass{0%,25%{background-position:100% 0}75%,100%{background-position:0% 0}}
+      .oxy-anniversary .oxy-video-gradient{position:relative;padding:3px;border-radius:20px;background:linear-gradient(120deg,#ffcd9d,#ab8aff,#ff7db2,#73c9ff,#ffcd9d);background-size:350% 350%;animation:oxy-video-color-cycle 12s ease-in-out infinite;box-shadow:0 14px 34px rgba(14,8,53,.18)}
+      @keyframes oxy-video-color-cycle{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+      .oxy-anniversary .oxy-video-gradient:hover{animation-duration:5s}
+      .oxy-anniversary .oxy-action svg{transition:transform .25s ease}
+      .oxy-anniversary .oxy-action:hover svg{transform:translate(3px,-3px)}
+      @media(prefers-reduced-motion:reduce){.oxy-anniversary .oxy-enter,.oxy-anniversary .oxy-video{opacity:1!important;transform:none!important;transition:none!important}.oxy-anniversary::before,.oxy-anniversary::after{animation:none!important}.oxy-anniversary .oxy-rate,.oxy-anniversary .oxy-video-gradient{animation:none!important}}
+    `}</style>
+  );
+}
+
+type FeatureVideoCardProps = {
+  videoId: string;
+  title: string;
+  alt: string;
+  caption: string;
+  youtubeUrl: string;
+  playVideo: boolean;
+  onPlay: () => void;
+  className?: string;
+};
+
+function FeatureVideoCard({
+  videoId,
+  title,
+  alt,
+  caption,
+  youtubeUrl,
+  playVideo,
+  onPlay,
+  className = "",
+}: FeatureVideoCardProps) {
+  return (
+    <div className={`oxy-video min-w-0 ${className}`}>
+      <div className="oxy-video-gradient">
+        <div className="group relative aspect-video overflow-hidden rounded-[17px] bg-[#130f31]">
+          {playVideo ? (
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1&controls=1&rel=0`}
+              title={title}
+              loading="lazy"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={onPlay}
+              aria-label={`Play ${title}`}
+              className="absolute inset-0 grid h-full w-full place-items-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#ffdbbb]"
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <span aria-hidden="true" className="absolute inset-0 bg-black/30" />
+              <span aria-hidden="true" className="relative grid h-14 w-14 place-items-center rounded-full bg-[#ff0033] text-white transition-transform duration-300 group-hover:scale-110">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 translate-x-0.5">
+                  <path d="m8 5 12 7-12 7V5Z" />
+                </svg>
+              </span>
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-[11px] font-semibold text-white/75">{caption}</span>
+        <a
+          href={youtubeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-[11px] font-bold text-[#ffdbbb] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4"
+        >
+          Watch on YouTube <ArrowUpRight className="h-3.5 w-3.5" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function OxyLoansAnniversarySection() {
+  const bossReveal = useSectionVideoReveal("oxy-anniversary-visible");
+  const oxyReveal = useSectionVideoReveal("oxy-anniversary-visible");
 
   return (
     <section
-      ref={sectionRef}
-      id="oxyloans-10-years"
-      aria-labelledby="oxyloans-anniversary-title"
-      className="oxy-anniversary relative isolate scroll-mt-24 overflow-hidden bg-[#241b67] py-8 text-white sm:py-11 lg:py-12"
+      id="the-boss-legacy"
+      aria-labelledby="the-boss-legacy-title"
+      className="oxy-anniversary relative isolate scroll-mt-24 overflow-hidden bg-[#241b67] py-10 text-white sm:py-12 lg:py-14"
     >
-      <style>{`
-        .oxy-anniversary .oxy-enter{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .72s cubic-bezier(.2,.8,.2,1)}
-        .oxy-anniversary-visible .oxy-enter{opacity:1;transform:none}
-        .oxy-anniversary .oxy-delay-1{transition-delay:90ms}
-        .oxy-anniversary .oxy-delay-2{transition-delay:180ms}
-        .oxy-anniversary .oxy-delay-3{transition-delay:260ms}
-        .oxy-anniversary .oxy-video{opacity:0;transform:translateX(25px);transition:opacity .8s ease .15s,transform .8s cubic-bezier(.2,.8,.2,1) .15s}
-        .oxy-anniversary-visible .oxy-video{opacity:1;transform:none}
-        .oxy-anniversary .oxy-rate{background-size:180% 100%;animation:oxy-gold-shift 8s ease-in-out infinite alternate}
-        @keyframes oxy-gold-shift{from{background-position:0% 50%}to{background-position:100% 50%}}
-        .oxy-anniversary::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 15% 25%,rgba(153,112,222,.23),transparent 46%),radial-gradient(ellipse at 88% 72%,rgba(233,102,172,.14),transparent 43%);background-size:120% 120%;animation:oxy-ambient 18s ease-in-out infinite alternate}
-        .oxy-anniversary::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;background:linear-gradient(115deg,transparent 35%,rgba(255,225,189,.24) 50%,transparent 65%);background-size:230% 100%;animation:oxy-light-pass 14s ease-in-out infinite}
-        @keyframes oxy-ambient{from{background-position:0% 35%}to{background-position:100% 65%}}
-        @keyframes oxy-light-pass{0%,25%{background-position:100% 0}75%,100%{background-position:0% 0}}
-        .oxy-anniversary .oxy-video-gradient{position:relative;padding:3px;border-radius:20px;background:linear-gradient(120deg,#ffcd9d,#ab8aff,#ff7db2,#73c9ff,#ffcd9d);background-size:350% 350%;animation:oxy-video-color-cycle 12s ease-in-out infinite;box-shadow:0 14px 34px rgba(14,8,53,.18)}
-        @keyframes oxy-video-color-cycle{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-        .oxy-anniversary .oxy-video-gradient:hover{animation-duration:5s}
-        .oxy-anniversary .oxy-action svg{transition:transform .25s ease}
-        .oxy-anniversary .oxy-action:hover svg{transform:translate(3px,-3px)}
-        @media(prefers-reduced-motion:reduce){.oxy-anniversary .oxy-enter,.oxy-anniversary .oxy-video{opacity:1!important;transform:none!important;transition:none!important}.oxy-anniversary::before,.oxy-anniversary::after{animation:none!important}.oxy-anniversary .oxy-rate,.oxy-anniversary .oxy-video-gradient{animation:none!important}}
-      `}</style>
+      <FeatureVideoStyles />
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
-      <div className="tvrk-container relative z-10">
-        <div className="grid min-w-0 items-center gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-9 xl:gap-12">
+      <div className="tvrk-container relative z-10 space-y-12 sm:space-y-14 lg:space-y-16">
+        {/* ROW 1: THE BOSS (Video Left, Content Right) */}
+        <div
+          ref={bossReveal.blockRef}
+          className="grid min-w-0 items-center gap-6 lg:grid-cols-[minmax(0,.95fr)_minmax(0,1.05fr)] lg:gap-9 xl:gap-12"
+        >
+          <FeatureVideoCard
+            videoId={BOSS_LEGACY_VIDEO}
+            title="THE BOSS — The Man. The Vision. The Legacy."
+            alt="Rtn Radhakrishna Thatavarti — 10 Years of Vision, Leadership, Impact video preview"
+            caption="THE BOSS · 10 Years of Vision, Leadership & Impact"
+            youtubeUrl={BOSS_LEGACY_YOUTUBE_URL}
+            playVideo={bossReveal.playVideo}
+            onPlay={() => bossReveal.setPlayVideo(true)}
+            className="oxy-video-left"
+          />
+          <div className="min-w-0">
+            <h2
+              id="the-boss-legacy-title"
+              className="oxy-enter boss-display-title oxy-rate inline-block max-w-full bg-gradient-to-r from-[#ffe2be] via-[#ffffff] to-[#ffbe85] bg-clip-text uppercase text-transparent"
+            >
+              THE BOSS.
+            </h2>
+            <p className="oxy-enter oxy-delay-1 mt-2 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.02em] text-white">
+              The Man. The Vision. <span className="text-[#ffd5b1]">The Legacy.</span>
+            </p>
+            <p className="oxy-enter oxy-delay-2 oxy-rate mt-3 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.35rem,2.4vw,2.15rem)] font-extrabold leading-[1.2] tracking-[-.035em] text-transparent">
+              10 Years of Vision. Leadership. Impact.
+            </p>
+            <p className="oxy-enter oxy-delay-2 mt-3.5 max-w-[630px] text-[13px] leading-relaxed text-white/85 sm:text-[14.5px] sm:leading-7">
+              From a bold vision to a decade of building opportunities,{" "}
+              <strong className="font-bold text-white">Rtn Radhakrishna Thatavarti</strong>, Founder &amp; CEO of OxyLoans, has led a journey driven by innovation, determination and the ambition to empower millions.
+            </p>
+            <div className="oxy-enter oxy-delay-3 mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffd8b5]/30 bg-white/[0.08] px-4 py-2 text-[12px] font-bold tracking-wide text-[#ffdbb8] sm:text-[13px]">
+              <span aria-hidden="true" className="text-sm leading-none">✦</span>
+              <span>One Vision. Ten Years. A Journey That Continues.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 2: 10 YEARS OF OXYLOANS (Content Left, Video Right) */}
+        <div
+          ref={oxyReveal.blockRef}
+          id="oxyloans-10-years"
+          aria-labelledby="oxyloans-anniversary-title"
+          className="grid min-w-0 scroll-mt-24 items-center gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-9 xl:gap-12"
+        >
           <div className="min-w-0">
             <div className="oxy-enter flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[.14em] text-[#ffdbb8] sm:text-[11px]">
               <span aria-hidden="true" className="text-base leading-none">✦</span>
@@ -503,38 +637,17 @@ function OxyLoansAnniversarySection() {
               <a href={OXYLOANS_LENDER_URL} target="_blank" rel="noopener noreferrer" className="oxy-action inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffd8b5] px-5 py-2.5 text-xs font-extrabold text-[#251b63] transition-[background,transform] hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#241b67]">
                 Start Lending Today <ArrowUpRight className="h-4 w-4" />
               </a>
-           
             </div>
           </div>
-          <div className="oxy-video min-w-0">
-            <div className="oxy-video-gradient">
-            <div className="group relative aspect-video overflow-hidden rounded-[17px] bg-[#130f31]">
-              {playVideo ? (
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src={`https://www.youtube-nocookie.com/embed/${OXYLOANS_ANNIVERSARY_VIDEO}?autoplay=1&mute=1&playsinline=1&controls=1&rel=0`}
-                  title="10 Years of OXYLOANS — Celebration Video"
-                  loading="lazy"
-                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              ) : (
-                <button type="button" onClick={() => setPlayVideo(true)} aria-label="Play the 10 Years of OXYLOANS video" className="absolute inset-0 grid h-full w-full place-items-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#ffdbbb]">
-                  <img src={`https://i.ytimg.com/vi/${OXYLOANS_ANNIVERSARY_VIDEO}/hqdefault.jpg`} alt="OXYLOANS anniversary video preview" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <span aria-hidden="true" className="absolute inset-0 bg-black/30" />
-                  <span aria-hidden="true" className="relative grid h-14 w-14 place-items-center rounded-full bg-[#ff0033] text-white transition-transform duration-300 group-hover:scale-110"><svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 translate-x-0.5"><path d="m8 5 12 7-12 7V5Z" /></svg></span>
-                </button>
-              )}
-            </div>
-            </div>
-            <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[11px] font-semibold text-white/75">10 Years of OXYLOANS · Our Journey</span>
-              <a href="https://youtu.be/3pdK0_JRXVo?si=KzvMyJAOeCynIvvt" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] font-bold text-[#ffdbbb] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4">
-                Watch on YouTube <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
-            </div>
-          </div>
+          <FeatureVideoCard
+            videoId={OXYLOANS_ANNIVERSARY_VIDEO}
+            title="10 Years of OXYLOANS — Celebration Video"
+            alt="OXYLOANS anniversary video preview"
+            caption="10 Years of OXYLOANS · Our Journey"
+            youtubeUrl="https://youtu.be/3pdK0_JRXVo?si=KzvMyJAOeCynIvvt"
+            playVideo={oxyReveal.playVideo}
+            onPlay={() => oxyReveal.setPlayVideo(true)}
+          />
         </div>
       </div>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/15" />
@@ -693,7 +806,60 @@ export default function CEOLandingPage({
         </div>
       </dialog>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
+        /* Tall, editorial title: width scales fluidly without clipping on small devices. */
+        .ceo-page .boss-display-title {
+          font-family: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+          font-size: clamp(3.9rem, 8.5vw, 7.25rem);
+          font-weight: 800;
+          font-stretch: condensed;
+          letter-spacing: .025em;
+          line-height: .88;
+          padding-block: .08em .11em;
+          overflow-wrap: normal;
+          white-space: nowrap;
+          filter: drop-shadow(0 6px 17px rgba(255,205,150,.12));
+        }
+        /* Preserve every pixel of tvrk.png: no crop, negative margins or fixed-height distortion. */
+        .ceo-page .tvrk-banner-section {
+          width: 100%;
+          overflow: hidden;
+          padding: clamp(8px, 1.8vw, 26px) 0;
+        }
+        .ceo-page .tvrk-banner-frame {
+          width: min(100% - 32px, 1720px);
+          margin-inline: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 0;
+        }
+        .ceo-page .tvrk-banner-image {
+          display: block;
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+          max-height: none;
+          object-fit: contain;
+          object-position: center center;
+        }
+        @media (min-width: 640px) {
+          .ceo-page .tvrk-banner-frame { width: min(100% - 48px, 1720px); }
+        }
+        @media (min-width: 1024px) {
+          .ceo-page .tvrk-banner-frame { width: min(100% - 64px, 1720px); }
+        }
+        @media (min-width: 1280px) {
+          .ceo-page .tvrk-banner-frame { width: min(100% - 96px, 1720px); }
+        }
+        @media (max-width: 639px) {
+          .ceo-page .boss-display-title { font-size: clamp(3.55rem, 15vw, 5.5rem); letter-spacing: .01em; }
+          .ceo-page .tvrk-banner-frame { width: calc(100% - 20px); }
+          .ceo-page .tvrk-banner-section { padding-block: 12px; }
+        }
+        @media (max-width: 359px) {
+          .ceo-page .boss-display-title { font-size: 3.25rem; }
+        }
         /* 2026 cinematic polish — fast transforms, no GIF or scroll polling. */
         .ceo-modern { isolation:isolate; }
         .ceo-modern main section { position:relative; }
@@ -1823,6 +1989,23 @@ export default function CEOLandingPage({
           </div>
         </section>
         <OxyLoansAnniversarySection />
+        {/* =====================================================
+            TVRK ECOSYSTEM BANNER
+        ===================================================== */}
+        <section
+          aria-label="Rtn Radhakrishna Thatavarti — Empowering Every Journey"
+          className="tvrk-banner-section bg-white"
+        >
+          <div className="tvrk-banner-frame">
+            <img
+              src={Tvrk}
+              alt="Rtn Radhakrishna Thatavarti — CEO & Founder | tvradhakrishna.com — Empowering Every Journey across OXYLOANS, OXY FINSERV, ASKOXY, OXYGOLD, OXYBRICKS, OXYGLOBAL, Celeb Shield, AI MATE, and OXYJOURNEYS"
+              loading="lazy"
+              decoding="async"
+              className="tvrk-banner-image"
+            />
+          </div>
+        </section>
         {/* =====================================================
             INSTAGRAM
         ===================================================== */}
