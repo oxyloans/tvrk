@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ArrowUpRight, Bot, BriefcaseBusiness, Check, CheckCircle2,
   ClipboardCheck, Clock3, ExternalLink, FileCheck2,
-  FileText, Handshake, Landmark, MessageCircle, Scale, ShieldCheck,
+  FileText, Handshake, Landmark, MapPin, MessageCircle, Scale, ShieldCheck,
   UserRound, Video, Wallet, Phone, PhoneCall,
   Globe, Sparkles, Building2, Coins, Cpu, Shield, Apple, Smartphone, type LucideIcon,
 } from "lucide-react";
@@ -16,7 +16,8 @@ const OXYLOANS_LOGO = "https://i.ibb.co/B5xsVChY/l2.png";
 const URL = {
   site: "https://tvradhakrishna.com",
   askoxy: "https://www.askoxy.ai/",
-  jobs: "https://www.askoxy.ai/main/viewjobdetails/default/ASKOXY_AI",
+  jobs: "https://www.askoxy.ai/main/askoxyjobs",
+  walkinMap: "https://www.google.com/maps/place/ASKOXY.AI/@17.4966939,78.3684533,17z/data=!3m2!4b1!5s0x3bcb92177462ba3b:0xa5ec8dd0b90c21c1!4m6!3m5!1s0x3bcb93fa81f87af1:0x7147306b8c3477dd!8m2!3d17.4966888!4d78.3733189!16s%2Fg%2F11xfdc4xr7?entry=ttu&g_ep=EgoyMDI2MTEwOS4wIKXMDSoASAFQAw%3D%3D",
   zoom: "https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1",
   radhai: "https://www.askoxy.ai/RADHAI",
   lender: "https://www.user.oxyloans.com/register?ref=LR55026",
@@ -325,6 +326,29 @@ export default function OxyLinksPage() {
                 <ActionLink href={URL.zoom} secondary className="col-span-2 sm:col-span-2 lg:col-span-1">
                   <Video size={17} className="shrink-0 text-violet-600" /> Daily Zoom Meet
                 </ActionLink>
+              </div>
+
+              {/* WALK-IN INTERVIEW (NOV 13 & 14) MAP LINK */}
+              <div className="flex flex-wrap items-center justify-between gap-2.5 rounded-2xl border border-pink-200/80 bg-gradient-to-r from-pink-50/90 via-white to-violet-50/70 px-4 py-2.5 shadow-[0_4px_14px_rgba(219,39,119,.06)]">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-pink-600 to-violet-600 text-white shadow-xs">
+                    <MapPin size={16} />
+                  </span>
+                  <span className="text-xs font-bold text-slate-800 sm:text-sm">
+                    Walk-In Venue <span className="text-pink-600">· Nov 13 &amp; 14</span>
+                  </span>
+                </div>
+                <a
+                  href={URL.walkinMap}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open Walk-In Interview location for 13th and 14th November in Google Maps"
+                  className={`${focus} inline-flex min-h-9 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-pink-600 to-violet-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:from-pink-700 hover:to-violet-700 active:scale-95`}
+                >
+                  <MapPin size={14} />
+                  <span>Walk-In Map Location</span>
+                  <ArrowUpRight size={14} />
+                </a>
               </div>
             </div>
           </div>

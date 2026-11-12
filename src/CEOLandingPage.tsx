@@ -3,18 +3,16 @@ import { SiZoom } from "react-icons/si";
 
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
-// Vite bundles walkincard.png from any folder inside src/.
-// Example: src/assets/walkincard.png or src/pages/assets/walkincard.png.
-// No fragile relative import is required.
-// Put walkincard.png in public/assets/ (Vite/CRA public folder).
-// This direct URL avoids the import.meta.glob TypeScript error.
+
 const WALKIN_IMAGE_SOURCES = [
   "https://i.ibb.co/9mkt7t0x/walkin-nov-1.png",
   "/assets/walkincard.png",
   "https://i.ibb.co/1fZvDyLM/walkincard.png",
 ];
 const WALKIN_INTERVIEW_URL =
-  "https://www.askoxy.ai/main/viewjobdetails/default/ASKOXY_AI";
+  "https://www.askoxy.ai/main/askoxyjobs";
+const WALKIN_MAP_URL =
+  "https://maps.app.goo.gl/isLGUCdN63q7vG3p7?g_st=iw";
 const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png" ;
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/jPB3MPT4/insta-card.png" ;
@@ -328,6 +326,26 @@ function BriefcaseIcon({ className = "", style }: { className?: string; style?: 
     >
       <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
       <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+    </svg>
+  );
+}
+function MapPinIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      style={style}
+    >
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
     </svg>
   );
 }
@@ -1575,7 +1593,7 @@ export default function CEOLandingPage({
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
               {/* Walk-in Interview Hero Banner (borderless) */}
-              <div className=" max-w-[640px]">
+              <div className="max-w-[640px]">
                 <a
                   href={WALKIN_INTERVIEW_URL}
                   target="_blank"
@@ -1591,6 +1609,7 @@ export default function CEOLandingPage({
                     className="block h-auto w-full object-contain"
                   />
                 </a>
+              
               </div>
               <div className="mt-4 max-w-[640px]">
                 <External
@@ -2227,6 +2246,17 @@ export default function CEOLandingPage({
                     className={`group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/[0.22] bg-white px-5 py-2.5 text-[12px] font-extrabold text-[#211b67] shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#fff8f4] sm:text-[13px] ${focus}`}
                   >
                     Open in Google Maps
+                    <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                  <a
+                    href={WALKIN_MAP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open Walk-In Interview location for Nov 13 & 14 in Google Maps"
+                    className={`group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-pink-200/45 bg-gradient-to-r from-pink-500/25 to-violet-500/25 px-5 py-2.5 text-[12px] font-extrabold text-white shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:border-pink-200/75 hover:from-pink-500/40 hover:to-violet-500/40 sm:text-[13px] ${focus}`}
+                  >
+                    <MapPinIcon className="h-4 w-4 text-pink-200" />
+                    <span>Walk-In Map (Nov 13 &amp; 14)</span>
                     <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                   <a
