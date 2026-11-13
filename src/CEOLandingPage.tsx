@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, type ReactNode } from "react";
 import { SiZoom } from "react-icons/si";
+import { motion, AnimatePresence } from "framer-motion";
 
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
@@ -537,7 +538,7 @@ function FeatureVideoCard({
           )}
         </div>
       </div>
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+      {/* <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
         <span className="text-[11px] font-semibold text-white/75">{caption}</span>
         <a
           href={youtubeUrl}
@@ -547,7 +548,7 @@ function FeatureVideoCard({
         >
           Watch on YouTube <ArrowUpRight className="h-3.5 w-3.5" />
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -656,6 +657,114 @@ function OxyLoansAnniversarySection() {
 }
 
 /* =========================================================
+   FLOATING SCROLL NAVIGATOR (TOP TO BOTTOM / BOTTOM TO TOP)
+========================================================= */
+function FloatingScrollNavigator() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollUI, setShowScrollUI] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const totalHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const currentY = window.scrollY;
+          const progress =
+            totalHeight > 0
+              ? Math.min(1, Math.max(0, currentY / totalHeight))
+              : 0;
+          setScrollProgress(progress);
+          setShowScrollUI(currentY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  const isNearTop = scrollProgress < 0.5;
+
+  return (
+    <AnimatePresence>
+      {showScrollUI && (
+        <motion.div
+          key="scroll-navigator"
+          initial={{ opacity: 0, scale: 0.85, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.85, y: 16 }}
+          transition={{ type: "spring", stiffness: 350, damping: 26 }}
+          className="fixed bottom-5 right-5 z-[80] sm:bottom-7 sm:right-7"
+          aria-label="Scroll navigation"
+        >
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={isNearTop ? scrollToBottom : scrollToTop}
+            title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
+            aria-label={
+              isNearTop
+                ? "Scroll to bottom of page"
+                : "Scroll to top of page"
+            }
+            className="group grid h-12 w-12 place-items-center rounded-full border border-white/25 bg-[#12093d]/95 text-white shadow-[0_12px_32px_rgba(4,2,28,0.42)] backdrop-blur-md transition hover:border-white/45 hover:bg-[#1b0f55] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62]"
+          >
+            {isNearTop ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="m18 15-6-6-6 6" />
+              </svg>
+            )}
+          </motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* =========================================================
    MAIN PAGE
 ========================================================= */
 type CEOLandingPageProps = {
@@ -669,6 +778,22 @@ export default function CEOLandingPage({
   const [slideEnabled, setSlideEnabled] = useState(true);
   const [walkinImageSourceIndex, setWalkinImageSourceIndex] = useState(0);
   const [motionEnabled, setMotionEnabled] = useState(true);
+
+  // Smooth scroll to anchor on initial mount
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace("#", "");
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          const headerOffset = 84;
+          const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+        }
+      }, 180);
+      return () => clearTimeout(timer);
+    }
+  }, []);
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setMotionEnabled(!query.matches);
@@ -1740,7 +1865,12 @@ export default function CEOLandingPage({
           className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
         >
           <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
-            <div className="min-w-0">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              className="min-w-0"
+            >
               <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
                 FinTech · BFSI · Artificial Intelligence
               </p>
@@ -1794,19 +1924,6 @@ export default function CEOLandingPage({
                 <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
                   Connect People. Create Opportunities. Earn &amp; Grow.
                 </p>
-                {/* <div className="ceo-pills-viewport mt-3" aria-label="CEO Factory opportunities">
-                  <div
-                    className={`ceo-pills-track ${slideEnabled ? "" : "ceo-no-transition"}`}
-                    style={{ "--ceo-index": activeOpportunity } as React.CSSProperties}
-                    onTransitionEnd={handleOpportunitySlideEnd}
-                  >
-                    {[...ceoOpportunities, ...ceoOpportunities.slice(0, 5)].map((opportunity, index) => (
-                      <span className="ceo-opportunity-pill" key={`${opportunity}-${index}`}>
-                        {opportunity}
-                      </span>
-                    ))}
-                  </div>
-                </div> */}
               </div>
               <div className="hero-action-grid mt-5">
                 <External
@@ -1871,13 +1988,48 @@ export default function CEOLandingPage({
                   </span>
                 </External>
               </div>
-            </div>
-            <div className="ceo-portrait-stage relative mx-auto flex w-full max-w-[530px] flex-col items-center justify-end self-end lg:mx-0 lg:justify-self-end" aria-label="CEO portrait">
-              <Portrait
-                key={portraitUrl}
-                src={portraitUrl}
-                className="ceo-portrait-image relative z-10 max-w-[370px] self-end sm:max-w-[430px] lg:max-w-[480px]"
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className="ceo-portrait-stage relative mx-auto flex w-full max-w-[530px] flex-col items-center justify-end self-end lg:mx-0 lg:justify-self-end"
+              aria-label="CEO portrait"
+            >
+              {/* Subtle ambient lighting aura behind the portrait */}
+              <motion.div
+                animate={{
+                  opacity: [0.35, 0.62, 0.35],
+                  scale: [0.96, 1.04, 0.96],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
+                aria-hidden="true"
               />
+
+              {/* Gently floating portrait with slight breathing motion */}
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={{ scale: 1.015 }}
+                className="relative z-10 flex w-full justify-center"
+              >
+                <Portrait
+                  key={portraitUrl}
+                  src={portraitUrl}
+                  className="ceo-portrait-image relative z-10 max-w-[370px] self-end drop-shadow-[0_16px_36px_rgba(10,5,40,0.35)] transition-transform duration-300 sm:max-w-[430px] lg:max-w-[480px]"
+                />
+              </motion.div>
 
               {/* Social logos displayed at the bottom of the right-side CEO image across all devices */}
               <div
@@ -1915,7 +2067,7 @@ export default function CEOLandingPage({
                   </External>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
         {/* =====================================================
@@ -2486,6 +2638,8 @@ export default function CEOLandingPage({
           </div>
         </div>
       </footer>
+      {/* Floating Scroll Navigator (Top to Bottom / Bottom to Top) */}
+      <FloatingScrollNavigator />
     </div>
   );
 }

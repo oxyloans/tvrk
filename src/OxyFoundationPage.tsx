@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import InitiativeHeader from "./InitiativeHeader";
 
 const BRAND_BLUE = "#3B82C4";
@@ -443,6 +444,111 @@ function SafeImage({
   );
 }
 
+function FloatingScrollNavigator() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollUI, setShowScrollUI] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const totalHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const currentY = window.scrollY;
+          const progress =
+            totalHeight > 0
+              ? Math.min(1, Math.max(0, currentY / totalHeight))
+              : 0;
+          setScrollProgress(progress);
+          setShowScrollUI(currentY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  const isNearTop = scrollProgress < 0.5;
+
+  return (
+    <AnimatePresence>
+      {showScrollUI && (
+        <motion.div
+          key="scroll-navigator"
+          initial={{ opacity: 0, scale: 0.85, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.85, y: 16 }}
+          transition={{ type: "spring", stiffness: 350, damping: 26 }}
+          className="fixed bottom-5 right-5 z-[80] sm:bottom-7 sm:right-7"
+          aria-label="Scroll navigation"
+        >
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={isNearTop ? scrollToBottom : scrollToTop}
+            title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
+            aria-label={
+              isNearTop
+                ? "Scroll to bottom of page"
+                : "Scroll to top of page"
+            }
+            className="group grid h-12 w-12 place-items-center rounded-full border border-slate-300/80 bg-white/95 text-slate-800 shadow-[0_12px_32px_rgba(15,23,42,0.18)] backdrop-blur-md transition hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-[0_16px_36px_rgba(59,130,196,0.25)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4]"
+          >
+            {isNearTop ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="m18 15-6-6-6 6" />
+              </svg>
+            )}
+          </motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function OxyFoundationPage() {
   const [language, setLanguage] = useState<VideoLanguage>("English");
   const [activeClimateImage, setActiveClimateImage] = useState(0);
@@ -472,7 +578,7 @@ export default function OxyFoundationPage() {
         /* Local responsive container so this page keeps its side spacing even when loaded directly. */
         .oxy-foundation .tvrk-container {
           box-sizing: border-box;
-          width: calc(100% - 32px) !important;
+          width: calc(100% - 24px) !important;
           max-width: 1720px !important;
           margin-left: auto !important;
           margin-right: auto !important;
@@ -480,6 +586,9 @@ export default function OxyFoundationPage() {
         }
         .oxy-foundation .tvrk-container > * { min-width: 0; }
 
+        @media (min-width: 480px) {
+          .oxy-foundation .tvrk-container { width: calc(100% - 32px) !important; }
+        }
         @media (min-width: 640px) {
           .oxy-foundation .tvrk-container { width: calc(100% - 48px) !important; }
         }
@@ -519,7 +628,7 @@ export default function OxyFoundationPage() {
       <main>
         <section className="overflow-hidden border-b border-slate-100 bg-[radial-gradient(circle_at_0%_0%,rgba(81,184,91,.12),transparent_30%),radial-gradient(circle_at_100%_0%,rgba(59,130,196,.16),transparent_34%),linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)]">
           <div className="mx-auto tvrk-container py-9 sm:py-12 lg:py-14">
-            <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,.78fr)_minmax(0,1.22fr)] lg:gap-8">
+            <div className="grid items-center gap-8 md:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)] lg:grid-cols-[minmax(0,.78fr)_minmax(0,1.22fr)] lg:gap-8">
               <div>
                 <OxyFoundationWordmark className="text-2xl sm:text-3xl" />
                 <h1 className="mt-4 max-w-xl text-3xl font-black leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-4xl lg:text-[3.3rem]">
@@ -641,7 +750,7 @@ export default function OxyFoundationPage() {
       </p>
     </div>
 
-    <div className="donation-card mx-auto grid w-full items-center gap-5 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-[0_12px_48px_rgba(15,23,42,0.05)] sm:p-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-7 lg:p-6">
+    <div className="donation-card mx-auto grid w-full items-center gap-5 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-[0_12px_48px_rgba(15,23,42,0.05)] sm:p-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-7 lg:p-6">
       {/* Donation Illustration */}
       <div className="flex min-w-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F2F8FC] via-white to-[#F1F9F2] p-4 sm:p-6">
         <SafeImage
@@ -776,7 +885,7 @@ export default function OxyFoundationPage() {
                   Funding + visibility + market access
                 </h3>
 
-                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4">
                   {startupMetrics.map((item, index) => (
                     <div
                       key={item.value}
@@ -836,7 +945,7 @@ export default function OxyFoundationPage() {
                 {startupEligibility.map((item, index) => (
                   <div
                     key={item}
-                    className="w-[82%] shrink-0 snap-start rounded-[18px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbfd_100%)] p-4 md:w-auto"
+                    className="w-[82vw] max-w-[290px] shrink-0 snap-start rounded-[18px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbfd_100%)] p-4 sm:w-[65vw] md:w-auto md:max-w-none"
                   >
                     <div className="flex items-start gap-3">
                       <span
@@ -1052,10 +1161,10 @@ export default function OxyFoundationPage() {
                   A proposal to reduce the environmental impact of elections through cleaner campaigning, responsible resource use, and public awareness.
                 </p>
               </div>
-              <div className="grid min-w-0 gap-6 p-4 sm:gap-7 sm:p-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-8 lg:p-8">
+              <div className="grid min-w-0 gap-6 p-4 sm:gap-7 sm:p-6 md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-8 lg:p-8">
                 <aside aria-label="Proposal details" className="min-w-0 self-start rounded-2xl border border-slate-100 bg-[#F8FAFC] p-4">
-                  <div className="flex items-center gap-4 lg:flex-col lg:items-start">
-                    <div className="w-24 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white sm:w-28 lg:w-full">
+                  <div className="flex items-center gap-4 md:flex-col md:items-start">
+                    <div className="w-24 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white sm:w-28 md:w-full">
                       <SafeImage src={FOUNDATION_IMAGES.greenElectionsLead} alt="Radhakrishna Thatavarti" className="aspect-[4/3] w-full object-contain" />
                     </div>
                     <div className="min-w-0">
@@ -1161,7 +1270,7 @@ export default function OxyFoundationPage() {
 
         <section className="border-t border-slate-100 bg-[#f8fbfd] py-11 sm:py-14 lg:py-16">
           <div className="mx-auto tvrk-container">
-            <div className="grid items-center gap-7 overflow-hidden rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,.055)] sm:p-7 lg:grid-cols-[minmax(0,.42fr)_minmax(0,.58fr)] lg:gap-10 lg:p-9">
+            <div className="grid items-center gap-7 overflow-hidden rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,.055)] sm:p-7 md:grid-cols-[minmax(0,.42fr)_minmax(0,.58fr)] lg:gap-10 lg:p-9">
               <div className="mx-auto w-full max-w-[370px]">
                 <div className="overflow-hidden rounded-[22px] border border-[#51B85B]/20 bg-[linear-gradient(145deg,#edf6fd,#eef8ef)] p-3">
                   <div className="aspect-[4/3] overflow-hidden rounded-[18px] bg-white">
@@ -1204,6 +1313,9 @@ export default function OxyFoundationPage() {
           <p>© {new Date().getFullYear()} OXY Foundation</p>
         </div>
       </footer>
+
+      {/* Floating Scroll Navigator (Top to Bottom / Bottom to Top) */}
+      <FloatingScrollNavigator />
     </div>
   );
 }

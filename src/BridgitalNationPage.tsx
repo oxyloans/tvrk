@@ -1,4 +1,5 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import InitiativeHeader from "./InitiativeHeader";
 
 type VideoLanguage = "English" | "Telugu";
@@ -233,6 +234,111 @@ function SectionTitle({ eyebrow, title, copy }: { eyebrow: string; title: string
   );
 }
 
+function FloatingScrollNavigator() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollUI, setShowScrollUI] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const totalHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const currentY = window.scrollY;
+          const progress =
+            totalHeight > 0
+              ? Math.min(1, Math.max(0, currentY / totalHeight))
+              : 0;
+          setScrollProgress(progress);
+          setShowScrollUI(currentY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  const isNearTop = scrollProgress < 0.5;
+
+  return (
+    <AnimatePresence>
+      {showScrollUI && (
+        <motion.div
+          key="scroll-navigator"
+          initial={{ opacity: 0, scale: 0.85, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.85, y: 16 }}
+          transition={{ type: "spring", stiffness: 350, damping: 26 }}
+          className="fixed bottom-5 right-5 z-[80] sm:bottom-7 sm:right-7"
+          aria-label="Scroll navigation"
+        >
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={isNearTop ? scrollToBottom : scrollToTop}
+            title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
+            aria-label={
+              isNearTop
+                ? "Scroll to bottom of page"
+                : "Scroll to top of page"
+            }
+            className="group grid h-12 w-12 place-items-center rounded-full border border-slate-300/80 bg-white/95 text-slate-800 shadow-[0_12px_32px_rgba(15,23,42,0.18)] backdrop-blur-md transition hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-[0_16px_36px_rgba(59,130,196,0.25)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4]"
+          >
+            {isNearTop ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="m18 15-6-6-6 6" />
+              </svg>
+            )}
+          </motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function BridgitalNationPage() {
   const [language, setLanguage] = useState<VideoLanguage>("English");
   const [selectedIntroId, setSelectedIntroId] = useState(introductionVideos.English[0].id);
@@ -271,7 +377,7 @@ export default function BridgitalNationPage() {
         /* Local responsive container so this page keeps its side spacing even when loaded directly. */
         .bridgital-page .tvrk-container {
           box-sizing: border-box;
-          width: calc(100% - 32px) !important;
+          width: calc(100% - 24px) !important;
           max-width: 1720px !important;
           margin-left: auto !important;
           margin-right: auto !important;
@@ -279,6 +385,9 @@ export default function BridgitalNationPage() {
         }
         .bridgital-page .tvrk-container > * { min-width: 0; }
 
+        @media (min-width: 480px) {
+          .bridgital-page .tvrk-container { width: calc(100% - 32px) !important; }
+        }
         @media (min-width: 640px) {
           .bridgital-page .tvrk-container { width: calc(100% - 48px) !important; }
         }
@@ -300,7 +409,7 @@ export default function BridgitalNationPage() {
         {/* INTRO + FEATURED VIDEO */}
         <section className="border-b border-slate-100 bg-[radial-gradient(circle_at_8%_8%,rgba(81,184,91,.10),transparent_25%),radial-gradient(circle_at_90%_10%,rgba(59,130,196,.12),transparent_27%),linear-gradient(180deg,#f9fcfe_0%,#ffffff_100%)]">
           <div className="mx-auto tvrk-container py-7 sm:py-9 lg:py-11">
-            <div className="grid items-center gap-7 lg:grid-cols-[minmax(0,.72fr)_minmax(0,1.28fr)] lg:gap-10">
+            <div className="grid items-center gap-7 md:grid-cols-[minmax(0,.82fr)_minmax(0,1.18fr)] lg:grid-cols-[minmax(0,.72fr)_minmax(0,1.28fr)] lg:gap-10">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#3B82C4]/15 bg-white px-3.5 py-2 shadow-sm">
                   <span className="h-2 w-2 rounded-full bg-[#51B85B]" />
@@ -418,16 +527,18 @@ export default function BridgitalNationPage() {
             <div className="mt-6 lg:hidden">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/55">Leader videos</p>
-                <ScrollButtons
-                  dark
-                  onPrev={() => scrollRow(leaderRowRef, "left")}
-                  onNext={() => scrollRow(leaderRowRef, "right")}
-                />
+                <div className="sm:hidden">
+                  <ScrollButtons
+                    dark
+                    onPrev={() => scrollRow(leaderRowRef, "left")}
+                    onNext={() => scrollRow(leaderRowRef, "right")}
+                  />
+                </div>
               </div>
 
               <div
                 ref={leaderRowRef}
-                className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scroll-smooth [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden"
+                className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scroll-smooth [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden"
               >
                 {leaderVideos.map((item) => (
                   <VideoCard
@@ -452,12 +563,6 @@ export default function BridgitalNationPage() {
                 title="One model across multiple sectors"
                 copy="Human expertise stays central while digital tools improve access, coordination and service delivery."
               />
-              <div className="hidden md:block lg:hidden">
-                <ScrollButtons
-                  onPrev={() => scrollRow(sectorRowRef, "left")}
-                  onNext={() => scrollRow(sectorRowRef, "right")}
-                />
-              </div>
             </div>
 
             <div className="mt-6 flex items-center justify-between md:hidden">
@@ -470,12 +575,12 @@ export default function BridgitalNationPage() {
 
             <div
               ref={sectorRowRef}
-              className="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 scroll-smooth [scrollbar-width:none] sm:-mx-6 sm:px-6 md:mx-0 md:flex md:overflow-x-auto md:px-0 lg:grid lg:grid-cols-3 lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+              className="-mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 scroll-smooth [scrollbar-width:none] sm:-mx-6 sm:px-6 md:mx-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden"
             >
               {sectorCards.map((item, index) => (
                 <article
                   key={item.number}
-                  className="w-[270px] shrink-0 snap-start rounded-[20px] border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,.04)] sm:w-[300px] lg:w-auto"
+                  className="w-[270px] shrink-0 snap-start rounded-[20px] border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,.04)] sm:w-[300px] md:w-auto"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className={`text-xs font-black ${index % 2 === 0 ? "text-[#3B82C4]" : "text-[#51B85B]"}`}>{item.number}</span>
@@ -493,7 +598,7 @@ export default function BridgitalNationPage() {
         {/* INSTITUTE */}
         <section className="pb-12 sm:pb-16">
           <div className="mx-auto tvrk-container overflow-hidden rounded-[24px] border border-slate-200 bg-[#f7fbfd] p-6 sm:p-8 lg:p-9">
-            <div className="grid gap-5 lg:grid-cols-[minmax(0,.7fr)_minmax(0,1.3fr)] lg:items-center">
+            <div className="grid gap-5 md:grid-cols-[minmax(0,.75fr)_minmax(0,1.25fr)] md:items-center">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B82C4]">Global Bridgital Institute</p>
                 <h2 className="mt-2 text-2xl font-black tracking-[-0.035em] text-slate-950 sm:text-3xl">A platform for Bridgital thinking</h2>
@@ -515,6 +620,9 @@ export default function BridgitalNationPage() {
         <span className="mx-2 text-slate-300">•</span>
         © {new Date().getFullYear()}
       </footer>
+
+      {/* Floating Scroll Navigator (Top to Bottom / Bottom to Top) */}
+      <FloatingScrollNavigator />
     </div>
   );
 }

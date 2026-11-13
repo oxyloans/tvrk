@@ -55,6 +55,54 @@ function GoogleAnalyticsTracker() {
 }
 
 /* -------------------------------------------------------
+   Global Scroll & Hash Navigator
+------------------------------------------------------- */
+function ScrollHandler() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const targetId = location.hash.replace("#", "");
+      if (targetId === "about") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      const scrollToTarget = () => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          const headerOffset = 84;
+          const targetY =
+            el.getBoundingClientRect().top + window.scrollY - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, targetY),
+            behavior: "smooth",
+          });
+          return true;
+        }
+        return false;
+      };
+
+      // Try immediately, then retry in intervals for smooth async landing
+      if (!scrollToTarget()) {
+        const t1 = setTimeout(scrollToTarget, 100);
+        const t2 = setTimeout(scrollToTarget, 260);
+        const t3 = setTimeout(scrollToTarget, 520);
+        return () => {
+          clearTimeout(t1);
+          clearTimeout(t2);
+          clearTimeout(t3);
+        };
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [location.pathname, location.hash]);
+
+  return null;
+}
+
+/* -------------------------------------------------------
    App
 ------------------------------------------------------- */
 function App() {
@@ -62,6 +110,8 @@ function App() {
     <BrowserRouter>
       {/* Tracks every React route change */}
       <GoogleAnalyticsTracker />
+      {/* Handles page scrolls and hash targets seamlessly across routes */}
+      <ScrollHandler />
 
       <Routes>
         {/* Main CEO Landing Page */}
