@@ -337,7 +337,7 @@ export default function FourPSection() {
           </div>
 
           {/* Image */}
-          <div className="order-1 flex items-center justify-center lg:order-2">
+          <div className="order-1 flex items-center justify-center lg:order-2 lg:self-start lg:justify-end">
             <div className="flex w-full max-w-[720px] items-center justify-center">
               <img
                 key={active.image}

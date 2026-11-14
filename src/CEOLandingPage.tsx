@@ -5,15 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import InitiativeHeader from "./InitiativeHeader";
 import FourPSection from "./FourPSection";
 import Tvrk from "../src/assets/tvrk.png";
-const WALKIN_IMAGE_SOURCES = [
-  "https://i.ibb.co/9mkt7t0x/walkin-nov-1.png",
-  "/assets/walkincard.png",
-  "https://i.ibb.co/1fZvDyLM/walkincard.png",
-];
-const WALKIN_INTERVIEW_URL =
-  "https://www.askoxy.ai/main/askoxyjobs";
-const WALKIN_MAP_URL =
-  "https://maps.app.goo.gl/isLGUCdN63q7vG3p7?g_st=iw";
 const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png" ;
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/jPB3MPT4/insta-card.png" ;
@@ -310,46 +301,6 @@ function MailIcon({ className = "", style }: { className?: string; style?: React
     </svg>
   );
 }
-function BriefcaseIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-      style={style}
-    >
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-    </svg>
-  );
-}
-function MapPinIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-      style={style}
-    >
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
 /* =========================================================
    EXTERNAL LINK
 ========================================================= */
@@ -507,7 +458,7 @@ function FeatureVideoCard({
           {playVideo ? (
             <iframe
               className="absolute inset-0 h-full w-full"
-              src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1&controls=1&rel=0`}
+              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1&controls=1&rel=0`}
               title={title}
               loading="lazy"
               allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
@@ -776,7 +727,6 @@ export default function CEOLandingPage({
   const writeToUsDialogRef = useRef<HTMLDialogElement>(null);
   const [activeOpportunity, setActiveOpportunity] = useState(0);
   const [slideEnabled, setSlideEnabled] = useState(true);
-  const [walkinImageSourceIndex, setWalkinImageSourceIndex] = useState(0);
   const [motionEnabled, setMotionEnabled] = useState(true);
 
   // Smooth scroll to anchor on initial mount
@@ -1191,16 +1141,6 @@ export default function CEOLandingPage({
           gap: 8px;
           border: 1px solid #60a5fa;
         }
-        .ceo-page .hero-gloss-walkin {
-          background: linear-gradient(135deg, rgba(224, 11, 145, 0.42), rgba(119, 53, 232, 0.52));
-          border-color: rgba(255, 182, 220, 0.45);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 5px 12px rgba(224, 11, 145, 0.22);
-        }
-        .ceo-page .hero-gloss-walkin:hover {
-          background: linear-gradient(135deg, rgba(224, 11, 145, 0.62), rgba(119, 53, 232, 0.72));
-          border-color: rgba(255, 255, 255, 0.7);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 8px 18px rgba(224, 11, 145, 0.32);
-        }
         .ceo-page .hero-meet-icon {
           display: grid;
           place-items: center;
@@ -1271,7 +1211,7 @@ export default function CEOLandingPage({
         }
         @media (min-width: 640px) {
           .ceo-page .hero-action-grid {
-            grid-template-columns: minmax(215px, 1.45fr) repeat(3, minmax(0, 1fr));
+            grid-template-columns: minmax(215px, 1.45fr) repeat(2, minmax(0, 1fr));
             width: 100%;
             max-width: 820px;
             gap: 10px;
@@ -1493,7 +1433,7 @@ export default function CEOLandingPage({
             sans-serif;
         }
         .hero-kicker {
-          color: rgba(255,255,255,.86);
+          color: #ffdbb8;
         }
         .hero-copy {
           color: rgba(255,255,255,.90);
@@ -1748,7 +1688,7 @@ export default function CEOLandingPage({
         @media (max-width:639px) {
           .ceo-modern .hero-action-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
           .ceo-modern .hero-meet-button {grid-column: 1 / -1;}
-          .ceo-modern .hero-video-button {grid-column: 1 / -1;}
+          .ceo-modern .hero-video-button {grid-column: auto;}
         }
         @media (min-width:640px) {
           .ceo-modern .hero-action-grid {
@@ -1864,7 +1804,7 @@ export default function CEOLandingPage({
           aria-labelledby="hero-heading"
           className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
         >
-          <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
+          <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-8 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-10 xl:gap-12">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1881,33 +1821,14 @@ export default function CEOLandingPage({
                 <span className="block">Every Journey.</span>
                 <span className="mt-1 block sm:mt-1.5">One Partner.</span>
               </h1>
-              <p className="mt-4 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
+              <p className="mt-5 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
                 From birth to legacy, we’re with you at every turn.
               </p>
               <p className="hero-copy mt-2 max-w-[640px] text-[13px] font-medium leading-6 sm:text-[15px] sm:leading-7">
                 Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
-              {/* Walk-in Interview Hero Banner (borderless) */}
-              <div className="max-w-[640px]">
-                <a
-                  href={WALKIN_INTERVIEW_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Walk-In Interviews 13th & 14th November at ASKOXY.AI — Click to apply"
-                  className={`${focus} group block overflow-hidden transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99]`}
-                >
-                  <img
-                    src={WALKIN_IMAGE_SOURCES[0]}
-                    alt="Walk-In Interviews 13th & 14th November - Hyderabad - We Are Hiring - Apply at ASKOXY.AI"
-                    loading="eager"
-                    decoding="async"
-                    className="block h-auto w-full object-contain"
-                  />
-                </a>
-              
-              </div>
-              <div className="mt-4 max-w-[640px]">
+              <div className="mt-5 max-w-[640px]">
                 <External
                   href="https://www.askoxy.ai/partner"
                   ariaLabel="Join as CEO for your PINCODE through CEO Factory"
@@ -1925,7 +1846,20 @@ export default function CEOLandingPage({
                   Connect People. Create Opportunities. Earn &amp; Grow.
                 </p>
               </div>
-              <div className="hero-action-grid mt-5">
+              <div className="ceo-pills-viewport mt-7" aria-label="CEO Factory opportunities">
+                  <div
+                    className={`ceo-pills-track ${slideEnabled ? "" : "ceo-no-transition"}`}
+                    style={{ "--ceo-index": activeOpportunity } as React.CSSProperties}
+                    onTransitionEnd={handleOpportunitySlideEnd}
+                  >
+                    {[...ceoOpportunities, ...ceoOpportunities.slice(0, 5)].map((opportunity, index) => (
+                      <span className="ceo-opportunity-pill" key={`${opportunity}-${index}`}>
+                        {opportunity}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              <div className="hero-action-grid  mt-7">
                 <External
                   href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
                   ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
@@ -1953,16 +1887,6 @@ export default function CEOLandingPage({
                     style={{ color: "#1d4ed8" }}
                   />
                 </External>
-                <External
-                  href={WALKIN_INTERVIEW_URL}
-                  ariaLabel="Walk-In Interviews 13th & 14th November — Click to apply at ASKOXY.AI (opens in a new tab)"
-                  className={`${focus} hero-gloss-button hero-gloss-walkin`}
-                >
-                  <BriefcaseIcon className="h-4 w-4 shrink-0 text-pink-200" />
-                <span>Walk-In – Nov 13th & 14th</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-pink-200" />
-                </External>
-
                 <button
                   type="button"
                   onClick={() => writeToUsDialogRef.current?.showModal()}
@@ -2581,17 +2505,6 @@ export default function CEOLandingPage({
                     className={`group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/[0.22] bg-white px-5 py-2.5 text-[12px] font-extrabold text-[#211b67] shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#fff8f4] sm:text-[13px] ${focus}`}
                   >
                     Open in Google Maps
-                    <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                  <a
-                    href={WALKIN_MAP_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Open Walk-In Interview location for Nov 13 & 14 in Google Maps"
-                    className={`group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-pink-200/45 bg-gradient-to-r from-pink-500/25 to-violet-500/25 px-5 py-2.5 text-[12px] font-extrabold text-white shadow-[0_10px_24px_rgba(15,10,50,.10)] transition duration-200 hover:-translate-y-0.5 hover:border-pink-200/75 hover:from-pink-500/40 hover:to-violet-500/40 sm:text-[13px] ${focus}`}
-                  >
-                    <MapPinIcon className="h-4 w-4 text-pink-200" />
-                    <span>Walk-In Map (Nov 13 &amp; 14)</span>
                     <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                   <a
