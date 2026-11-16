@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import {
-  ArrowUpRight, Bot, BriefcaseBusiness, Check, CheckCircle2,
+  ArrowUpRight, Bot, BriefcaseBusiness, CalendarDays, Check, CheckCircle2,
   ClipboardCheck, Clock3, ExternalLink, FileCheck2,
-  FileText, Handshake, Landmark, MessageCircle, Scale, ShieldCheck,
+  FileText, Handshake, Landmark, MapPin, MessageCircle, Scale, ShieldCheck,
   UserRound, Video, Wallet, Phone, PhoneCall,
   Globe, Sparkles, Building2, Coins, Cpu, Shield, Apple, Smartphone, type LucideIcon,
 } from "lucide-react";
@@ -16,7 +16,7 @@ const OXYLOANS_LOGO = "https://i.ibb.co/B5xsVChY/l2.png";
 const URL = {
   site: "https://tvradhakrishna.com",
   askoxy: "https://www.askoxy.ai/",
-  jobs: "https://www.askoxy.ai/main/askoxyjobs",
+  jobs: "https://www.askoxy.ai/main/askoxyjobs/110e2e85-6cb2-4971-8790-809a0bec2da5",
   zoom: "https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1",
   radhai: "https://www.askoxy.ai/RADHAI",
   lender: "https://www.user.oxyloans.com/register?ref=LR55026",
@@ -24,6 +24,7 @@ const URL = {
   partner: "https://www.askoxy.ai/Partner",
   advocate: "https://www.askoxy.ai/main/services/5388/start-your-legal-partner-advoc",
   recovery: "https://www.askoxy.ai/main/services/08c3/start-your-recovery-agent-part",
+  interviewLocation: "https://www.google.com/maps/dir//OXYLOANS,+Phase+9,+The+Annexe+Phase-13,+INDU+FORTUNE+FIELDS,+CC-02,+Ground+Floor,+Block-C,+K+P+H+B,+Kukatpally+Housing+Board+Colony,+Kukatpally,+Hyderabad,+Telangana+500085/@17.4809431,78.3953379,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3bcb918d3a955555:0x9414c8bca6f540e9!2m2!1d78.3847466!2d17.4752452?entry=ttu&g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D",
   whatsapp: "https://chat.whatsapp.com/GO99fD0qxawCgDY1QDhdxg?s=sw&p=a&mlu=4&ilr=4",
   instagram: "https://www.instagram.com/tvradhakrishna/",
 } as const;
@@ -342,6 +343,29 @@ export default function OxyLinksPage() {
               </div>
               <ActionLink href={URL.jobs} className="sm:shrink-0">Apply Jobs -{">"}</ActionLink>
             </div>
+            <article aria-labelledby="legal-analyst-heading" className="mt-4 rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 via-white to-indigo-50 p-4 shadow-[0_4px_16px_rgba(76,29,149,.06)] sm:p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-violet-800">
+                    <CalendarDays size={14} aria-hidden="true" /> Walk-in interview · November 16–21, 2026
+                  </p>
+                  <h3 id="legal-analyst-heading" className="mt-2 text-lg font-bold text-slate-950 sm:text-xl">Legal Analyst (Advocate)</h3>
+                  <p className="mt-1 flex items-start gap-1.5 text-sm leading-5 text-slate-600">
+                    <MapPin size={16} className="mt-0.5 shrink-0 text-violet-700" aria-hidden="true" />
+                    Phase 9, The Annexe Phase-13, INDU FORTUNE FIELDS, CC-02, Ground Floor, Block-C, KPHB, Kukatpally, Hyderabad, Telangana 500085
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 sm:shrink-0">
+                  <ActionLink href={URL.jobs}>
+                    Apply now <ArrowUpRight size={15} aria-hidden="true" />
+                  </ActionLink>
+                  <a href={URL.interviewLocation} target="_blank" rel="noopener noreferrer"
+                    className={`${focus} inline-flex min-h-[46px] shrink-0 items-center justify-center gap-2 rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-bold text-violet-800 shadow-sm transition-colors hover:bg-violet-100`}>
+                    <MapPin size={16} aria-hidden="true" /> Get directions <ArrowUpRight size={15} aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </article>
             <ol className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {steps.map((step, index) => <StepCard key={step.title} step={step} index={index} />)}
             </ol>
