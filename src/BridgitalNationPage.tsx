@@ -138,7 +138,7 @@ function VideoPlayer({ video, title, compact = false, dark = false }: { video: V
           src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0`}
           title={title}
           className="h-full w-full"
-          loading="eager"
+          loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
@@ -176,7 +176,10 @@ function VideoCard({
         <img
           src={`https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`}
           alt=""
+          width={480}
+          height={360}
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
           onError={(event) => {
             event.currentTarget.style.visibility = "hidden";
@@ -210,7 +213,7 @@ function LeaderDesktopItem({ item, active, onClick }: { item: VideoItem; active:
     >
       <div className="relative w-[112px] shrink-0 overflow-hidden rounded-xl bg-slate-900">
         <div className="aspect-video">
-          <img src={`https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`} alt="" className="h-full w-full object-cover" loading="lazy" />
+          <img src={`https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`} alt="" width={480} height={360} decoding="async" className="h-full w-full object-cover" loading="lazy" />
         </div>
         <div className="absolute inset-0 grid place-items-center bg-black/15">
           <PlayIcon size="sm" />

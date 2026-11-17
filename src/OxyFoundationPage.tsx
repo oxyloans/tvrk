@@ -435,7 +435,10 @@ function SafeImage({
     <img
       src={src}
       alt={alt}
+      width={600}
+      height={400}
       loading="lazy"
+      decoding="async"
       className={className}
       onError={(event) => {
         event.currentTarget.style.display = "none";
@@ -669,7 +672,7 @@ export default function OxyFoundationPage() {
                     src={activeVideo.embed}
                     title={activeVideo.title}
                     className="h-full w-full"
-                    loading="eager"
+                    loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                   />

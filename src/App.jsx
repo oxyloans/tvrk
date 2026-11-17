@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -8,12 +8,32 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import CEOLandingPage from "./CEOLandingPage";
-import OxyFoundationPage from "./OxyFoundationPage";
-import BridgitalNationPage from "./BridgitalNationPage";
-import CertificatesPage from "./CertificatesPage";
-import ZoomMeetSection from "./GoogleMeetSection";
-import OxyLinksPage from "./OxyLinksPage";
+// Route-level code splitting & lazy loading
+const CEOLandingPage = lazy(() => import("./CEOLandingPage"));
+const OxyFoundationPage = lazy(() => import("./OxyFoundationPage"));
+const BridgitalNationPage = lazy(() => import("./BridgitalNationPage"));
+const CertificatesPage = lazy(() => import("./CertificatesPage"));
+const ZoomMeetSection = lazy(() => import("./GoogleMeetSection"));
+const OxyLinksPage = lazy(() => import("./OxyLinksPage"));
+
+function PageLoader() {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#241b67] text-white"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="relative flex items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-3 border-white/20 border-t-[#ffd8b5]" />
+        <span className="absolute text-[10px] font-extrabold text-[#ffd8b5]">✦</span>
+      </div>
+      <span className="mt-4 text-xs font-semibold uppercase tracking-widest text-[#ffdbb8]/85">
+        Loading...
+      </span>
+      <span className="sr-only">Loading page content...</span>
+    </div>
+  );
+}
 
 const GA_MEASUREMENT_ID = "G-NJXNYGP1EZ";
 
@@ -88,10 +108,12 @@ function ScrollHandler() {
         const t1 = setTimeout(scrollToTarget, 100);
         const t2 = setTimeout(scrollToTarget, 260);
         const t3 = setTimeout(scrollToTarget, 520);
+        const t4 = setTimeout(scrollToTarget, 900);
         return () => {
           clearTimeout(t1);
           clearTimeout(t2);
           clearTimeout(t3);
+          clearTimeout(t4);
         };
       }
     } else {
@@ -113,31 +135,33 @@ function App() {
       {/* Handles page scrolls and hash targets seamlessly across routes */}
       <ScrollHandler />
 
-      <Routes>
-        {/* Main CEO Landing Page */}
-        <Route path="/" element={<CEOLandingPage />} />
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Main CEO Landing Page */}
+          <Route path="/" element={<CEOLandingPage />} />
 
-        {/* OXY Foundation */}
-        <Route
-          path="/oxy-foundation"
-          element={<OxyFoundationPage />}
-        />
-        <Route path="/links" element={<OxyLinksPage />} />
+          {/* OXY Foundation */}
+          <Route
+            path="/oxy-foundation"
+            element={<OxyFoundationPage />}
+          />
+          <Route path="/links" element={<OxyLinksPage />} />
 
-        {/* Bridgital Nation */}
-        <Route
-          path="/bridgital-nation"
-          element={<BridgitalNationPage />}
-        />
-        <Route path="/certificates" element={<CertificatesPage />} />
-         <Route path="/zoommeet" element={<ZoomMeetSection />} />
+          {/* Bridgital Nation */}
+          <Route
+            path="/bridgital-nation"
+            element={<BridgitalNationPage />}
+          />
+          <Route path="/certificates" element={<CertificatesPage />} />
+          <Route path="/zoommeet" element={<ZoomMeetSection />} />
 
-        {/* Invalid URL → Home */}
-        <Route
-          path="*"
-          element={<Navigate to="/" replace />}
-        />
-      </Routes>
+          {/* Invalid URL → Home */}
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
+          />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

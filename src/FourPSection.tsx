@@ -343,6 +343,8 @@ export default function FourPSection() {
                 key={active.image}
                 src={active.image}
                 alt={active.imageAlt}
+                width={720}
+                height={500}
                 loading="lazy"
                 decoding="async"
                 className="h-auto max-h-[500px] w-full object-contain"

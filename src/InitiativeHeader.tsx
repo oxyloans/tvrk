@@ -104,9 +104,19 @@ export default function InitiativeHeader({
 
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onPointerDown);
+
+    const onResize = () => {
+      if (window.innerWidth >= 1100) {
+        setOpen(false);
+        setMobileResourcesOpen(false);
+      }
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("resize", onResize);
     };
   }, [open, resourcesOpen]);
 
@@ -407,7 +417,7 @@ export default function InitiativeHeader({
         .tvrk-header-inner {
           width: calc(100% - 32px);
           max-width: 1720px;
-          min-height: 84px;
+          min-height: 88px;
           margin-inline: auto;
           display: flex;
           align-items: center;
@@ -416,26 +426,43 @@ export default function InitiativeHeader({
           transition: min-height .25s ease;
         }
 
-        .tvrk-header-scrolled .tvrk-header-inner { min-height: 72px; }
+        .tvrk-header-scrolled .tvrk-header-inner { min-height: 84px; }
 
         /* LOGO CONTAINER WITH SMOOTH CROSS-FADE (NO BLANK FLICKER) */
         .tvrk-header-logo-wrap {
           position: relative;
           display: flex;
           align-items: center;
-          max-width: min(300px, 45vw);
+          width: 300px;
+          max-width: min(340px, 48vw);
           min-width: 0;
-          height: 56px;
+          height: 74px;
+          transition: height .25s ease;
         }
 
-        .tvrk-logo-img {
+        .tvrk-header-scrolled .tvrk-header-logo-wrap {
+          height: 74px;
+        }
+
+        .tvrk-logo-img,
+        .tvrk-logo-white,
+        .tvrk-logo-color {
           display: block;
-          width: 255px;
-          max-width: 100%;
-          max-height: 54px;
+          width: 300px !important;
+          height: 74px !important;
+          max-width: 100% !important;
+          max-height: 74px !important;
           object-fit: contain;
           object-position: left center;
           transition: opacity .22s ease, transform .22s ease;
+        }
+
+        .tvrk-header-scrolled .tvrk-logo-img,
+        .tvrk-header-scrolled .tvrk-logo-white,
+        .tvrk-header-scrolled .tvrk-logo-color {
+          width: 300px !important;
+          height: 74px !important;
+          max-height: 74px !important;
         }
 
         .tvrk-logo-img.is-hidden {
@@ -737,23 +764,37 @@ export default function InitiativeHeader({
         }
 
         .tvrk-mobile-nav { display: none; }
-        .tvrk-header-spacer { height: 84px; }
-        .tvrk-header-scrolled + .tvrk-header-spacer { height: 72px; }
+        .tvrk-header-spacer { height: 88px; }
+        .tvrk-header-scrolled + .tvrk-header-spacer { height: 84px; }
 
-        /* TABLET & MOBILE RESPONSIVE ADJUSTMENTS */
+        /* DESKTOP ISOLATION (>= 1100px) — UNCHANGED */
+        @media (min-width: 1100px) {
+          .tvrk-desktop-nav { display: flex !important; }
+          .tvrk-menu-toggle { display: none !important; }
+          .tvrk-mobile-nav { display: none !important; }
+          .tvrk-backdrop { display: none !important; }
+        }
+
+        /* TABLET & MOBILE BASE (<= 1099px) */
         @media (max-width: 1099px) {
-          .tvrk-header-inner {
-            width: calc(100% - 24px);
-            min-height: 72px;
-            gap: 12px;
+          .tvrk-header-logo {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+            flex: 0 1 auto;
           }
 
-          .tvrk-header-scrolled .tvrk-header-inner { min-height: 64px; }
-          .tvrk-desktop-nav { display: none; }
-          .tvrk-menu-toggle { display: grid; }
-
-          .tvrk-header-logo-wrap { max-width: calc(100% - 58px); height: 48px; }
-          .tvrk-logo-img { width: 205px; max-height: 46px; }
+          .tvrk-desktop-nav { display: none !important; }
+          .tvrk-menu-toggle {
+            display: grid !important;
+            place-items: center !important;
+            flex: 0 0 44px !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            margin-left: auto !important;
+            z-index: 10;
+          }
 
           .tvrk-mobile-nav {
             display: grid;
@@ -849,12 +890,53 @@ export default function InitiativeHeader({
           .tvrk-resource-menu-mobile .tvrk-foundation-resource > span:last-child {
             color: #4ade80 !important;
           }
-
-          .tvrk-header-spacer { height: 72px; }
         }
 
-        /* TABLET SPECIFIC (640px to 1099px) */
-        @media (min-width: 640px) and (max-width: 1099px) {
+        /* TABLET SPECIFIC (768px to 1099px) — REMAINS SAME (274px by 64px) */
+        @media (min-width: 768px) and (max-width: 1099px) {
+          .tvrk-header-inner {
+            width: calc(100% - 24px);
+            min-height: 78px;
+            gap: 12px;
+          }
+
+          .tvrk-header-scrolled .tvrk-header-inner { min-height: 74px; }
+
+          .tvrk-header-logo-wrap {
+            width: 274px;
+            max-width: calc(100% - 60px);
+            height: 64px;
+          }
+
+          .tvrk-header-scrolled .tvrk-header-logo-wrap {
+            width: 274px;
+            max-width: calc(100% - 60px);
+            height: 64px;
+          }
+
+          .tvrk-logo-img,
+          .tvrk-logo-white,
+          .tvrk-logo-color {
+            width: 274px !important;
+            height: 64px !important;
+            max-height: 64px !important;
+          }
+
+          .tvrk-header-scrolled .tvrk-logo-img,
+          .tvrk-header-scrolled .tvrk-logo-white,
+          .tvrk-header-scrolled .tvrk-logo-color {
+            width: 274px !important;
+            height: 64px !important;
+            max-height: 64px !important;
+          }
+
+          .tvrk-menu-toggle {
+            width: 44px !important;
+            height: 44px !important;
+          }
+
+          .tvrk-header-spacer { height: 78px; }
+
           .tvrk-mobile-nav {
             padding: 16px;
             gap: 6px;
@@ -866,12 +948,127 @@ export default function InitiativeHeader({
           }
         }
 
-        @media (max-width: 420px) {
-          .tvrk-logo-img { width: 176px; max-height: 42px; }
-          .tvrk-menu-toggle { width: 42px; height: 42px; }
+        /* MOBILE RESPONSIVE (<= 767px) — LOGO REDUCED SLIGHTLY & MENU ICON COMPLETELY DISPLAYED */
+        @media (max-width: 767px) {
+          .tvrk-header-inner {
+            width: calc(100% - 20px);
+            min-height: 68px;
+            gap: 10px;
+          }
+
+          .tvrk-header-scrolled .tvrk-header-inner {
+            min-height: 66px;
+          }
+
+          /* Logo slightly reduced to 220px by 52px so menu toggle always has 100% space */
+          .tvrk-header-logo-wrap {
+            width: 220px;
+            max-width: calc(100% - 52px);
+            height: 52px;
+          }
+
+          .tvrk-header-scrolled .tvrk-header-logo-wrap {
+            width: 220px;
+            max-width: calc(100% - 52px);
+            height: 52px;
+          }
+
+          .tvrk-logo-img,
+          .tvrk-logo-white,
+          .tvrk-logo-color {
+            width: 220px !important;
+            height: 52px !important;
+            max-height: 52px !important;
+          }
+
+          .tvrk-header-scrolled .tvrk-logo-img,
+          .tvrk-header-scrolled .tvrk-logo-white,
+          .tvrk-header-scrolled .tvrk-logo-color {
+            width: 220px !important;
+            height: 52px !important;
+            max-height: 52px !important;
+          }
+
+          /* Menu toggle icon completely displayed with solid fixed boundaries */
+          .tvrk-menu-toggle {
+            display: grid !important;
+            place-items: center !important;
+            flex: 0 0 42px !important;
+            width: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
+            max-width: 42px !important;
+            margin-left: auto !important;
+            border-radius: 12px;
+          }
+
+          .tvrk-menu-toggle svg {
+            width: 22px;
+            height: 22px;
+          }
+
+          .tvrk-header-spacer { height: 68px; }
+        }
+
+        /* SMALL PHONES (<= 380px, e.g. iPhone SE / 320-375px) */
+        @media (max-width: 380px) {
+          .tvrk-header-inner {
+            width: calc(100% - 14px);
+            min-height: 62px;
+            gap: 8px;
+          }
+
+          .tvrk-header-scrolled .tvrk-header-inner {
+            min-height: 60px;
+          }
+
+          .tvrk-header-logo-wrap {
+            width: 196px;
+            max-width: calc(100% - 46px);
+            height: 46px;
+          }
+
+          .tvrk-header-scrolled .tvrk-header-logo-wrap {
+            width: 196px;
+            max-width: calc(100% - 46px);
+            height: 46px;
+          }
+
+          .tvrk-logo-img,
+          .tvrk-logo-white,
+          .tvrk-logo-color {
+            width: 196px !important;
+            height: 46px !important;
+            max-height: 46px !important;
+          }
+
+          .tvrk-header-scrolled .tvrk-logo-img,
+          .tvrk-header-scrolled .tvrk-logo-white,
+          .tvrk-header-scrolled .tvrk-logo-color {
+            width: 196px !important;
+            height: 46px !important;
+            max-height: 46px !important;
+          }
+
+          .tvrk-menu-toggle {
+            flex: 0 0 38px !important;
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            max-width: 38px !important;
+            border-radius: 10px;
+          }
+
+          .tvrk-menu-toggle svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          .tvrk-header-spacer { height: 62px; }
+
           .tvrk-mobile-nav > .tvrk-ai-btn {
-            min-height: 48px;
-            padding: 11px 16px;
+            min-height: 46px;
+            padding: 10px 14px;
             font-size: 13px;
           }
         }
@@ -929,8 +1126,8 @@ export default function InitiativeHeader({
               <img
                 src={HEADER_LOGO_WHITE}
                 alt="TV Radhakrishna"
-                width="270"
-                height="64"
+                width="300"
+                height="74"
                 decoding="async"
                 loading="eager"
                 className={`tvrk-logo-img tvrk-logo-white ${
@@ -941,8 +1138,8 @@ export default function InitiativeHeader({
               <img
                 src={HEADER_LOGO_COLOR}
                 alt="TV Radhakrishna"
-                width="270"
-                height="64"
+                width="300"
+                height="74"
                 decoding="async"
                 loading="eager"
                 className={`tvrk-logo-img tvrk-logo-color ${

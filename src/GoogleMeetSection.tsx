@@ -140,7 +140,7 @@ export default function ZoomMeetSection() {
           </div>
           {/* Exactly one poster; replace ZOOM_MEET_IMAGE_URL above when ready. */}
           <div className="zoom-art">
-            <img src={ZOOM_MEET_IMAGE_URL} alt="Daily Zoom Meet poster" decoding="async" fetchPriority="high" />
+            <img src={ZOOM_MEET_IMAGE_URL} alt="Daily Zoom Meet poster" width={600} height={800} decoding="async" fetchPriority="high" />
           </div>
         </section>
       </main>

@@ -181,6 +181,8 @@ function PlatformLogo({
         <img
           src={currentSrc}
           alt={alt}
+          width={200}
+          height={56}
           loading="lazy"
           decoding="async"
           onError={() => {
