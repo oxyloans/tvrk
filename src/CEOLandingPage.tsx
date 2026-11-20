@@ -2124,6 +2124,24 @@ export default function CEOLandingPage({
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
               {/* Walk-in Interview Hero Banner (borderless) */}
+               <div className="mt-4 max-w-[640px] ">
+                <External
+                  href="https://www.askoxy.ai/viewjobdetails/013f1b89-3a57-4181-b96c-e9adee52aad6/ARAGEN"
+                  ariaLabel="Exciting internship opportunities for freshers. Apply now and grow with us!"
+                  className="group inline-flex flex-col items-start"
+                >
+                  <span className="ceo-factory-text text-[13px] font-extrabold leading-6 sm:text-[15px]">
+                    #WeAreHiring | 21 Nov 2026
+                  </span>
+                  <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
+                    Apprenticeship - Purification Chemist
+                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </External>
+                <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
+                  Exciting internship opportunities for freshers. Apply now and grow with us!
+                </p>
+              </div>
               <div className="max-w-[640px]">
                 <a
                   href={WALKIN_INTERVIEW_URL}
