@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import InitiativeHeader from "./InitiativeHeader";
 
 type VideoLanguage = "English" | "Telugu";
@@ -280,65 +279,58 @@ function FloatingScrollNavigator() {
   const isNearTop = scrollProgress < 0.5;
 
   return (
-    <AnimatePresence>
-      {showScrollUI && (
-        <motion.div
-          key="scroll-navigator"
-          initial={{ opacity: 0, scale: 0.85, y: 16 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 16 }}
-          transition={{ type: "spring", stiffness: 350, damping: 26 }}
-          className="fixed bottom-5 right-5 z-[80] sm:bottom-7 sm:right-7"
-          aria-label="Scroll navigation"
-        >
-          <motion.button
-            type="button"
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.92 }}
-            onClick={isNearTop ? scrollToBottom : scrollToTop}
-            title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
-            aria-label={
-              isNearTop
-                ? "Scroll to bottom of page"
-                : "Scroll to top of page"
-            }
-            className="group grid h-12 w-12 place-items-center rounded-full border border-slate-300/80 bg-white/95 text-slate-800 shadow-[0_12px_32px_rgba(15,23,42,0.18)] backdrop-blur-md transition hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-[0_16px_36px_rgba(59,130,196,0.25)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4]"
+    <div
+      aria-label="Scroll navigation"
+      className={`fixed bottom-5 right-5 z-[80] transition-all duration-300 ease-out sm:bottom-7 sm:right-7 ${
+        showScrollUI
+          ? "translate-y-0 opacity-100 scale-100 pointer-events-auto"
+          : "translate-y-4 opacity-0 scale-90 pointer-events-none"
+      }`}
+    >
+      <button
+        type="button"
+        onClick={isNearTop ? scrollToBottom : scrollToTop}
+        title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
+        aria-label={
+          isNearTop
+            ? "Scroll to bottom of page"
+            : "Scroll to top of page"
+        }
+        className="group grid h-12 w-12 place-items-center rounded-full border border-slate-300/80 bg-white/95 text-slate-800 shadow-[0_12px_32px_rgba(15,23,42,0.18)] backdrop-blur-md transition hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-[0_16px_36px_rgba(59,130,196,0.25)] hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4]"
+      >
+        {isNearTop ? (
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-200 group-hover:translate-y-0.5"
+            aria-hidden="true"
           >
-            {isNearTop ? (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-200 group-hover:translate-y-0.5"
-                aria-hidden="true"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            ) : (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-200 group-hover:-translate-y-0.5"
-                aria-hidden="true"
-              >
-                <path d="m18 15-6-6-6 6" />
-              </svg>
-            )}
-          </motion.button>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        ) : (
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-200 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          >
+            <path d="m18 15-6-6-6 6" />
+          </svg>
+        )}
+      </button>
+    </div>
   );
 }
 

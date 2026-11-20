@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 
 type InitiativeHeaderProps = {
   active?: "home" | "foundation" | "bridgital" | "certificates" | "links";
@@ -23,6 +22,7 @@ export default function InitiativeHeader({
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -31,27 +31,26 @@ export default function InitiativeHeader({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Dynamic Scroll Progress at Top Border
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 26,
-    restDelta: 0.001,
-  });
-
   const closeMenu = () => {
     setOpen(false);
     setResourcesOpen(false);
     setMobileResourcesOpen(false);
   };
 
-  // Scroll position detector for header visual mode
+  // Scroll position detector for header visual mode & progress bar
   useEffect(() => {
     let animationFrame = 0;
     const updateScrollState = () => {
       cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(() => {
         setIsScrolled(window.scrollY > 28);
+        const totalHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        setScrollProgress(
+          totalHeight > 0
+            ? Math.min(1, Math.max(0, window.scrollY / totalHeight))
+            : 0
+        );
       });
     };
 
@@ -286,70 +285,52 @@ export default function InitiativeHeader({
           </svg>
         </button>
 
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={
-                mobile
-                  ? { opacity: 0, height: 0 }
-                  : { opacity: 0, y: 8, scale: 0.98 }
-              }
-              animate={
-                mobile
-                  ? { opacity: 1, height: "auto" }
-                  : { opacity: 1, y: 0, scale: 1 }
-              }
-              exit={
-                mobile
-                  ? { opacity: 0, height: 0 }
-                  : { opacity: 0, y: 8, scale: 0.98 }
-              }
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className={`tvrk-resource-menu ${
-                mobile ? "tvrk-resource-menu-mobile" : ""
-              }`}
-              role="menu"
-            >
-              <p className="tvrk-resource-eyebrow">Explore</p>
-              {resourceLinks.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  role="menuitem"
-                  className={`tvrk-resource-item tvrk-resource-${item.key} ${
-                    active === item.key ? "is-current" : ""
-                  }`}
+        {isExpanded && (
+          <div
+            className={`tvrk-resource-menu ${
+              mobile ? "tvrk-resource-menu-mobile" : ""
+            }`}
+            role="menu"
+          >
+            <p className="tvrk-resource-eyebrow">Explore</p>
+            {resourceLinks.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                role="menuitem"
+                className={`tvrk-resource-item tvrk-resource-${item.key} ${
+                  active === item.key ? "is-current" : ""
+                }`}
+              >
+                <span
+                  className={
+                    item.key === "foundation" ? "tvrk-foundation-resource" : ""
+                  }
                 >
-                  <span
-                    className={
-                      item.key === "foundation" ? "tvrk-foundation-resource" : ""
-                    }
-                  >
-                    {item.key === "foundation" ? (
-                      <>
-                        <span>OXY</span>
-                        <span> FOUNDATION</span>
-                      </>
-                    ) : (
-                      item.label
-                    )}
-                  </span>
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m13 6 6 6-6 6" />
-                  </svg>
-                </a>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  {item.key === "foundation" ? (
+                    <>
+                      <span>OXY</span>
+                      <span> FOUNDATION</span>
+                    </>
+                  ) : (
+                    item.label
+                  )}
+                </span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     );
   };
@@ -398,6 +379,7 @@ export default function InitiativeHeader({
           transform-origin: 0% 50%;
           background: linear-gradient(90deg, #0a56d8 0%, #6a27e8 35%, #ec0b82 70%, #ff8a62 100%);
           box-shadow: 0 0 10px rgba(236, 11, 130, 0.75), 0 0 4px rgba(10, 86, 216, 0.85);
+          transition: transform .08s linear;
         }
 
         /* SCROLLED HEADER STATE — SOLID OPAQUE WHITE TO PREVENT ANY BACKGROUND BLEED */
@@ -1073,27 +1055,42 @@ export default function InitiativeHeader({
           }
         }
 
+        @keyframes tvrk-fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes tvrk-slide-down {
+          from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes tvrk-dropdown-in {
+          from { opacity: 0; transform: translateY(6px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .tvrk-backdrop {
+          animation: tvrk-fade-in 0.2s ease-out;
+        }
+        .tvrk-mobile-nav {
+          animation: tvrk-slide-down 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .tvrk-resource-menu {
+          animation: tvrk-dropdown-in 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .tvrk-header,
-          .tvrk-header * { transition: none !important; }
+          .tvrk-header * { transition: none !important; animation: none !important; }
         }
       `}</style>
 
       {/* Screen Backdrop for Mobile / Tablet Drawer */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            key="mobile-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="tvrk-backdrop lg:hidden"
-            onClick={closeMenu}
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
+      {open && (
+        <div
+          className="tvrk-backdrop lg:hidden"
+          onClick={closeMenu}
+          aria-hidden="true"
+        />
+      )}
 
       {active !== "home" && (
         <div className="tvrk-header-spacer" aria-hidden="true" />
@@ -1111,7 +1108,10 @@ export default function InitiativeHeader({
       >
         {/* Dynamic Multi-Color Scrolling Progress Bar across top border */}
         <div className="tvrk-progress-track" aria-hidden="true">
-          <motion.div className="tvrk-progress-bar" style={{ scaleX }} />
+          <div
+            className="tvrk-progress-bar"
+            style={{ transform: `scaleX(${scrollProgress})` }}
+          />
         </div>
 
         <div className="tvrk-header-inner">
@@ -1247,70 +1247,64 @@ export default function InitiativeHeader({
         </div>
 
         {/* Mobile & Tablet Animated Navigation Menu */}
-        <AnimatePresence>
-          {open && (
-            <motion.nav
-              id="tvrk-mobile-menu"
-              className="tvrk-mobile-nav"
-              aria-label="Mobile navigation"
-              initial={{ opacity: 0, y: -14, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -14, scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 380, damping: 28 }}
+        {open && (
+          <nav
+            id="tvrk-mobile-menu"
+            className="tvrk-mobile-nav"
+            aria-label="Mobile navigation"
+          >
+            <NavLink
+              href="/#about"
+              current={isHome && activeSection === "about"}
             >
-              <NavLink
-                href="/#about"
-                current={isHome && activeSection === "about"}
-              >
-                Home
-              </NavLink>
-              <NavLink
-                href="/#ecosystem"
-                current={isHome && activeSection === "ecosystem"}
-              >
-                Ecosystem
-              </NavLink>
-              <NavLink
-                href="/#vision"
-                current={isHome && activeSection === "vision"}
-              >
-                Vision
-              </NavLink>
-              <NavLink
-                href="/#4p-models"
-                current={isHome && activeSection === "4p-models"}
-              >
-                4P Models
-              </NavLink>
+              Home
+            </NavLink>
+            <NavLink
+              href="/#ecosystem"
+              current={isHome && activeSection === "ecosystem"}
+            >
+              Ecosystem
+            </NavLink>
+            <NavLink
+              href="/#vision"
+              current={isHome && activeSection === "vision"}
+            >
+              Vision
+            </NavLink>
+            <NavLink
+              href="/#4p-models"
+              current={isHome && activeSection === "4p-models"}
+            >
+              4P Models
+            </NavLink>
 
-              <ResourcesMenu mobile />
+            <ResourcesMenu mobile />
 
-              <a
-                href="https://www.askoxy.ai/radhAI"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tvrk-ai-btn"
-                onClick={closeMenu}
+            <a
+              href="https://www.askoxy.ai/radhAI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tvrk-ai-btn"
+              onClick={closeMenu}
+            >
+              <span>Talk to radhAI</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
               >
-                <span>Talk to radhAI</span>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M7 17 17 7" />
-                  <path d="M7 7h10v10" />
-                </svg>
-              </a>
-            </motion.nav>
-          )}
-        </AnimatePresence>
+                <path d="M7 17 17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </a>
+          </nav>
+        )}
       </header>
     </>
   );

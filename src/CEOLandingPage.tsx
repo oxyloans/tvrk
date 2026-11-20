@@ -1,12 +1,10 @@
 import React, { useState, useRef, useEffect, type ReactNode } from "react";
 import { SiZoom } from "react-icons/si";
 import { Phone, PhoneCall } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 import InitiativeHeader from "./InitiativeHeader";
 const FourPSection = React.lazy(() => import("./FourPSection"));
 import Tvrk from "../src/assets/tvrk.png";
-import WalkinCard1 from "../src/assets/walkincard1.png";
 const WALKIN_IMAGE_SOURCES = [
   "https://i.ibb.co/rK3tvhyw/walkin-nov.png",
   "/assets/walkincard.png",
@@ -18,7 +16,7 @@ const WALKIN_MAP_URL =
   "https://maps.app.goo.gl/isLGUCdN63q7vG3p7?g_st=iw";
 const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png" ;
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/jPB3MPT4/insta-card.png" ;
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v6QR6M0v/insta-card.png" ;
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
@@ -675,71 +673,13 @@ function OxyLoansAnniversarySection() {
             </div>
           </div>
         </div>
-        {/* ROW 2: THE POWERHOUSE — SUBASH (Content Left, Image Right) */}
-        <div
-          ref={subashReveal.blockRef}
-          id="the-powerhouse-subash"
-          aria-labelledby="subash-powerhouse-title"
-          className="grid min-w-0 scroll-mt-24 items-center gap-6 border-t border-white/10 pt-12 sm:pt-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-9 lg:pt-16 xl:gap-12"
-        >
-          <div className="min-w-0">
-            <h2
-              id="subash-powerhouse-title"
-              className="oxy-enter boss-display-title oxy-rate inline-block max-w-full bg-gradient-to-r from-[#ffe2be] via-[#ffffff] to-[#ffbe85] bg-clip-text uppercase text-transparent"
-            >
-              THE POWERHOUSE.
-            </h2>
-            <p className="oxy-enter oxy-delay-1 mt-2 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.02em] text-white">
-              The Leader. The Strategy. <span className="text-[#ffd5b1]">The Execution.</span>
-            </p>
-            <p className="oxy-enter oxy-delay-2 oxy-rate mt-3 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.35rem,2.4vw,2.15rem)] font-extrabold leading-[1.2] tracking-[-.035em] text-transparent">
-              10 Years of Dedication. Operations. Growth.
-            </p>
-            <p className="oxy-enter oxy-delay-2 mt-3.5 max-w-[630px] text-[13px] leading-relaxed text-white/85 sm:text-[14.5px] sm:leading-7">
-              Behind every successful business is strong execution.{" "}
-              <strong className="font-bold text-white">Subash, Co-Founder of OxyLoans</strong>, leads operations and management, driving teams, strengthening processes, and turning vision into results.
-            </p>
-            <div className="oxy-enter oxy-delay-3 mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffd8b5]/30 bg-white/[0.08] px-4 py-2 text-[12px] font-bold tracking-wide text-[#ffdbb8] sm:text-[13px]">
-              <span aria-hidden="true" className="text-sm leading-none">✦</span>
-              <span>One Mission. Strong Execution. A Journey That Continues.</span>
-            </div>
-            <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-              <a
-                href={OXYLOANS_LENDER_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="oxy-action inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffd8b5] px-5 py-2.5 text-xs font-extrabold text-[#251b63] transition-[background,transform] hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#241b67]"
-              >
-                Join OxyLoans Ecosystem <ArrowUpRight className="h-4 w-4" />
-              </a>
-            </div>
-          </div>
-          <FeaturePhotoCard
-            src={SUBASH_POWERHOUSE_IMG}
-            alt="Subash — The Powerhouse, Co-Founder of OxyLoans"
-            caption="Subash · The Power House · Co-Founder, OxyLoans"
-            badge="The Power House"
-            width={640}
-            height={360}
-          />
-        </div>
-
-        {/* ROW 3: THE SILENT STORM — RAMADEVI (Image Left, Content Right) */}
+        {/* ROW 2: THE SILENT STORM — RAMADEVI (Content Left, Image Right) */}
         <div
           ref={ramaReveal.blockRef}
           id="the-silent-storm-ramadevi"
           aria-labelledby="ramadevi-silentstorm-title"
-          className="grid min-w-0 scroll-mt-24 items-center gap-6 border-t border-white/10 pt-12 sm:pt-14 lg:grid-cols-[minmax(0,.95fr)_minmax(0,1.05fr)] lg:gap-9 lg:pt-16 xl:gap-12"
+          className="grid min-w-0 scroll-mt-24 items-center gap-6 border-t border-white/10 pt-12 sm:pt-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-9 lg:pt-16 xl:gap-12"
         >
-          <FeaturePhotoCard
-            src={RAMADEVI_SILENTSTORM_IMG}
-            alt="RamaDevi — Silent Storm, CTO of OxyLoans"
-            caption="RamaDevi · Silent Storm · CTO, OxyLoans"
-            badge="Silent Storm"
-            className="oxy-video-left"
-            width={640}
-            height={360}
-          />
           <div className="min-w-0">
             <h2
               id="ramadevi-silentstorm-title"
@@ -772,8 +712,66 @@ function OxyLoansAnniversarySection() {
               </a>
             </div>
           </div>
+          <FeaturePhotoCard
+            src={RAMADEVI_SILENTSTORM_IMG}
+            alt="RamaDevi — Silent Storm, CTO of OxyLoans"
+            caption="RamaDevi · Silent Storm · CTO, OxyLoans"
+            badge="Silent Storm"
+            width={640}
+            height={360}
+          />
         </div>
 
+        {/* ROW 3: THE POWERHOUSE — SUBASH (Image Left, Content Right) */}
+        <div
+          ref={subashReveal.blockRef}
+          id="the-powerhouse-subash"
+          aria-labelledby="subash-powerhouse-title"
+          className="grid min-w-0 scroll-mt-24 items-center gap-6 border-t border-white/10 pt-12 sm:pt-14 lg:grid-cols-[minmax(0,.95fr)_minmax(0,1.05fr)] lg:gap-9 lg:pt-16 xl:gap-12"
+        >
+          <FeaturePhotoCard
+            src={SUBASH_POWERHOUSE_IMG}
+            alt="Subash — The Powerhouse, Co-Founder of OxyLoans"
+            caption="Subash · The Power House · Co-Founder, OxyLoans"
+            badge="The Power House"
+            className="oxy-video-left"
+            width={640}
+            height={360}
+          />
+          <div className="min-w-0">
+            <h2
+              id="subash-powerhouse-title"
+              className="oxy-enter boss-display-title oxy-rate inline-block max-w-full bg-gradient-to-r from-[#ffe2be] via-[#ffffff] to-[#ffbe85] bg-clip-text uppercase text-transparent"
+            >
+              THE POWERHOUSE.
+            </h2>
+            <p className="oxy-enter oxy-delay-1 mt-2 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.02em] text-white">
+              The Leader. The Strategy. <span className="text-[#ffd5b1]">The Execution.</span>
+            </p>
+            <p className="oxy-enter oxy-delay-2 oxy-rate mt-3 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.35rem,2.4vw,2.15rem)] font-extrabold leading-[1.2] tracking-[-.035em] text-transparent">
+              10 Years of Dedication. Operations. Growth.
+            </p>
+            <p className="oxy-enter oxy-delay-2 mt-3.5 max-w-[630px] text-[13px] leading-relaxed text-white/85 sm:text-[14.5px] sm:leading-7">
+              Behind every successful business is strong execution.{" "}
+              <strong className="font-bold text-white">Subash, Co-Founder of OxyLoans</strong>, leads operations and management, driving teams, strengthening processes, and turning vision into results.
+            </p>
+            <div className="oxy-enter oxy-delay-3 mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffd8b5]/30 bg-white/[0.08] px-4 py-2 text-[12px] font-bold tracking-wide text-[#ffdbb8] sm:text-[13px]">
+              <span aria-hidden="true" className="text-sm leading-none">✦</span>
+              <span>One Mission. Strong Execution. A Journey That Continues.</span>
+            </div>
+            <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a
+                href={OXYLOANS_LENDER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="oxy-action inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffd8b5] px-5 py-2.5 text-xs font-extrabold text-[#251b63] transition-[background,transform] hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#241b67]"
+              >
+                Join OxyLoans Ecosystem <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+       
         {/* ROW 4: 10 YEARS OF OXYLOANS (Content Left, Video Right) */}
         <div
           ref={oxyReveal.blockRef}
@@ -875,65 +873,116 @@ function FloatingScrollNavigator() {
   const isNearTop = scrollProgress < 0.5;
 
   return (
-    <AnimatePresence>
-      {showScrollUI && (
-        <motion.div
-          key="scroll-navigator"
-          initial={{ opacity: 0, scale: 0.85, y: 16 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 16 }}
-          transition={{ type: "spring", stiffness: 350, damping: 26 }}
-          className="fixed bottom-5 right-5 z-[80] sm:bottom-7 sm:right-7"
-          aria-label="Scroll navigation"
-        >
-          <motion.button
-            type="button"
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.92 }}
-            onClick={isNearTop ? scrollToBottom : scrollToTop}
-            title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
-            aria-label={
-              isNearTop
-                ? "Scroll to bottom of page"
-                : "Scroll to top of page"
-            }
-            className="group grid h-12 w-12 place-items-center rounded-full border border-white/25 bg-[#12093d]/95 text-white shadow-[0_12px_32px_rgba(4,2,28,0.42)] backdrop-blur-md transition hover:border-white/45 hover:bg-[#1b0f55] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62]"
+    <div
+      aria-label="Scroll navigation"
+      className={`fixed bottom-5 right-5 z-[80] transition-all duration-300 ease-out sm:bottom-7 sm:right-7 ${
+        showScrollUI
+          ? "translate-y-0 opacity-100 scale-100 pointer-events-auto"
+          : "translate-y-4 opacity-0 scale-90 pointer-events-none"
+      }`}
+    >
+      <button
+        type="button"
+        onClick={isNearTop ? scrollToBottom : scrollToTop}
+        title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
+        aria-label={
+          isNearTop
+            ? "Scroll to bottom of page"
+            : "Scroll to top of page"
+        }
+        className="group grid h-12 w-12 place-items-center rounded-full border border-white/25 bg-[#12093d]/95 text-white shadow-[0_12px_32px_rgba(4,2,28,0.42)] backdrop-blur-md transition-all duration-200 hover:border-white/45 hover:bg-[#1b0f55] hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62]"
+      >
+        {isNearTop ? (
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-200 group-hover:translate-y-0.5"
+            aria-hidden="true"
           >
-            {isNearTop ? (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-200 group-hover:translate-y-0.5"
-                aria-hidden="true"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            ) : (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-200 group-hover:-translate-y-0.5"
-                aria-hidden="true"
-              >
-                <path d="m18 15-6-6-6 6" />
-              </svg>
-            )}
-          </motion.button>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        ) : (
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-200 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          >
+            <path d="m18 15-6-6-6 6" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
+/* =========================================================
+   FLOATING QUICK-CALL HELPLINE (VISIBLE WITHOUT SCROLL, HIDES ON SCROLL)
+========================================================= */
+function FloatingTollFreeHelpline() {
+  const [showTollFree, setShowTollFree] = useState(true);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          // Without scroll (at top of page <= 60px): displayed
+          // With scroll (> 60px): not displayed
+          setShowTollFree(window.scrollY <= 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <aside
+      aria-label="Quick Call Helpline"
+      className={`fixed bottom-5 left-4 z-40 transition-all duration-300 ease-out sm:bottom-7 sm:left-7 ${
+        showTollFree
+          ? "translate-y-0 opacity-100 scale-100 pointer-events-auto"
+          : "translate-y-4 opacity-0 scale-90 pointer-events-none"
+      }`}
+    >
+      <a
+        href={TOLL_FREE_TEL}
+        className="group flex items-center gap-2.5 rounded-full border border-[#ffd8b5]/45 bg-[#1b1248]/92 px-3.5 py-2.5 text-white shadow-[0_12px_32px_rgba(10,5,35,0.50)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#ffd8b5]/80 hover:bg-[#251b67] hover:shadow-[0_16px_36px_rgba(255,200,140,0.28)] active:scale-95"
+        aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY} (24/7, 365 Days Available)`}
+      >
+        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
+          <PhoneCall className="h-4 w-4 animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-[#1b1248]" />
+        </span>
+        <span className="flex flex-col text-left">
+          <span className="flex items-center gap-1.5 text-[9.5px] font-extrabold uppercase tracking-wider text-[#ffd5b1]">
+            <span>Toll Free Helpline</span>
+            <span className="hidden sm:inline-block h-1 w-1 rounded-full bg-emerald-400" />
+            <span className="hidden sm:inline-block text-[9px] font-bold text-emerald-300 lowercase">24/7</span>
+          </span>
+          <span className="font-mono text-xs font-extrabold tracking-wide text-white sm:text-sm">
+            {TOLL_FREE_DISPLAY}
+          </span>
+        </span>
+      </a>
+    </aside>
   );
 }
 
@@ -2019,11 +2068,29 @@ export default function CEOLandingPage({
         @media(hover:none) {
           .ceo-modern .logo-marquee:hover {animation-play-state:running;}
         }
+        @keyframes ceo-aura-pulse {
+          0%, 100% { opacity: 0.35; transform: scale(0.96); }
+          50% { opacity: 0.62; transform: scale(1.04); }
+        }
+        @keyframes ceo-portrait-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        .ceo-modern .ceo-aura-anim {
+          animation: ceo-aura-pulse 6s ease-in-out infinite;
+          will-change: opacity, transform;
+        }
+        .ceo-modern .ceo-portrait-float {
+          animation: ceo-portrait-float 5s ease-in-out infinite;
+          will-change: transform;
+        }
         @media(prefers-reduced-motion:reduce) {
           .ceo-modern .motion-ready,.ceo-modern .motion-ready.motion-in {opacity:1!important;transform:none!important;transition:none!important;}
           .ceo-modern .hero-journey-gradient,
           .ceo-modern .ceo-factory-text,.ceo-modern .ceo-pincode-text,
-          .ceo-modern .logo-marquee {animation:none!important;}
+          .ceo-modern .logo-marquee,
+          .ceo-modern .ceo-aura-anim,
+          .ceo-modern .ceo-portrait-float {animation:none!important;}
           .ceo-modern .ceo-pills-track {transition:none!important;}
         }
       `}</style>
@@ -2038,12 +2105,7 @@ export default function CEOLandingPage({
           className="relative overflow-hidden pt-[80px] text-white sm:pt-[95px] lg:pt-[100px]"
         >
           <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-              className="min-w-0"
-            >
+            <div className="min-w-0">
               <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
                 FinTech · BFSI · Artificial Intelligence
               </p>
@@ -2163,48 +2225,27 @@ export default function CEOLandingPage({
                   </span>
                 </External>
               </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            </div>
+            <div
               className="ceo-portrait-stage relative mx-auto flex w-full max-w-[530px] flex-col items-center justify-end self-end lg:mx-0 lg:justify-self-end"
               aria-label="CEO portrait"
             >
-              {/* Subtle ambient lighting aura behind the portrait */}
-              <motion.div
-                animate={{
-                  opacity: [0.35, 0.62, 0.35],
-                  scale: [0.96, 1.04, 0.96],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
+              {/* Subtle ambient lighting aura behind the portrait (GPU accelerated) */}
+              <div
+                className="ceo-aura-anim pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
                 aria-hidden="true"
               />
 
-              {/* Gently floating portrait with slight breathing motion */}
-              <motion.div
-                animate={{
-                  y: [0, -6, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                whileHover={{ scale: 1.015 }}
-                className="relative z-10 flex w-full justify-center"
+              {/* Gently floating portrait with slight breathing motion (GPU accelerated) */}
+              <div
+                className="ceo-portrait-float relative z-10 flex w-full justify-center transition-transform duration-200 hover:scale-[1.015]"
               >
                 <Portrait
                   key={portraitUrl}
                   src={portraitUrl}
                   className="ceo-portrait-image relative z-10 max-w-[370px] self-end drop-shadow-[0_16px_36px_rgba(10,5,40,0.35)] transition-transform duration-300 sm:max-w-[430px] lg:max-w-[480px]"
                 />
-              </motion.div>
+              </div>
 
               {/* Social logos displayed at the bottom of the right-side CEO image across all devices */}
               <div
@@ -2242,7 +2283,7 @@ export default function CEOLandingPage({
                   </External>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
         {/* =====================================================
@@ -2317,30 +2358,7 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-        {/* =====================================================
-            WALK-IN HIRING — IMAGE-ONLY RESPONSIVE CARD
-            Centered below the company logos, like the Instagram card.
-            No additional text, buttons, or navigation/redirect.
-        ===================================================== */}
-        <section
-          id="walkin-hiring"
-          aria-label="Walk-In Hiring Banner"
-          className="scroll-mt-24 py-6 sm:py-10 lg:py-12"
-        >
-          <div className="tvrk-container mx-auto">
-            <div className="mx-auto w-full max-w-[1200px] overflow-hidden rounded-[20px] border border-white/20 bg-white shadow-[0_18px_50px_rgba(20,10,60,0.16)] sm:rounded-[26px] lg:rounded-[30px]">
-              <img
-                src={WalkinCard1}
-                alt="Walk-In Hiring Banner"
-                width={1600}
-                height={900}
-                loading="lazy"
-                decoding="async"
-                className="block h-auto w-full max-w-full object-contain"
-              />
-            </div>
-          </div>
-        </section>
+
         <OxyLoansAnniversarySection />
         {/* =====================================================
             TVRK ECOSYSTEM BANNER
@@ -2918,29 +2936,8 @@ export default function CEOLandingPage({
           </div>
         </div>
       </footer>
-      {/* FLOATING QUICK-CALL HELPLINE (24/7 · 365 Days Available) */}
-      <aside aria-label="Quick Call Helpline" className="fixed bottom-5 left-4 z-40 sm:bottom-7 sm:left-7">
-        <a
-          href={TOLL_FREE_TEL}
-          className="group flex items-center gap-2.5 rounded-full border border-[#ffd8b5]/45 bg-[#1b1248]/92 px-3.5 py-2.5 text-white shadow-[0_12px_32px_rgba(10,5,35,0.50)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#ffd8b5]/80 hover:bg-[#251b67] hover:shadow-[0_16px_36px_rgba(255,200,140,0.28)] active:scale-95"
-          aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY} (24/7, 365 Days Available)`}
-        >
-          <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
-            <PhoneCall className="h-4 w-4 animate-pulse" />
-            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-[#1b1248]" />
-          </span>
-          <span className="flex flex-col text-left">
-            <span className="flex items-center gap-1.5 text-[9.5px] font-extrabold uppercase tracking-wider text-[#ffd5b1]">
-              <span>Toll Free Helpline</span>
-              <span className="hidden sm:inline-block h-1 w-1 rounded-full bg-emerald-400" />
-              <span className="hidden sm:inline-block text-[9px] font-bold text-emerald-300 lowercase">24/7</span>
-            </span>
-            <span className="font-mono text-xs font-extrabold tracking-wide text-white sm:text-sm">
-              {TOLL_FREE_DISPLAY}
-            </span>
-          </span>
-        </a>
-      </aside>
+      {/* FLOATING QUICK-CALL HELPLINE (Visible without scroll, hides on scroll) */}
+      <FloatingTollFreeHelpline />
       {/* Floating Scroll Navigator (Top to Bottom / Bottom to Top) */}
       <FloatingScrollNavigator />
     </div>
