@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, type ReactNode } from "react";
 import { SiZoom } from "react-icons/si";
-import { Phone, PhoneCall } from "lucide-react";
+import { Phone, PhoneCall, ArrowUp } from "lucide-react";
 
 import InitiativeHeader from "./InitiativeHeader";
 const FourPSection = React.lazy(() => import("./FourPSection"));
@@ -117,6 +117,39 @@ const heroSocials = [
   {
     name: "X",
     href: "https://x.com/RadhakrishnaIND",
+  },
+];
+
+const footerSocials = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/oxyradhakrishna/",
+    hoverBorder: "hover:border-[#0a66c2]",
+    hoverBg: "hover:bg-[#0a66c2]/20",
+  },
+  {
+    name: "X",
+    href: "https://x.com/RadhakrishnaIND",
+    hoverBorder: "hover:border-white",
+    hoverBg: "hover:bg-white/20",
+  },
+  {
+    name: "Instagram",
+    href: INSTAGRAM_URL,
+    hoverBorder: "hover:border-[#e1306c]",
+    hoverBg: "hover:bg-[#e1306c]/20",
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/share/1AcVZzEu7y/",
+    hoverBorder: "hover:border-[#1877f2]",
+    hoverBg: "hover:bg-[#1877f2]/20",
+  },
+  {
+    name: "WhatsApp",
+    href: WHATSAPP_CHANNEL_URL,
+    hoverBorder: "hover:border-[#25d366]",
+    hoverBg: "hover:bg-[#25d366]/20",
   },
 ];
 /* =========================================================
@@ -828,139 +861,13 @@ function OxyLoansAnniversarySection() {
 }
 
 /* =========================================================
-   FLOATING SCROLL NAVIGATOR (TOP TO BOTTOM / BOTTOM TO TOP)
-========================================================= */
-function FloatingScrollNavigator() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [showScrollUI, setShowScrollUI] = useState(false);
-
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const totalHeight =
-            document.documentElement.scrollHeight - window.innerHeight;
-          const currentY = window.scrollY;
-          const progress =
-            totalHeight > 0
-              ? Math.min(1, Math.max(0, currentY / totalHeight))
-              : 0;
-          setScrollProgress(progress);
-          setShowScrollUI(currentY > 60);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  };
-
-  const isNearTop = scrollProgress < 0.5;
-
-  return (
-    <div
-      aria-label="Scroll navigation"
-      className={`fixed bottom-5 right-5 z-[80] transition-all duration-300 ease-out sm:bottom-7 sm:right-7 ${
-        showScrollUI
-          ? "translate-y-0 opacity-100 scale-100 pointer-events-auto"
-          : "translate-y-4 opacity-0 scale-90 pointer-events-none"
-      }`}
-    >
-      <button
-        type="button"
-        onClick={isNearTop ? scrollToBottom : scrollToTop}
-        title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
-        aria-label={
-          isNearTop
-            ? "Scroll to bottom of page"
-            : "Scroll to top of page"
-        }
-        className="group grid h-12 w-12 place-items-center rounded-full border border-white/25 bg-[#12093d]/95 text-white shadow-[0_12px_32px_rgba(4,2,28,0.42)] backdrop-blur-md transition-all duration-200 hover:border-white/45 hover:bg-[#1b0f55] hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff8a62]"
-      >
-        {isNearTop ? (
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="transition-transform duration-200 group-hover:translate-y-0.5"
-            aria-hidden="true"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        ) : (
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="transition-transform duration-200 group-hover:-translate-y-0.5"
-            aria-hidden="true"
-          >
-            <path d="m18 15-6-6-6 6" />
-          </svg>
-        )}
-      </button>
-    </div>
-  );
-}
-
-/* =========================================================
-   FLOATING QUICK-CALL HELPLINE (VISIBLE WITHOUT SCROLL, HIDES ON SCROLL)
+   FLOATING QUICK-CALL HELPLINE (FIXED BOTTOM RIGHT - ALWAYS DISPLAYED)
 ========================================================= */
 function FloatingTollFreeHelpline() {
-  const [showTollFree, setShowTollFree] = useState(true);
-
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          // Without scroll (at top of page <= 60px): displayed
-          // With scroll (> 60px): not displayed
-          setShowTollFree(window.scrollY <= 60);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <aside
       aria-label="Quick Call Helpline"
-      className={`fixed bottom-5 left-4 z-40 transition-all duration-300 ease-out sm:bottom-7 sm:left-7 ${
-        showTollFree
-          ? "translate-y-0 opacity-100 scale-100 pointer-events-auto"
-          : "translate-y-4 opacity-0 scale-90 pointer-events-none"
-      }`}
+      className="fixed bottom-5 right-4 z-40 sm:bottom-6 sm:right-6"
     >
       <a
         href={TOLL_FREE_TEL}
@@ -2099,12 +2006,12 @@ export default function CEOLandingPage({
         {/* =====================================================
             HERO
         ===================================================== */}
-        <section
+      <section
           id="about"
           aria-labelledby="hero-heading"
-          className="relative overflow-hidden pt-[80px] text-white sm:pt-[95px] lg:pt-[100px]"
+          className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
         >
-          <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
+          <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-8 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-10 xl:gap-12">
             <div className="min-w-0">
               <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
                 FinTech · BFSI · Artificial Intelligence
@@ -2116,53 +2023,14 @@ export default function CEOLandingPage({
                 <span className="block">Every Journey.</span>
                 <span className="mt-1 block sm:mt-1.5">One Partner.</span>
               </h1>
-              <p className="mt-4 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
+              <p className="mt-5 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
                 From birth to legacy, we’re with you at every turn.
               </p>
               <p className="hero-copy mt-2 max-w-[640px] text-[13px] font-medium leading-6 sm:text-[15px] sm:leading-7">
                 Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
-              {/* Walk-in Interview Hero Banner (borderless) */}
-               <div className="mt-4 max-w-[640px] ">
-                <External
-                  href="https://www.askoxy.ai/viewjobdetails/013f1b89-3a57-4181-b96c-e9adee52aad6/ARAGEN"
-                  ariaLabel="Exciting internship opportunities for freshers. Apply now and grow with us!"
-                  className="group inline-flex flex-col items-start"
-                >
-                  <span className="ceo-factory-text text-[13px] font-extrabold leading-6 sm:text-[15px]">
-                    #WeAreHiring | 21 Nov 2026
-                  </span>
-                  <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
-                    Apprenticeship - Purification Chemist
-                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </span>
-                </External>
-                <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
-                  Exciting internship opportunities for freshers. Apply now and grow with us!
-                </p>
-              </div>
-              <div className="max-w-[640px]">
-                <a
-                  href={WALKIN_INTERVIEW_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Walk-In Interviews 13th & 14th November at ASKOXY.AI — Click to apply"
-                  className={`${focus} group block overflow-hidden transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99]`}
-                >
-                  <img
-                    src={WALKIN_IMAGE_SOURCES[0]}
-                    alt="Walk-In Interviews 13th & 14th November - Hyderabad - We Are Hiring - Apply at ASKOXY.AI"
-                    width={640}
-                    height={360}
-                    loading="eager"
-                    decoding="async"
-                    className="block h-auto w-full object-contain"
-                  />
-                </a>
-              
-              </div>
-              <div className="mt-4 max-w-[640px]">
+              <div className="mt-5 max-w-[640px]">
                 <External
                   href="https://www.askoxy.ai/partner"
                   ariaLabel="Join as CEO for your PINCODE through CEO Factory"
@@ -2180,7 +2048,20 @@ export default function CEOLandingPage({
                   Connect People. Create Opportunities. Earn &amp; Grow.
                 </p>
               </div>
-              <div className="hero-action-grid mt-5">
+              <div className="ceo-pills-viewport mt-7" aria-label="CEO Factory opportunities">
+                  <div
+                    className={`ceo-pills-track ${slideEnabled ? "" : "ceo-no-transition"}`}
+                    style={{ "--ceo-index": activeOpportunity } as React.CSSProperties}
+                    onTransitionEnd={handleOpportunitySlideEnd}
+                  >
+                    {[...ceoOpportunities, ...ceoOpportunities.slice(0, 5)].map((opportunity, index) => (
+                      <span className="ceo-opportunity-pill" key={`${opportunity}-${index}`}>
+                        {opportunity}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              <div className="hero-action-grid  mt-7">
                 <External
                   href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
                   ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
@@ -2208,16 +2089,6 @@ export default function CEOLandingPage({
                     style={{ color: "#1d4ed8" }}
                   />
                 </External>
-                <External
-                  href={WALKIN_INTERVIEW_URL}
-                  ariaLabel="Walk-in interview for Legal Analyst (Advocate), November 16–21, 2026 — Apply at ASKOXY.AI (opens in a new tab)"
-                  className={`${focus} hero-gloss-button hero-gloss-walkin`}
-                >
-                  <BriefcaseIcon className="h-4 w-4 shrink-0 text-pink-200" />
-                  <span>Legal Analysts Nov 16–21</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-pink-200" />
-                </External>
-
                 <button
                   type="button"
                   onClick={() => writeToUsDialogRef.current?.showModal()}
@@ -2927,16 +2798,48 @@ export default function CEOLandingPage({
             </a>
           </div> */}
 
-          <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
-            <div>
+          <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
+            <div className="flex flex-col items-center sm:items-start">
               <p className="font-display text-sm font-bold text-white">
                 Radhakrishna T
               </p>
-              <p className="mt-1 text-[11px] font-semibold text-white/[0.78]">
+              <p className="mt-0.5 text-[11px] font-semibold text-white/[0.78]">
                 CEO & Co-Founder
               </p>
+              {/* Small Social Media Icons */}
+              <div
+                className="mt-3 flex items-center gap-2"
+                role="group"
+                aria-label="Connect with Radhakrishna T on social media"
+              >
+                {footerSocials.map((item) => (
+                  <External
+                    key={item.name}
+                    href={item.href}
+                    ariaLabel={`Visit Radhakrishna T on ${item.name}`}
+                    className={`grid h-7 w-7 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white/80 transition-all duration-200 hover:scale-110 ${item.hoverBorder} ${item.hoverBg} hover:text-white active:scale-95`}
+                  >
+                    {item.name === "WhatsApp" ? (
+                      <WhatsAppIcon className="h-3.5 w-3.5" />
+                    ) : (
+                      <SocialIcon name={item.name} className="h-3.5 w-3.5" />
+                    )}
+                    <span className="sr-only">{item.name}</span>
+                  </External>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center justify-center gap-1 sm:justify-end">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/[0.08] px-2 py-0.5 text-[11px] font-medium leading-5 text-white/[0.78] backdrop-blur-sm transition-all hover:border-white/30 hover:bg-white/[0.16] hover:text-white active:scale-95"
+                title="Scroll to top of page"
+                aria-label="Scroll to top of page"
+              >
+                <ArrowUp className="h-3 w-3" /> Back to Top
+              </button>
+              <span className="hidden text-white/30 sm:inline">•</span>
               <p className="text-[11px] font-medium leading-5 text-white/[0.72]">
                 © {new Date().getFullYear()} Radhakrishna T. All rights reserved.
               </p>
@@ -2956,8 +2859,6 @@ export default function CEOLandingPage({
       </footer>
       {/* FLOATING QUICK-CALL HELPLINE (Visible without scroll, hides on scroll) */}
       <FloatingTollFreeHelpline />
-      {/* Floating Scroll Navigator (Top to Bottom / Bottom to Top) */}
-      <FloatingScrollNavigator />
     </div>
   );
 }

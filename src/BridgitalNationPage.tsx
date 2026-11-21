@@ -237,7 +237,6 @@ function SectionTitle({ eyebrow, title, copy }: { eyebrow: string; title: string
 }
 
 function FloatingScrollNavigator() {
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollUI, setShowScrollUI] = useState(false);
 
   useEffect(() => {
@@ -245,15 +244,8 @@ function FloatingScrollNavigator() {
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const totalHeight =
-            document.documentElement.scrollHeight - window.innerHeight;
           const currentY = window.scrollY;
-          const progress =
-            totalHeight > 0
-              ? Math.min(1, Math.max(0, currentY / totalHeight))
-              : 0;
-          setScrollProgress(progress);
-          setShowScrollUI(currentY > 60);
+          setShowScrollUI(currentY > 100);
           ticking = false;
         });
         ticking = true;
@@ -269,15 +261,6 @@ function FloatingScrollNavigator() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  };
-
-  const isNearTop = scrollProgress < 0.5;
-
   return (
     <div
       aria-label="Scroll navigation"
@@ -289,46 +272,25 @@ function FloatingScrollNavigator() {
     >
       <button
         type="button"
-        onClick={isNearTop ? scrollToBottom : scrollToTop}
-        title={isNearTop ? "Scroll to Bottom" : "Scroll to Top"}
-        aria-label={
-          isNearTop
-            ? "Scroll to bottom of page"
-            : "Scroll to top of page"
-        }
+        onClick={scrollToTop}
+        title="Scroll to Top"
+        aria-label="Scroll to top of page"
         className="group grid h-12 w-12 place-items-center rounded-full border border-slate-300/80 bg-white/95 text-slate-800 shadow-[0_12px_32px_rgba(15,23,42,0.18)] backdrop-blur-md transition hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-[0_16px_36px_rgba(59,130,196,0.25)] hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4]"
       >
-        {isNearTop ? (
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="transition-transform duration-200 group-hover:translate-y-0.5"
-            aria-hidden="true"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        ) : (
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="transition-transform duration-200 group-hover:-translate-y-0.5"
-            aria-hidden="true"
-          >
-            <path d="m18 15-6-6-6 6" />
-          </svg>
-        )}
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="transition-transform duration-200 group-hover:-translate-y-0.5"
+          aria-hidden="true"
+        >
+          <path d="m18 15-6-6-6 6" />
+        </svg>
       </button>
     </div>
   );

@@ -232,6 +232,30 @@ function StepCard({ step, index }: { step: Step; index: number }) {
   );
 }
 
+function FloatingTollFreeHelpline() {
+  return (
+    <aside
+      aria-label="Quick Call Helpline"
+      className="fixed bottom-5 right-4 z-40 sm:bottom-6 sm:right-6"
+    >
+      <a
+        href={TOLL_FREE_TEL}
+        className="group flex items-center gap-2.5 rounded-full border border-violet-400/40 bg-gradient-to-r from-violet-600 to-indigo-700 px-4 py-3 text-white shadow-[0_10px_25px_rgba(76,29,149,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_14px_30px_rgba(76,29,149,0.45)] active:scale-95"
+        aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY}`}
+      >
+        <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+          <PhoneCall size={18} className="animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-violet-300 ring-2 ring-violet-700" />
+        </span>
+        <span className="flex flex-col text-left">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-violet-100">Toll Free Helpline</span>
+          <span className="font-mono text-xs font-extrabold sm:text-sm">{TOLL_FREE_DISPLAY}</span>
+        </span>
+      </a>
+    </aside>
+  );
+}
+
 export default function OxyLinksPage() {
   const [platformTab, setPlatformTab] = useState<"web" | "android" | "ios">("web");
 
@@ -345,7 +369,7 @@ export default function OxyLinksPage() {
               </div>
               <ActionLink href={URL.jobs} className="sm:shrink-0">Apply Jobs -{">"}</ActionLink>
             </div>
-            <article aria-labelledby="legal-analyst-heading" className="mt-4 rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 via-white to-indigo-50 p-4 shadow-[0_4px_16px_rgba(76,29,149,.06)] sm:p-5">
+            {/* <article aria-labelledby="legal-analyst-heading" className="mt-4 rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 via-white to-indigo-50 p-4 shadow-[0_4px_16px_rgba(76,29,149,.06)] sm:p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
                   <p className="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-violet-800">
@@ -367,7 +391,7 @@ export default function OxyLinksPage() {
                   </a>
                 </div>
               </div>
-            </article>
+            </article> */}
             <ol className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {steps.map((step, index) => <StepCard key={step.title} step={step} index={index} />)}
             </ol>
@@ -626,23 +650,8 @@ export default function OxyLinksPage() {
         </div>
       </footer>
 
-      {/* FLOATING QUICK-CALL ACTION BUTTON (Mobile & Tablet) */}
-      <aside aria-label="Quick Call Helpline" className="fixed bottom-5 right-4 z-40 sm:bottom-6 sm:right-6">
-        <a
-          href={TOLL_FREE_TEL}
-          className="group flex items-center gap-2.5 rounded-full border border-violet-400/40 bg-gradient-to-r from-violet-600 to-indigo-700 px-4 py-3 text-white shadow-[0_10px_25px_rgba(76,29,149,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_14px_30px_rgba(76,29,149,0.45)] active:scale-95"
-          aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY}`}
-        >
-          <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
-            <PhoneCall size={18} className="animate-pulse" />
-            <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-violet-300 ring-2 ring-violet-700" />
-          </span>
-          <span className="flex flex-col text-left">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-violet-100">Toll Free Helpline</span>
-            <span className="font-mono text-xs font-extrabold sm:text-sm">{TOLL_FREE_DISPLAY}</span>
-          </span>
-        </a>
-      </aside>
+      {/* FLOATING QUICK-CALL ACTION BUTTON (Fixed Bottom Right - Always Displayed) */}
+      <FloatingTollFreeHelpline />
     </div>
   );
 }
