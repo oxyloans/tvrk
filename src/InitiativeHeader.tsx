@@ -244,7 +244,7 @@ export default function InitiativeHeader({
     (active === "foundation" ||
       active === "bridgital" ||
       active === "certificates" ||
-      active === "links");
+      active === "links" );
 
   const ResourcesMenu = ({ mobile = false }: { mobile?: boolean }) => {
     const isExpanded = mobile ? mobileResourcesOpen : resourcesOpen;

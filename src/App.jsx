@@ -15,6 +15,7 @@ const BridgitalNationPage = lazy(() => import("./BridgitalNationPage"));
 const CertificatesPage = lazy(() => import("./CertificatesPage"));
 const ZoomMeetSection = lazy(() => import("./GoogleMeetSection"));
 const OxyLinksPage = lazy(() => import("./OxyLinksPage"));
+const HISFF2027Page = lazy(() => import("./HISFF2027Page"));
 
 function PageLoader() {
   return (
@@ -44,6 +45,7 @@ const PAGE_TITLES = {
   "/": "Radhakrishna T | CEO & Co-Founder",
   "/oxy-foundation": "OXY Foundation | Radhakrishna T",
   "/bridgital-nation": "Bridgital Nation | Radhakrishna T",
+  "/hisff-2027": "HISFF 2027 | Hyderabad International Short Film Festival",
 };
 
 /* -------------------------------------------------------
@@ -154,6 +156,8 @@ function App() {
           />
           <Route path="/certificates" element={<CertificatesPage />} />
           <Route path="/zoommeet" element={<ZoomMeetSection />} />
+          <Route path="/hisff-2027" element={<HISFF2027Page />} />
+          <Route path="/hisff" element={<HISFF2027Page />} />
 
           {/* Invalid URL → Home */}
           <Route

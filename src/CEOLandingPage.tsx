@@ -2031,6 +2031,23 @@ export default function CEOLandingPage({
                 Real Estate and Loans for Education, Marriage &amp; Home.
               </p>
               <div className="mt-5 max-w-[640px]">
+                <a
+                  href="/hisff-2027"
+                  className="group inline-flex flex-col items-start"
+                >
+                  <span className="ceo-factory-text text-[13px] font-extrabold leading-6 sm:text-[15px]">
+                    #ShortFilmFestival
+                  </span>
+                  <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
+                    Lights, Camera, Action! Submit Your Short Film
+                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </a>
+                <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
+                  ₹10 Lakh Prize Pool. Submissions Close 6 Dec 2026
+                </p>
+              </div>
+              <div className="mt-5 max-w-[640px]">
                 <External
                   href="https://www.askoxy.ai/partner"
                   ariaLabel="Join as CEO for your PINCODE through CEO Factory"
