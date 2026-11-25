@@ -137,7 +137,7 @@ function StepCard({ step, index }: { step: Step; index: number }) {
   );
 }
 
-export default function WeAreHiring() {
+export default function HiringPage() {
   return (
     <div className="min-h-screen bg-[#f6f7fc] text-slate-900 antialiased">
       <InitiativeHeader active="hiring" />

@@ -8,7 +8,8 @@ const CertificatesPage = lazy(() => import("./CertificatesPage"));
 const HISFF2027Page = lazy(() => import("./HISFF2027Page"));
 const ZoomMeetSection = lazy(() => import("./GoogleMeetSection"));
 const OxyLinksPage = lazy(() => import("./OxyLinksPage"));
-const WeAreHiring = lazy(() => import("./WeAreHiring"));
+const HiringPage = lazy(() => import("./wearehiring"));
+
 function PageLoader() {
     return (<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#241b67] text-white" role="status" aria-live="polite">
       <div className="relative flex items-center justify-center">
@@ -110,8 +111,8 @@ function AppRoutes() {
           <Route path="/zoommeet" element={<ZoomMeetSection />}/>
           <Route path="/hisff-2027" element={<HISFF2027Page />} />
           <Route path="/hisff" element={<HISFF2027Page />} />
-          <Route path="/wearehiring" element={<WeAreHiring />} />
-          <Route path="/hiring" element={<WeAreHiring />} />
+          <Route path="/wearehiring" element={<HiringPage />} />
+          <Route path="/hiring" element={<HiringPage />} />
           <Route path="*" element={<Navigate to="/" replace/>}/>
         </Routes>
       </Suspense>
