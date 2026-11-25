@@ -173,9 +173,9 @@ const footerSocials = [
   },
 ];
 const OPPORTUNITY_CARDS = [
-  { name: "We Are Hiring", image: "https://i.ibb.co/svZLD3W0/hiring1.png", href: "https://www.askoxy.ai/main/askoxyjobs/cad94b21-9f6d-4dc1-9283-02505af3f132", external: true },
-  { name: "Short Film Submissions", image: "https://i.ibb.co/d0Cs9cbQ/film1.png", href: "/hisff-2027", external: false },
-  { name: "CEO Factory", image: "https://i.ibb.co/4wwFWjZH/ceo1.png", href: "https://www.askoxy.ai/partner", external: true },
+  { name: "We Are Hiring", image:"https://i.ibb.co/LDrHRYcn/Hyderabad-Metro-Hiring-Banner.png", href: "https://www.askoxy.ai/main/askoxyjobs/cad94b21-9f6d-4dc1-9283-02505af3f132", external: true },
+  { name: "Short Film Submissions", image: "https://i.ibb.co/vCw5NmHq/Lights-Camera-Submit-Your-Short-Film.png", href: "/hisff-2027", external: false },
+  { name: "CEO Factory", image: "https://i.ibb.co/sJDNpx0D/CEO-PINCODE-Earnings-Banner.png" , href: "https://www.askoxy.ai/partner", external: true },
 ];
 /* =========================================================
    VISIT PLATFORMS
@@ -895,7 +895,6 @@ function OxyLoansAnniversarySection() {
 function OpportunityCards() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const lastInteraction = useRef(0);
   const goTo = (index: number, smooth = true) => {
     const track = trackRef.current;
@@ -908,7 +907,7 @@ function OpportunityCards() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const timer = window.setInterval(() => {
       const track = trackRef.current;
-      if (!track || !mobile.matches || reduced.matches || paused || document.hidden || Date.now() - lastInteraction.current < 6500) return;
+      if (!track || !mobile.matches || reduced.matches || document.hidden || Date.now() - lastInteraction.current < 6500) return;
       const rect = track.getBoundingClientRect();
       if (rect.bottom <= 0 || rect.top >= window.innerHeight || track.contains(document.activeElement)) return;
       const cards = Array.from(track.children) as HTMLElement[];
@@ -917,7 +916,7 @@ function OpportunityCards() {
       goTo(next, next !== 0);
     }, 3500);
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, []);
 
   return (
     <div className="w-full min-w-0">
@@ -967,9 +966,6 @@ function OpportunityCards() {
             <span className={`h-1.5 rounded-full transition-all ${active === index ? "w-6 bg-[#ffd5a5]" : "w-2 bg-white/40"}`} />
           </button>
         ))}
-        <button type="button" onClick={() => setPaused(value => !value)} aria-label={paused ? "Resume automatic scrolling" : "Pause automatic scrolling"} className={`${focus} ml-1 grid h-8 w-8 place-items-center rounded-full border border-white/25 text-xs text-white`}>
-          {paused ? "▶" : "Ⅱ"}
-        </button>
       </div>
     </div>
   );
@@ -1956,18 +1952,83 @@ export default function CEOLandingPage({
         .ceo-modern .hero-gloss-button:focus-visible,.ceo-modern a:focus-visible {outline:2px solid #ffbb83;outline-offset:3px;}
         .ceo-modern .ceo-portrait-stage {overflow:hidden;}
         @media (max-width:639px) {
-          .ceo-modern .hero-action-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
-          .ceo-modern .hero-meet-button {grid-column: 1 / -1;}
-          .ceo-modern .hero-video-button {grid-column: 1 / -1;}
-        }
-        @media (min-width:640px) {
           .ceo-modern .hero-action-grid {
-            grid-template-columns: minmax(215px, 1.45fr) repeat(3, minmax(0, 1fr));
-            width: 100%;
-            max-width: 820px;
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 7px !important;
+            width: 100% !important;
+            max-width: 100% !important;
           }
-          .ceo-modern .hero-meet-button {grid-column: auto;}
-          .ceo-modern .hero-video-button {grid-column: auto;}
+          .ceo-modern .hero-meet-button,
+          .ceo-modern .hero-video-button {
+            grid-column: auto !important;
+          }
+          .ceo-modern .hero-gloss-button {
+            min-height: 48px !important;
+            padding: 6px 8px !important;
+            font-size: 11px !important;
+            gap: 5px !important;
+            border-radius: 14px !important;
+          }
+          .ceo-modern .hero-meet-button {
+            padding: 6px 6px !important;
+            gap: 5px !important;
+          }
+          .ceo-modern .hero-meet-icon {
+            width: 22px !important;
+            height: 22px !important;
+            flex-shrink: 0;
+          }
+          .ceo-modern .hero-meet-line1 {
+            font-size: 10px !important;
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+          }
+          .ceo-modern .hero-meet-line2 {
+            font-size: 9.5px !important;
+            line-height: 1.15;
+          }
+          .ceo-modern .hero-meet-arrow {
+            display: none !important;
+          }
+        }
+        @media (min-width:640px) and (max-width:899px) {
+          .ceo-modern .hero-action-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 10px !important;
+            width: 100% !important;
+            max-width: 680px !important;
+          }
+          .ceo-modern .hero-meet-button,
+          .ceo-modern .hero-video-button {
+            grid-column: auto !important;
+          }
+          .ceo-modern .hero-gloss-button {
+            min-height: 52px !important;
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            border-radius: 16px !important;
+          }
+        }
+        @media (min-width:900px) {
+          .ceo-modern .hero-action-grid {
+            display: grid !important;
+            grid-template-columns: minmax(215px, 1.35fr) minmax(125px, 0.95fr) minmax(130px, 0.95fr) minmax(200px, 1.35fr) !important;
+            width: 100% !important;
+            max-width: 820px !important;
+            gap: 10px !important;
+          }
+          .ceo-modern .hero-meet-button,
+          .ceo-modern .hero-video-button {
+            grid-column: auto !important;
+          }
+          .ceo-modern .hero-gloss-button {
+            min-height: 52px !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+            border-radius: 16px !important;
+          }
         }
         @media (max-width:767px) {
           .ceo-modern .motion-ready.motion-from-left {transform:translate3d(-18px,0,0);}
@@ -2183,18 +2244,18 @@ export default function CEOLandingPage({
                           color: "#ffffff",
                         }}
                       >
-                        <span className="flex items-center justify-center gap-2">
-                          <span className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
-                            <PhoneCall className="h-3 w-3 animate-pulse" />
+                        <span className="flex items-center justify-center gap-1.5 sm:gap-2">
+                          <span className="relative flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
+                            <PhoneCall className="h-2.5 w-2.5 sm:h-3 sm:w-3 animate-pulse" />
                             <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-emerald-400 ring-1 ring-[#1b1248]" />
                           </span>
                           <span className="flex flex-col text-left leading-tight whitespace-nowrap">
-                            <span className="flex items-center gap-1 text-[8px] font-extrabold uppercase tracking-tight text-[#ffd5b1] whitespace-nowrap sm:text-[8.5px]">
+                            <span className="flex items-center gap-1 text-[7.5px] sm:text-[8.5px] font-extrabold uppercase tracking-tight text-[#ffd5b1] whitespace-nowrap">
                               <span className="whitespace-nowrap">Toll Free Helpline</span>
                               <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
-                              <span className="text-[7.5px] font-bold text-emerald-300 lowercase whitespace-nowrap">24/7</span>
+                              <span className="text-[7px] sm:text-[7.5px] font-bold text-emerald-300 lowercase whitespace-nowrap">24/7</span>
                             </span>
-                            <span className="font-mono text-[11px] font-extrabold tracking-tight text-white whitespace-nowrap sm:text-xs">
+                            <span className="font-mono text-[10.5px] sm:text-xs font-extrabold tracking-tight text-white whitespace-nowrap">
                               {TOLL_FREE_DISPLAY}
                             </span>
                           </span>
