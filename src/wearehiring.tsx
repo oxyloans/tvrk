@@ -209,11 +209,11 @@ export default function WeAreHiring() {
                   How to apply for a job
                 </h2>
                 <p className="mt-1.5 text-sm leading-6 text-slate-600 sm:text-base">
-                  Follow these five steps to complete your job application with
-                  confidence.
+                  Follow these five steps to complete your job application.
                 </p>
               </div>
             </div>
+
 
             <ol className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {steps.map((step, index) => (
