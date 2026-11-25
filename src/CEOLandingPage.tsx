@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, type ReactNode } from "react";
+import { motion } from "framer-motion";
 import { SiZoom } from "react-icons/si";
 import { Phone, PhoneCall, ArrowUp } from "lucide-react";
 
@@ -10,8 +11,7 @@ const WALKIN_IMAGE_SOURCES = [
   "/assets/walkincard.png",
   "https://i.ibb.co/1fZvDyLM/walkincard.png",
 ];
-const WALKIN_INTERVIEW_URL =
-  "https://www.askoxy.ai/main/askoxyjobs/110e2e85-6cb2-4971-8790-809a0bec2da5";
+
 const WALKIN_MAP_URL =
   "https://maps.app.goo.gl/isLGUCdN63q7vG3p7?g_st=iw";
 const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png" ;
@@ -19,6 +19,8 @@ const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
 const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v6QR6M0v/insta-card.png" ;
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
+const YOUTUBE_CHANNEL_URL =
+  "https://youtube.com/@tvradhakrishna?si=Wlv2yawwGWGQbJ2c";
 const CONTACT_EMAIL = "ceo@oxyglobaltech.net";
 const TOLL_FREE_NUMBER = "04041897778";
 const TOLL_FREE_DISPLAY = "040 4189 7778";
@@ -109,14 +111,26 @@ const heroSocials = [
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/oxyradhakrishna/",
+    hoverBorder: "hover:border-[#0a66c2]",
+    hoverBg: "hover:bg-[#0a66c2]/20",
   },
   {
     name: "Facebook",
     href: "https://www.facebook.com/share/1AcVZzEu7y/",
+    hoverBorder: "hover:border-[#1877f2]",
+    hoverBg: "hover:bg-[#1877f2]/20",
   },
   {
     name: "X",
     href: "https://x.com/RadhakrishnaIND",
+    hoverBorder: "hover:border-white",
+    hoverBg: "hover:bg-white/20",
+  },
+  {
+    name: "YouTube",
+    href: YOUTUBE_CHANNEL_URL,
+    hoverBorder: "hover:border-[#ff0000]",
+    hoverBg: "hover:bg-[#ff0000]/20",
   },
 ];
 
@@ -146,11 +160,22 @@ const footerSocials = [
     hoverBg: "hover:bg-[#1877f2]/20",
   },
   {
+    name: "YouTube",
+    href: YOUTUBE_CHANNEL_URL,
+    hoverBorder: "hover:border-[#ff0000]",
+    hoverBg: "hover:bg-[#ff0000]/20",
+  },
+  {
     name: "WhatsApp",
     href: WHATSAPP_CHANNEL_URL,
     hoverBorder: "hover:border-[#25d366]",
     hoverBg: "hover:bg-[#25d366]/20",
   },
+];
+const OPPORTUNITY_CARDS = [
+  { name: "We Are Hiring", image: "https://i.ibb.co/svZLD3W0/hiring1.png", href: "https://www.askoxy.ai/main/askoxyjobs/cad94b21-9f6d-4dc1-9283-02505af3f132", external: true },
+  { name: "Short Film Submissions", image: "https://i.ibb.co/d0Cs9cbQ/film1.png", href: "/hisff-2027", external: false },
+  { name: "CEO Factory", image: "https://i.ibb.co/4wwFWjZH/ceo1.png", href: "https://www.askoxy.ai/partner", external: true },
 ];
 /* =========================================================
    VISIT PLATFORMS
@@ -266,6 +291,13 @@ function SocialIcon({ name, className = "", style }: SocialIconProps) {
     className,
     style,
   };
+  if (name === "YouTube") {
+    return (
+      <svg {...props} fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+      </svg>
+    );
+  }
   if (name === "Instagram") {
     return (
       <svg {...props} fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -860,39 +892,88 @@ function OxyLoansAnniversarySection() {
   );
 }
 
-/* =========================================================
-   FLOATING QUICK-CALL HELPLINE (FIXED BOTTOM RIGHT - ALWAYS DISPLAYED)
-========================================================= */
-function FloatingTollFreeHelpline() {
+function OpportunityCards() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const lastInteraction = useRef(0);
+  const goTo = (index: number, smooth = true) => {
+    const track = trackRef.current;
+    const card = track?.children[index] as HTMLElement | undefined;
+    if (!track || !card) return;
+    track.scrollTo({ left: card.offsetLeft, behavior: smooth ? "smooth" : "auto" });
+  };
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 767px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const timer = window.setInterval(() => {
+      const track = trackRef.current;
+      if (!track || !mobile.matches || reduced.matches || paused || document.hidden || Date.now() - lastInteraction.current < 6500) return;
+      const rect = track.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight || track.contains(document.activeElement)) return;
+      const cards = Array.from(track.children) as HTMLElement[];
+      const current = cards.reduce((best, card, index) => Math.abs(card.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft) ? index : best, 0);
+      const next = (current + 1) % OPPORTUNITY_CARDS.length;
+      goTo(next, next !== 0);
+    }, 3500);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
   return (
-    <aside
-      aria-label="Quick Call Helpline"
-      className="fixed bottom-5 right-4 z-40 sm:bottom-6 sm:right-6"
-    >
-      <a
-        href={TOLL_FREE_TEL}
-        className="group flex items-center gap-2.5 rounded-full border border-[#ffd8b5]/45 bg-[#1b1248]/92 px-3.5 py-2.5 text-white shadow-[0_12px_32px_rgba(10,5,35,0.50)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#ffd8b5]/80 hover:bg-[#251b67] hover:shadow-[0_16px_36px_rgba(255,200,140,0.28)] active:scale-95"
-        aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY} (24/7, 365 Days Available)`}
+    <div className="w-full min-w-0">
+      <style>{`
+        .oxy-opportunity-track { scrollbar-width:none; }
+        .oxy-opportunity-track::-webkit-scrollbar { display:none; }
+        .oxy-opportunity-card { scroll-snap-align:start; }
+        @media (prefers-reduced-motion:reduce) { .oxy-opportunity-card { transition:none!important; } }
+      `}</style>
+      <div
+        ref={trackRef}
+        role="group"
+        aria-label="Explore opportunities"
+        className="oxy-opportunity-track relative flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-3 md:gap-3.5 lg:gap-4 md:overflow-visible md:pb-0"
+        onPointerDown={() => { lastInteraction.current = Date.now(); }}
+        onScroll={() => {
+          const track = trackRef.current;
+          if (!track || !window.matchMedia("(max-width: 767px)").matches) return;
+          const cards = Array.from(track.children) as HTMLElement[];
+          setActive(cards.reduce((best, card, index) => Math.abs(card.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft) ? index : best, 0));
+        }}
       >
-        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
-          <PhoneCall className="h-4 w-4 animate-pulse" />
-          <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-[#1b1248]" />
-        </span>
-        <span className="flex flex-col text-left">
-          <span className="flex items-center gap-1.5 text-[9.5px] font-extrabold uppercase tracking-wider text-[#ffd5b1]">
-            <span>Toll Free Helpline</span>
-            <span className="hidden sm:inline-block h-1 w-1 rounded-full bg-emerald-400" />
-            <span className="hidden sm:inline-block text-[9px] font-bold text-emerald-300 lowercase">24/7</span>
-          </span>
-          <span className="font-mono text-xs font-extrabold tracking-wide text-white sm:text-sm">
-            {TOLL_FREE_DISPLAY}
-          </span>
-        </span>
-      </a>
-    </aside>
+        {OPPORTUNITY_CARDS.map((card) => (
+          <a
+            key={card.name}
+            href={card.href}
+            target={card.external ? "_blank" : undefined}
+            rel={card.external ? "noopener noreferrer" : undefined}
+            aria-label={card.name}
+            className={`${focus} oxy-opportunity-card block w-[calc(84%+4px)] min-w-[calc(84%+4px)] shrink-0 rounded-xl transition-all duration-300 md:w-full md:min-w-0 md:hover:-translate-y-1`}
+          >
+            <div className="overflow-hidden rounded-xl p-[2px]">
+              <img
+                src={card.image}
+                alt={card.name}
+                decoding="async"
+                loading="eager"
+                className="block h-auto w-[calc(100%+4px)] min-h-[calc(100%+4px)] rounded-xl object-contain shadow-[0_4px_16px_rgba(10,5,30,0.20)]"
+              />
+            </div>
+          </a>
+        ))}
+      </div>
+      <div className="mt-1 flex items-center justify-center gap-2 md:hidden">
+        {OPPORTUNITY_CARDS.map((card, index) => (
+          <button key={card.name} type="button" aria-label={`Show ${card.name}`} aria-current={active === index ? "true" : undefined} onClick={() => { lastInteraction.current = Date.now(); goTo(index, !window.matchMedia("(prefers-reduced-motion: reduce)").matches); }} className={`${focus} flex h-8 min-w-7 items-center justify-center rounded-full`}>
+            <span className={`h-1.5 rounded-full transition-all ${active === index ? "w-6 bg-[#ffd5a5]" : "w-2 bg-white/40"}`} />
+          </button>
+        ))}
+        <button type="button" onClick={() => setPaused(value => !value)} aria-label={paused ? "Resume automatic scrolling" : "Pause automatic scrolling"} className={`${focus} ml-1 grid h-8 w-8 place-items-center rounded-full border border-white/25 text-xs text-white`}>
+          {paused ? "▶" : "Ⅱ"}
+        </button>
+      </div>
+    </div>
   );
 }
-
 /* =========================================================
    MAIN PAGE
 ========================================================= */
@@ -2007,191 +2088,201 @@ export default function CEOLandingPage({
             HERO
         ===================================================== */}
       <section
-          id="about"
-          aria-labelledby="hero-heading"
-          className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
-        >
-          <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-8 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,.92fr)] lg:gap-10 lg:pb-10 lg:pt-10 xl:gap-12">
-            <div className="min-w-0">
-              <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
-                FinTech · BFSI · Artificial Intelligence
-              </p>
-              <h1
-                id="hero-heading"
-                className="ceo-gradient-heading hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
+                id="about"
+                aria-labelledby="hero-heading"
+                className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
               >
-                <span className="block">Every Journey.</span>
-                <span className="mt-1 block sm:mt-1.5">One Partner.</span>
-              </h1>
-              <p className="mt-5 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:text-[17px] lg:text-[18px]">
-                From birth to legacy, we’re with you at every turn.
-              </p>
-              <p className="hero-copy mt-2 max-w-[640px] text-[13px] font-medium leading-6 sm:text-[15px] sm:leading-7">
-                Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
-                Real Estate and Loans for Education, Marriage &amp; Home.
-              </p>
-              <div className="mt-5 max-w-[640px]">
-                <a
-                  href="/hisff-2027"
-                  className="group inline-flex flex-col items-start"
-                >
-                  <span className="ceo-factory-text text-[13px] font-extrabold leading-6 sm:text-[15px]">
-                    #ShortFilmFestival
-                  </span>
-                  <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
-                    Lights, Camera, Action! Submit Your Short Film
-                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </span>
-                </a>
-                <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
-                  ₹10 Lakh Prize Pool. Submissions Close 6 Dec 2026
-                </p>
-              </div>
-              <div className="mt-5 max-w-[640px]">
-                <External
-                  href="https://www.askoxy.ai/partner"
-                  ariaLabel="Join as CEO for your PINCODE through CEO Factory"
-                  className="group inline-flex flex-col items-start"
-                >
-                  <span className="ceo-factory-text text-[13px] font-extrabold leading-6 sm:text-[15px]">
-                    #CEOFactory
-                  </span>
-                  <span className="ceo-pincode-text mt-1 flex items-center gap-2 text-[14px] font-extrabold leading-6 sm:text-[17px]">
-                    Join as CEO for Your PINCODE &amp; Earn Money
-                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </span>
-                </External>
-                <p className="hero-copy mt-3 text-[12px] font-medium sm:text-[13px]">
-                  Connect People. Create Opportunities. Earn &amp; Grow.
-                </p>
-              </div>
-              <div className="ceo-pills-viewport mt-7" aria-label="CEO Factory opportunities">
-                  <div
-                    className={`ceo-pills-track ${slideEnabled ? "" : "ceo-no-transition"}`}
-                    style={{ "--ceo-index": activeOpportunity } as React.CSSProperties}
-                    onTransitionEnd={handleOpportunitySlideEnd}
+                <div className="tvrk-container mx-auto grid items-end gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
+                  <motion.div
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                    className="min-w-0 self-end"
                   >
-                    {[...ceoOpportunities, ...ceoOpportunities.slice(0, 5)].map((opportunity, index) => (
-                      <span className="ceo-opportunity-pill" key={`${opportunity}-${index}`}>
-                        {opportunity}
-                      </span>
-                    ))}
-                  </div>
+                    <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
+                      FinTech · BFSI · Artificial Intelligence
+                    </p>
+                    <h1
+                      id="hero-heading"
+                      className="ceo-gradient-heading hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:mt-4 sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
+                    >
+                      <span className="block">Every Journey.</span>
+                      <span className="mt-1 block sm:mt-1.5">One Partner.</span>
+                    </h1>
+                    <p className="mt-5 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:mt-6 sm:text-[17px] lg:text-[18px]">
+                      From birth to legacy, we’re with you at every turn.
+                    </p>
+                    <p className="hero-copy mt-3 max-w-[640px] text-[13px] font-medium leading-6 sm:mt-3.5 sm:text-[15px] sm:leading-7">
+                      Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
+                      Real Estate and Loans for Education, Marriage &amp; Home.
+                    </p>
+                    {/* Walk-in Interview Hero Banner (borderless) */}
+                    <div className="hero-opportunity-placement mt-6 max-w-[752px] sm:mt-7">
+                      <OpportunityCards />
+                    </div>
+                    <div className="hero-action-grid mt-6 sm:mt-7">
+                      <External
+                        href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
+                        ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
+                        className="hero-gloss-button hero-meet-button"
+                        style={{
+                          background: "linear-gradient(135deg, #dbeafe, #93c5fd)",
+                          color: "#123b72",
+                          border: "1px solid #60a5fa",
+                          fontWeight: 700
+                        }}
+                      >
+                        <span className="hero-meet-icon" aria-hidden="true" style={{ background: "rgba(255,255,255,0.85)", color: "#0b5cff" }}>
+                          <SiZoom className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" style={{ color: "#0b5cff" }} />
+                        </span>
+                        <span className="hero-meet-label" style={{ color: "#123b72" }}>
+                          <span className="hero-meet-line1 block whitespace-nowrap font-bold">
+                            Live Q&amp;A · Daily Zoom
+                          </span>
+                          <span className="hero-meet-line2 block whitespace-nowrap font-extrabold" style={{ color: "#0b5cff" }}>
+                            8:00 PM IST
+                          </span>
+                        </span>
+                        <ArrowUpRight
+                          className="hero-meet-arrow h-3.5 w-3.5 shrink-0"
+                          style={{ color: "#1d4ed8" }}
+                        />
+                      </External>
+                      <button
+                        type="button"
+                        onClick={() => writeToUsDialogRef.current?.showModal()}
+                        aria-haspopup="dialog"
+                        aria-controls="write-to-us-dialog"
+                        className={`${focus} hero-gloss-button hero-gloss-peach`}
+                      >
+                        <MailIcon />
+                        <span>Write to Us</span>
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+                      </button>
+      
+                      <External
+                        href="https://youtu.be/INIuPOKQMrE"
+                        ariaLabel="Watch Birth to Legacy Journey on YouTube (opens in a new tab)"
+                        className="hero-gloss-button hero-gloss-purple hero-video-button"
+                      >
+                        <span className="flex items-center justify-center gap-1.5">
+                          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-3.5 w-3.5 shrink-0">
+                            <path d="M6 3.5v13l10-6.5L6 3.5Z" />
+                          </svg>
+                          Watch Video
+                        </span>
+                      </External>
+
+                      <a
+                        href={TOLL_FREE_TEL}
+                        aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY} (24/7 Available)`}
+                        className={`${focus} hero-gloss-button hero-gloss-helpline`}
+                        style={{
+                          background: "linear-gradient(135deg, #1b1248 0%, #291b68 50%, #352184 100%)",
+                          border: "1px solid rgba(255, 216, 181, 0.45)",
+                          color: "#ffffff",
+                        }}
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          <span className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
+                            <PhoneCall className="h-3 w-3 animate-pulse" />
+                            <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-emerald-400 ring-1 ring-[#1b1248]" />
+                          </span>
+                          <span className="flex flex-col text-left leading-tight whitespace-nowrap">
+                            <span className="flex items-center gap-1 text-[8px] font-extrabold uppercase tracking-tight text-[#ffd5b1] whitespace-nowrap sm:text-[8.5px]">
+                              <span className="whitespace-nowrap">Toll Free Helpline</span>
+                              <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
+                              <span className="text-[7.5px] font-bold text-emerald-300 lowercase whitespace-nowrap">24/7</span>
+                            </span>
+                            <span className="font-mono text-[11px] font-extrabold tracking-tight text-white whitespace-nowrap sm:text-xs">
+                              {TOLL_FREE_DISPLAY}
+                            </span>
+                          </span>
+                        </span>
+                      </a>
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    className="ceo-portrait-stage relative mx-auto flex w-full max-w-[490px] flex-col items-center justify-end self-end lg:mx-0 lg:justify-self-end"
+                    aria-label="CEO portrait"
+                  >
+                    {/* Subtle ambient lighting aura behind the portrait */}
+                    <motion.div
+                      animate={{
+                        opacity: [0.35, 0.62, 0.35],
+                        scale: [0.96, 1.04, 0.96],
+                      }}
+                      transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      className="pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
+                      aria-hidden="true"
+                    />
+      
+                    {/* Gently floating portrait with slight breathing motion */}
+                    <motion.div
+                      animate={{
+                        y: [0, -6, 0],
+                      }}
+                      transition={{
+                        duration: 5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      whileHover={{ scale: 1.015 }}
+                      className="relative z-10 flex w-full justify-center"
+                    >
+                      <Portrait
+                        key={portraitUrl}
+                        src={portraitUrl}
+                        className="ceo-portrait-image relative z-10 max-w-[345px] self-end drop-shadow-[0_16px_36px_rgba(10,5,40,0.35)] transition-transform duration-300 sm:max-w-[400px] lg:max-w-[445px]"
+                      />
+                    </motion.div>
+      
+                    {/* Social logos displayed at the bottom of the right-side CEO image across all devices */}
+                    <div
+                      className="relative z-20 mt-3.5 flex items-center justify-center gap-2.5 sm:gap-3.5 pb-0 pt-1"
+                      role="group"
+                      aria-label="Connect with TV Radhakrishna on social media"
+                    >
+                      <External
+                        href={WHATSAPP_CHANNEL_URL}
+                        ariaLabel="Join TV Radhakrishna WhatsApp Channel"
+                        className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#25d366] hover:bg-[#25d366]/20"
+                      >
+                        <WhatsAppIcon className="h-5 w-5 text-white" />
+                        <span className="sr-only">WhatsApp Channel</span>
+                      </External>
+      
+                      <External
+                        href={INSTAGRAM_URL}
+                        ariaLabel="Follow @tvradhakrishna on Instagram"
+                        className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#e1306c] hover:bg-[#e1306c]/20"
+                      >
+                        <SocialIcon name="Instagram" className="h-5 w-5 text-white" />
+                        <span className="sr-only">Instagram</span>
+                      </External>
+      
+                      {heroSocials.map((item) => (
+                        <External
+                          key={item.name}
+                          href={item.href}
+                          ariaLabel={`Visit ${item.name} profile`}
+                          className={`hero-social-circle gloss-link transition-all duration-200 hover:scale-110 ${item.hoverBorder || "hover:border-white"} ${item.hoverBg || "hover:bg-white/20"}`}
+                        >
+                          <SocialIcon name={item.name} className="h-5 w-5" />
+                          <span className="sr-only">{item.name}</span>
+                        </External>
+                      ))}
+                    </div>
+                  </motion.div>
                 </div>
-              <div className="hero-action-grid  mt-7">
-                <External
-                  href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
-                  ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
-                  className="hero-gloss-button hero-meet-button"
-                  style={{
-                    background: "linear-gradient(135deg, #dbeafe, #93c5fd)",
-                    color: "#123b72",
-                    border: "1px solid #60a5fa",
-                    fontWeight: 700
-                  }}
-                >
-                  <span className="hero-meet-icon" aria-hidden="true" style={{ background: "rgba(255,255,255,0.85)", color: "#0b5cff" }}>
-                    <SiZoom className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" style={{ color: "#0b5cff" }} />
-                  </span>
-                  <span className="hero-meet-label" style={{ color: "#123b72" }}>
-                    <span className="hero-meet-line1 block whitespace-nowrap font-bold">
-                      Live Q&amp;A · Daily Zoom
-                    </span>
-                    <span className="hero-meet-line2 block whitespace-nowrap font-extrabold" style={{ color: "#0b5cff" }}>
-                      8:00 PM IST
-                    </span>
-                  </span>
-                  <ArrowUpRight
-                    className="hero-meet-arrow h-3.5 w-3.5 shrink-0"
-                    style={{ color: "#1d4ed8" }}
-                  />
-                </External>
-                <button
-                  type="button"
-                  onClick={() => writeToUsDialogRef.current?.showModal()}
-                  aria-haspopup="dialog"
-                  aria-controls="write-to-us-dialog"
-                  className={`${focus} hero-gloss-button hero-gloss-peach`}
-                >
-                  <MailIcon />
-                  <span>Write to Us</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
-                </button>
-
-                <External
-                  href="https://youtu.be/INIuPOKQMrE"
-                  ariaLabel="Watch Birth to Legacy Journey on YouTube (opens in a new tab)"
-                  className="hero-gloss-button hero-gloss-purple hero-video-button"
-                >
-                  <span className="flex items-center justify-center gap-1.5">
-                    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-3.5 w-3.5 shrink-0">
-                      <path d="M6 3.5v13l10-6.5L6 3.5Z" />
-                    </svg>
-                    Watch Video
-                  </span>
-                </External>
-              </div>
-            </div>
-            <div
-              className="ceo-portrait-stage relative mx-auto flex w-full max-w-[530px] flex-col items-center justify-end self-end lg:mx-0 lg:justify-self-end"
-              aria-label="CEO portrait"
-            >
-              {/* Subtle ambient lighting aura behind the portrait (GPU accelerated) */}
-              <div
-                className="ceo-aura-anim pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
-                aria-hidden="true"
-              />
-
-              {/* Gently floating portrait with slight breathing motion (GPU accelerated) */}
-              <div
-                className="ceo-portrait-float relative z-10 flex w-full justify-center transition-transform duration-200 hover:scale-[1.015]"
-              >
-                <Portrait
-                  key={portraitUrl}
-                  src={portraitUrl}
-                  className="ceo-portrait-image relative z-10 max-w-[370px] self-end drop-shadow-[0_16px_36px_rgba(10,5,40,0.35)] transition-transform duration-300 sm:max-w-[430px] lg:max-w-[480px]"
-                />
-              </div>
-
-              {/* Social logos displayed at the bottom of the right-side CEO image across all devices */}
-              <div
-                className="relative z-20 mt-3 flex items-center justify-center gap-2.5 sm:gap-3.5 pb-1 pt-1"
-                role="group"
-                aria-label="Connect with TV Radhakrishna on social media"
-              >
-                <External
-                  href={WHATSAPP_CHANNEL_URL}
-                  ariaLabel="Join TV Radhakrishna WhatsApp Channel"
-                  className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#25d366] hover:bg-[#25d366]/20"
-                >
-                  <WhatsAppIcon className="h-5 w-5 text-white" />
-                  <span className="sr-only">WhatsApp Channel</span>
-                </External>
-
-                <External
-                  href={INSTAGRAM_URL}
-                  ariaLabel="Follow @tvradhakrishna on Instagram"
-                  className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#e1306c] hover:bg-[#e1306c]/20"
-                >
-                  <SocialIcon name="Instagram" className="h-5 w-5 text-white" />
-                  <span className="sr-only">Instagram</span>
-                </External>
-
-                {heroSocials.map((item) => (
-                  <External
-                    key={item.name}
-                    href={item.href}
-                    ariaLabel={`Visit ${item.name} profile`}
-                    className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-white hover:bg-white/20"
-                  >
-                    <SocialIcon name={item.name} className="h-5 w-5" />
-                    <span className="sr-only">{item.name}</span>
-                  </External>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+              </section>
         {/* =====================================================
             OXY COMPANY LOGOS (Scrolling Marquee)
         ===================================================== */}
@@ -2874,8 +2965,6 @@ export default function CEOLandingPage({
           </div>
         </div>
       </footer>
-      {/* FLOATING QUICK-CALL HELPLINE (Visible without scroll, hides on scroll) */}
-      <FloatingTollFreeHelpline />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type InitiativeHeaderProps = {
-  active?: "home" | "foundation" | "bridgital" | "certificates" | "links";
+  active?: "home" | "foundation" | "bridgital" | "certificates" | "links" | "hiring" | "festival";
 };
 
 const HEADER_LOGO_COLOR = "https://i.ibb.co/3y8n1mJ1/logo-tvrk.png";
@@ -105,9 +105,11 @@ export default function InitiativeHeader({
     document.addEventListener("pointerdown", onPointerDown);
 
     const onResize = () => {
-      if (window.innerWidth >= 1100) {
+      if (window.innerWidth >= 1280) {
         setOpen(false);
         setMobileResourcesOpen(false);
+      } else {
+        setResourcesOpen(false);
       }
     };
     window.addEventListener("resize", onResize, { passive: true });
@@ -132,7 +134,6 @@ export default function InitiativeHeader({
     const sectionIds = [
       "vision",
       "4p-models",
-      "ecosystem",
       "about",
     ];
 
@@ -167,6 +168,7 @@ export default function InitiativeHeader({
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     // External links proceed naturally
     if (href.startsWith("http://") || href.startsWith("https://")) {
       closeMenu();
@@ -220,7 +222,7 @@ export default function InitiativeHeader({
     }
   };
 
-  const NavLink = ({
+  const renderNavLink = ({
     href,
     children,
     current = false,
@@ -244,9 +246,9 @@ export default function InitiativeHeader({
     (active === "foundation" ||
       active === "bridgital" ||
       active === "certificates" ||
-      active === "links" );
+      active === "links");
 
-  const ResourcesMenu = ({ mobile = false }: { mobile?: boolean }) => {
+  const renderResourcesMenu = ({ mobile = false }: { mobile?: boolean }) => {
     const isExpanded = mobile ? mobileResourcesOpen : resourcesOpen;
 
     const handleToggle = (e: React.MouseEvent) => {
@@ -749,16 +751,16 @@ export default function InitiativeHeader({
         .tvrk-header-spacer { height: 88px; }
         .tvrk-header-scrolled + .tvrk-header-spacer { height: 84px; }
 
-        /* DESKTOP ISOLATION (>= 1100px) — UNCHANGED */
-        @media (min-width: 1100px) {
+        /* DESKTOP ISOLATION (>= 1280px) — UNCHANGED */
+        @media (min-width: 1280px) {
           .tvrk-desktop-nav { display: flex !important; }
           .tvrk-menu-toggle { display: none !important; }
           .tvrk-mobile-nav { display: none !important; }
           .tvrk-backdrop { display: none !important; }
         }
 
-        /* TABLET & MOBILE BASE (<= 1099px) */
-        @media (max-width: 1099px) {
+        /* TABLET & MOBILE BASE (<= 1279px) */
+        @media (max-width: 1279px) {
           .tvrk-header-logo {
             display: flex;
             align-items: center;
@@ -874,8 +876,8 @@ export default function InitiativeHeader({
           }
         }
 
-        /* TABLET SPECIFIC (768px to 1099px) — REMAINS SAME (274px by 64px) */
-        @media (min-width: 768px) and (max-width: 1099px) {
+        /* TABLET SPECIFIC (768px to 1279px) — REMAINS SAME (274px by 64px) */
+        @media (min-width: 768px) and (max-width: 1279px) {
           .tvrk-header-inner {
             width: calc(100% - 24px);
             min-height: 78px;
@@ -1077,6 +1079,52 @@ export default function InitiativeHeader({
           animation: tvrk-dropdown-in 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
+
+        .tvrk-header .tvrk-hiring-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 42px;
+          padding: 8px 17px;
+          border-radius: 999px;
+          border: 1px solid #c79b42;
+          background: linear-gradient(145deg, #fff1bd 0%, #eac66d 48%, #c99a3e 100%);
+          color: #382509;
+          font-family: inherit;
+          font-size: 13.5px;
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          white-space: nowrap;
+          text-decoration: none;
+          box-shadow: inset 0 1px 0 #fff9df, 0 4px 14px rgba(169, 119, 48, 0.22);
+          transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+          cursor: pointer;
+        }
+        .tvrk-header .tvrk-hiring-btn:hover {
+          transform: translateY(-1.5px);
+          filter: brightness(1.06);
+          box-shadow: inset 0 1px 0 #fff9df, 0 6px 18px rgba(169, 119, 48, 0.32);
+        }
+        .tvrk-header .tvrk-hiring-btn:active {
+          transform: scale(0.98);
+        }
+        .tvrk-header .tvrk-hiring-btn:focus-visible {
+          outline: 3px solid #d6a74b;
+          outline-offset: 3px;
+        }
+        .tvrk-header .tvrk-hiring-btn[aria-current="page"] {
+          box-shadow: 0 0 0 2px #b88936, inset 0 1px 0 #fff9df;
+        }
+        .tvrk-mobile-nav > .tvrk-hiring-btn {
+          width: 100%;
+          min-height: 48px;
+          margin: 4px 0;
+          border-radius: 14px;
+          font-size: 15px;
+          font-weight: 800;
+        }
+        @media (min-width:1280px) { .tvrk-header-inner { gap:12px; } .tvrk-desktop-nav { gap:2px; } }
+
         @media (prefers-reduced-motion: reduce) {
           .tvrk-header,
           .tvrk-header * { transition: none !important; animation: none !important; }
@@ -1086,7 +1134,7 @@ export default function InitiativeHeader({
       {/* Screen Backdrop for Mobile / Tablet Drawer */}
       {open && (
         <div
-          className="tvrk-backdrop lg:hidden"
+          className="tvrk-backdrop"
           onClick={closeMenu}
           aria-hidden="true"
         />
@@ -1151,32 +1199,19 @@ export default function InitiativeHeader({
 
           {/* Desktop Navigation */}
           <nav className="tvrk-desktop-nav" aria-label="Main navigation">
-            <NavLink
-              href="/#about"
-              current={isHome && activeSection === "about"}
+            {renderNavLink({ href: "/#about", current: isHome && activeSection === "about", children: "Home" })}
+            <a
+              href="/wearehiring"
+              onClick={(e) => handleNavClick(e, "/wearehiring")}
+              className="tvrk-hiring-btn"
+              aria-current={active === "hiring" || location.pathname === "/wearehiring" || location.pathname === "/hiring" ? "page" : undefined}
             >
-              Home
-            </NavLink>
-            <NavLink
-              href="/#ecosystem"
-              current={isHome && activeSection === "ecosystem"}
-            >
-              Ecosystem
-            </NavLink>
-            <NavLink
-              href="/#vision"
-              current={isHome && activeSection === "vision"}
-            >
-              Vision
-            </NavLink>
-            <NavLink
-              href="/#4p-models"
-              current={isHome && activeSection === "4p-models"}
-            >
-              4P Models
-            </NavLink>
+              <span>We Are Hiring</span>
+            </a>
+            {renderNavLink({ href: "/#vision", current: isHome && activeSection === "vision", children: "Vision" })}
+            {renderNavLink({ href: "/#4p-models", current: isHome && activeSection === "4p-models", children: "4P Models" })}
 
-            <ResourcesMenu />
+            {renderResourcesMenu({})}
 
             <a
               href="https://www.askoxy.ai/radhAI"
@@ -1211,7 +1246,7 @@ export default function InitiativeHeader({
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
             aria-controls="tvrk-mobile-menu"
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => { setOpen((value) => !value); setResourcesOpen(false); setMobileResourcesOpen(false); }}
           >
             {open ? (
               <svg
@@ -1253,32 +1288,19 @@ export default function InitiativeHeader({
             className="tvrk-mobile-nav"
             aria-label="Mobile navigation"
           >
-            <NavLink
-              href="/#about"
-              current={isHome && activeSection === "about"}
+            {renderNavLink({ href: "/#about", current: isHome && activeSection === "about", children: "Home" })}
+            <a
+              href="/wearehiring"
+              onClick={(e) => handleNavClick(e, "/wearehiring")}
+              className="tvrk-hiring-btn"
+              aria-current={active === "hiring" || location.pathname === "/wearehiring" || location.pathname === "/hiring" ? "page" : undefined}
             >
-              Home
-            </NavLink>
-            <NavLink
-              href="/#ecosystem"
-              current={isHome && activeSection === "ecosystem"}
-            >
-              Ecosystem
-            </NavLink>
-            <NavLink
-              href="/#vision"
-              current={isHome && activeSection === "vision"}
-            >
-              Vision
-            </NavLink>
-            <NavLink
-              href="/#4p-models"
-              current={isHome && activeSection === "4p-models"}
-            >
-              4P Models
-            </NavLink>
+              <span>We Are Hiring</span>
+            </a>
+            {renderNavLink({ href: "/#vision", current: isHome && activeSection === "vision", children: "Vision" })}
+            {renderNavLink({ href: "/#4p-models", current: isHome && activeSection === "4p-models", children: "4P Models" })}
 
-            <ResourcesMenu mobile />
+            {renderResourcesMenu({ mobile: true })}
 
             <a
               href="https://www.askoxy.ai/radhAI"

@@ -16,7 +16,7 @@ const OXYLOANS_LOGO = "https://i.ibb.co/B5xsVChY/l2.png";
 const URL = {
   site: "https://tvradhakrishna.com",
   askoxy: "https://www.askoxy.ai/",
-  jobs: "https://www.askoxy.ai/main/askoxyjobs/110e2e85-6cb2-4971-8790-809a0bec2da5",
+  jobs: "https://www.askoxy.ai/main/askoxyjobs",
   zoom: "https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1",
   radhai: "https://www.askoxy.ai/RADHAI",
   lender: "https://www.user.oxyloans.com/register?ref=LR55026",
