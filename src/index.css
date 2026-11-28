@@ -27,3 +27,12 @@ select {
 .font-display {
   font-family: "Sora", "Manrope", "Inter", "Segoe UI", Arial, ui-sans-serif, system-ui, sans-serif;
 }
+
+@keyframes loader-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}

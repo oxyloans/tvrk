@@ -1200,14 +1200,14 @@ export default function InitiativeHeader({
           {/* Desktop Navigation */}
           <nav className="tvrk-desktop-nav" aria-label="Main navigation">
             {renderNavLink({ href: "/#about", current: isHome && activeSection === "about", children: "Home" })}
-            <a
+            {/*<a
               href="/wearehiring"
               onClick={(e) => handleNavClick(e, "/wearehiring")}
               className="tvrk-hiring-btn"
               aria-current={active === "hiring" || location.pathname === "/wearehiring" || location.pathname === "/hiring" ? "page" : undefined}
             >
               <span>We Are Hiring</span>
-            </a>
+            </a>*/}
             {renderNavLink({ href: "/#vision", current: isHome && activeSection === "vision", children: "Vision" })}
             {renderNavLink({ href: "/#4p-models", current: isHome && activeSection === "4p-models", children: "4P Models" })}
 
@@ -1289,14 +1289,14 @@ export default function InitiativeHeader({
             aria-label="Mobile navigation"
           >
             {renderNavLink({ href: "/#about", current: isHome && activeSection === "about", children: "Home" })}
-            <a
+            {/* <a
               href="/wearehiring"
               onClick={(e) => handleNavClick(e, "/wearehiring")}
               className="tvrk-hiring-btn"
               aria-current={active === "hiring" || location.pathname === "/wearehiring" || location.pathname === "/hiring" ? "page" : undefined}
             >
               <span>We Are Hiring</span>
-            </a>
+            </a> */}
             {renderNavLink({ href: "/#vision", current: isHome && activeSection === "vision", children: "Vision" })}
             {renderNavLink({ href: "/#4p-models", current: isHome && activeSection === "4p-models", children: "4P Models" })}
 

@@ -1,4 +1,4 @@
-import walkinNov from "./assets/walkin nov.png";
+import walkinNov from "./assets/walkin nov.webp";
 import {
   ArrowUpRight,
   BriefcaseBusiness,

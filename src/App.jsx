@@ -11,12 +11,23 @@ const OxyLinksPage = lazy(() => import("./OxyLinksPage"));
 const HiringPage = lazy(() => import("./wearehiring"));
 
 function PageLoader() {
-    return (<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#241b67] text-white" role="status" aria-live="polite">
+    return (<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#241b67] bg-[radial-gradient(circle_at_center,rgba(255,216,181,0.12)_0%,rgba(36,27,103,0)_60%)] px-6 text-white" role="status" aria-live="polite" aria-busy="true">
       <div className="relative flex items-center justify-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-white/20 border-t-[#ffd8b5]"/>
-        <span className="absolute text-[10px] font-extrabold text-[#ffd8b5]">✦</span>
+        <div aria-hidden="true" className="absolute h-24 w-24 animate-pulse rounded-full bg-[#ffd8b5]/20 blur-xl motion-reduce:animate-none"/>
+        <div aria-hidden="true" className="h-20 w-20 animate-spin rounded-full border-[3px] border-white/15 border-t-[#ffd8b5] border-r-[#ffd8b5]/50 motion-reduce:animate-none"/>
+        <div className="absolute flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-[#FCFBFB] p-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.28)] ring-2 ring-white/20">
+          <img src="/favicon.svg" alt="" width={44} height={44} loading="eager" decoding="sync" aria-hidden="true" className="h-full w-full rounded-full object-contain"/>
+        </div>
       </div>
-      <span className="mt-4 text-xs font-semibold uppercase tracking-widest text-[#ffdbb8]">Loading...</span>
+      <p className="mt-5 text-xs font-bold uppercase tracking-[0.22em] text-[#ffd8b5]">
+        Loading<span aria-hidden="true" className="inline-block w-4 text-left animate-pulse motion-reduce:animate-none">...</span>
+      </p>
+      {/* <p className="mt-1.5 text-[11px] font-medium text-white/70">
+        Preparing your experience
+      </p> */}
+      <div aria-hidden="true" className="mt-4 h-1 w-36 overflow-hidden rounded-full bg-white/15">
+        <div className="h-full w-1/2 animate-[loader-slide_1.3s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-[#ffd8b5]/40 via-[#ffd8b5] to-[#ffd8b5]/40 motion-reduce:w-full motion-reduce:animate-none"/>
+      </div>
     </div>);
 }
 class PageErrorBoundary extends Component {

@@ -4,19 +4,14 @@ import { SiZoom } from "react-icons/si";
 import { Phone, PhoneCall, ArrowUp } from "lucide-react";
 
 import InitiativeHeader from "./InitiativeHeader";
+import EcosystemModal from "./EcosystemModal";
 const FourPSection = React.lazy(() => import("./FourPSection"));
-import Tvrk from "../src/assets/tvrk.png";
-const WALKIN_IMAGE_SOURCES = [
-  "https://i.ibb.co/rK3tvhyw/walkin-nov.png",
-  "/assets/walkincard.png",
-  "https://i.ibb.co/1fZvDyLM/walkincard.png",
-];
+import Tvrk from "./assets/tvrk.webp";
 
-const WALKIN_MAP_URL =
-  "https://maps.app.goo.gl/isLGUCdN63q7vG3p7?g_st=iw";
-const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png" ;
+const WALKIN_MAP_URL = "https://maps.app.goo.gl/isLGUCdN63q7vG3p7?g_st=iw";
+const HERO_IMAGE = "https://i.ibb.co/pBYhxhvS/ceo-img0.png";
 const INSTAGRAM_URL = "https://www.instagram.com/tvradhakrishna/";
-const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v6QR6M0v/insta-card.png" ;
+const INSTAGRAM_CARD_IMAGE = "https://i.ibb.co/v6QR6M0v/insta-card.png";
 const WHATSAPP_CHANNEL_URL =
   "https://whatsapp.com/channel/0029VbDTFSAHFxOute9NGb1S";
 const YOUTUBE_CHANNEL_URL =
@@ -173,9 +168,19 @@ const footerSocials = [
   },
 ];
 const OPPORTUNITY_CARDS = [
-  { name: "We Are Hiring", image:"https://i.ibb.co/LDrHRYcn/Hyderabad-Metro-Hiring-Banner.png", href: "https://www.askoxy.ai/main/askoxyjobs/cad94b21-9f6d-4dc1-9283-02505af3f132", external: true },
-  { name: "Short Film Submissions", image: "https://i.ibb.co/vCw5NmHq/Lights-Camera-Submit-Your-Short-Film.png", href: "/hisff-2027", external: false },
-  { name: "CEO Factory", image: "https://i.ibb.co/sJDNpx0D/CEO-PINCODE-Earnings-Banner.png" , href: "https://www.askoxy.ai/partner", external: true },
+  // { name: "We Are Hiring", image:"https://i.ibb.co/LDrHRYcn/Hyderabad-Metro-Hiring-Banner.png", href: "https://www.askoxy.ai/main/askoxyjobs/cad94b21-9f6d-4dc1-9283-02505af3f132", external: true },
+  {
+    name: "Short Film Submissions",
+    image: "https://i.ibb.co/vCw5NmHq/Lights-Camera-Submit-Your-Short-Film.png",
+    href: "/hisff-2027",
+    external: false,
+  },
+  {
+    name: "CEO Factory",
+    image: "https://i.ibb.co/sJDNpx0D/CEO-PINCODE-Earnings-Banner.png",
+    href: "https://www.askoxy.ai/partner",
+    external: true,
+  },
 ];
 /* =========================================================
    VISIT PLATFORMS
@@ -327,7 +332,13 @@ function SocialIcon({ name, className = "", style }: SocialIconProps) {
     </svg>
   );
 }
-function WhatsAppIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
+function WhatsAppIcon({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -340,7 +351,13 @@ function WhatsAppIcon({ className = "", style }: { className?: string; style?: R
     </svg>
   );
 }
-function ArrowUpRight({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
+function ArrowUpRight({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   return (
     <svg
       width="18"
@@ -360,7 +377,13 @@ function ArrowUpRight({ className = "", style }: { className?: string; style?: R
     </svg>
   );
 }
-function MailIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
+function MailIcon({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   return (
     <svg
       width="21"
@@ -378,7 +401,13 @@ function MailIcon({ className = "", style }: { className?: string; style?: React
     </svg>
   );
 }
-function BriefcaseIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
+function BriefcaseIcon({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   return (
     <svg
       width="18"
@@ -398,7 +427,13 @@ function BriefcaseIcon({ className = "", style }: { className?: string; style?: 
     </svg>
   );
 }
-function MapPinIcon({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
+function MapPinIcon({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   return (
     <svg
       width="18"
@@ -506,21 +541,26 @@ function useSectionVideoReveal(visibleClass: string) {
   useEffect(() => {
     const block = blockRef.current;
     if (!block) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (!("IntersectionObserver" in window)) {
       block.classList.add(visibleClass);
       if (!reducedMotion) setPlayVideo(true);
       return;
     }
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        block.classList.add(visibleClass);
-        // Start playback only once the video block is on screen.
-        // Muted autoplay is much more reliable across browsers and phones.
-        if (!reducedMotion) setPlayVideo(true);
-        observer.disconnect();
-      }
-    }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          block.classList.add(visibleClass);
+          // Start playback only once the video block is on screen.
+          // Muted autoplay is much more reliable across browsers and phones.
+          if (!reducedMotion) setPlayVideo(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -20px 0px" },
+    );
     observer.observe(block);
     return () => observer.disconnect();
   }, [visibleClass]);
@@ -606,9 +646,19 @@ function FeatureVideoCard({
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <span aria-hidden="true" className="absolute inset-0 bg-black/30" />
-              <span aria-hidden="true" className="relative grid h-14 w-14 place-items-center rounded-full bg-[#ff0033] text-white transition-transform duration-300 group-hover:scale-110">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 translate-x-0.5">
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 bg-black/30"
+              />
+              <span
+                aria-hidden="true"
+                className="relative grid h-14 w-14 place-items-center rounded-full bg-[#ff0033] text-white transition-transform duration-300 group-hover:scale-110"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-7 w-7 translate-x-0.5"
+                >
                   <path d="m8 5 12 7-12 7V5Z" />
                 </svg>
               </span>
@@ -674,7 +724,9 @@ function FeaturePhotoCard({
           )}
           {caption && (
             <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
-              <p className="text-xs font-bold text-white drop-shadow sm:text-sm">{caption}</p>
+              <p className="text-xs font-bold text-white drop-shadow sm:text-sm">
+                {caption}
+              </p>
             </div>
           )}
         </div>
@@ -698,7 +750,10 @@ function OxyLoansAnniversarySection() {
       className="oxy-anniversary relative isolate scroll-mt-24 overflow-hidden bg-[#241b67] py-10 text-white sm:py-12 lg:py-14"
     >
       <FeatureVideoStyles />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20"
+      />
       <div className="tvrk-container relative z-10 space-y-12 sm:space-y-14 lg:space-y-16">
         {/* ROW 1: THE BOSS (Video Left, Content Right) */}
         <div
@@ -723,17 +778,24 @@ function OxyLoansAnniversarySection() {
               THE BOSS.
             </h2>
             <p className="oxy-enter oxy-delay-1 mt-2 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.02em] text-white">
-              The Man. The Vision. <span className="text-[#ffd5b1]">The Legacy.</span>
+              The Man. The Vision.{" "}
+              <span className="text-[#ffd5b1]">The Legacy.</span>
             </p>
             <p className="oxy-enter oxy-delay-2 oxy-rate mt-3 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.35rem,2.4vw,2.15rem)] font-extrabold leading-[1.2] tracking-[-.035em] text-transparent">
               10 Years of Vision. Leadership. Impact.
             </p>
             <p className="oxy-enter oxy-delay-2 mt-3.5 max-w-[630px] text-[13px] leading-relaxed text-white/85 sm:text-[14.5px] sm:leading-7">
               From a bold vision to a decade of building opportunities,{" "}
-              <strong className="font-bold text-white">Rtn Radhakrishna Thatavarti</strong>, Founder &amp; CEO of OxyLoans, has led a journey driven by innovation, determination and the ambition to empower millions.
+              <strong className="font-bold text-white">
+                Rtn Radhakrishna Thatavarti
+              </strong>
+              , Founder &amp; CEO of OxyLoans, has led a journey driven by
+              innovation, determination and the ambition to empower millions.
             </p>
             <div className="oxy-enter oxy-delay-3 mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffd8b5]/30 bg-white/[0.08] px-4 py-2 text-[12px] font-bold tracking-wide text-[#ffdbb8] sm:text-[13px]">
-              <span aria-hidden="true" className="text-sm leading-none">✦</span>
+              <span aria-hidden="true" className="text-sm leading-none">
+                ✦
+              </span>
               <span>One Vision. Ten Years. A Journey That Continues.</span>
             </div>
           </div>
@@ -753,18 +815,28 @@ function OxyLoansAnniversarySection() {
               SILENT STORM.
             </h2>
             <p className="oxy-enter oxy-delay-1 mt-2 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.02em] text-white">
-              The Architect. The Technology. <span className="text-[#ffd5b1]">The Innovation.</span>
+              The Architect. The Technology.{" "}
+              <span className="text-[#ffd5b1]">The Innovation.</span>
             </p>
             <p className="oxy-enter oxy-delay-2 oxy-rate mt-3 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.35rem,2.4vw,2.15rem)] font-extrabold leading-[1.2] tracking-[-.035em] text-transparent">
               10 Years of Dedication. Technology. Scale.
             </p>
             <p className="oxy-enter oxy-delay-2 mt-3.5 max-w-[630px] text-[13px] leading-relaxed text-white/85 sm:text-[14.5px] sm:leading-7">
-              Behind every technological leap is quiet dedication and resilient engineering.{" "}
-              <strong className="font-bold text-white">RamaDevi, CTO of OxyLoans</strong>, spearheads platform architecture, digital security, and fintech systems, turning bold vision into seamless, trusted reality.
+              Behind every technological leap is quiet dedication and resilient
+              engineering.{" "}
+              <strong className="font-bold text-white">
+                RamaDevi, CTO of OxyLoans
+              </strong>
+              , spearheads platform architecture, digital security, and fintech
+              systems, turning bold vision into seamless, trusted reality.
             </p>
             <div className="oxy-enter oxy-delay-3 mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffd8b5]/30 bg-white/[0.08] px-4 py-2 text-[12px] font-bold tracking-wide text-[#ffdbb8] sm:text-[13px]">
-              <span aria-hidden="true" className="text-sm leading-none">✦</span>
-              <span>One Mission. Resilient Technology. A Journey That Continues.</span>
+              <span aria-hidden="true" className="text-sm leading-none">
+                ✦
+              </span>
+              <span>
+                One Mission. Resilient Technology. A Journey That Continues.
+              </span>
             </div>
             <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
               <a
@@ -811,18 +883,27 @@ function OxyLoansAnniversarySection() {
               THE POWERHOUSE.
             </h2>
             <p className="oxy-enter oxy-delay-1 mt-2 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.02em] text-white">
-              The Leader. The Strategy. <span className="text-[#ffd5b1]">The Execution.</span>
+              The Leader. The Strategy.{" "}
+              <span className="text-[#ffd5b1]">The Execution.</span>
             </p>
             <p className="oxy-enter oxy-delay-2 oxy-rate mt-3 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.35rem,2.4vw,2.15rem)] font-extrabold leading-[1.2] tracking-[-.035em] text-transparent">
               10 Years of Dedication. Operations. Growth.
             </p>
             <p className="oxy-enter oxy-delay-2 mt-3.5 max-w-[630px] text-[13px] leading-relaxed text-white/85 sm:text-[14.5px] sm:leading-7">
               Behind every successful business is strong execution.{" "}
-              <strong className="font-bold text-white">Subash, Co-Founder of OxyLoans</strong>, leads operations and management, driving teams, strengthening processes, and turning vision into results.
+              <strong className="font-bold text-white">
+                Subash, Co-Founder of OxyLoans
+              </strong>
+              , leads operations and management, driving teams, strengthening
+              processes, and turning vision into results.
             </p>
             <div className="oxy-enter oxy-delay-3 mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffd8b5]/30 bg-white/[0.08] px-4 py-2 text-[12px] font-bold tracking-wide text-[#ffdbb8] sm:text-[13px]">
-              <span aria-hidden="true" className="text-sm leading-none">✦</span>
-              <span>One Mission. Strong Execution. A Journey That Continues.</span>
+              <span aria-hidden="true" className="text-sm leading-none">
+                ✦
+              </span>
+              <span>
+                One Mission. Strong Execution. A Journey That Continues.
+              </span>
             </div>
             <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
               <a
@@ -836,7 +917,7 @@ function OxyLoansAnniversarySection() {
             </div>
           </div>
         </div>
-       
+
         {/* ROW 4: 10 YEARS OF OXYLOANS (Content Left, Video Right) */}
         <div
           ref={oxyReveal.blockRef}
@@ -846,28 +927,45 @@ function OxyLoansAnniversarySection() {
         >
           <div className="min-w-0">
             <div className="oxy-enter flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[.14em] text-[#ffdbb8] sm:text-[11px]">
-              <span aria-hidden="true" className="text-base leading-none">✦</span>
+              <span aria-hidden="true" className="text-base leading-none">
+                ✦
+              </span>
               Celebrating 10 Years of OXYLOANS
             </div>
-            <h2 id="oxyloans-anniversary-title" className="oxy-enter oxy-delay-1 mt-2.5 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.025em]">
-              A Decade of Connecting <span className="text-[#ffd5b1]">Lenders &amp; Borrowers</span>
+            <h2
+              id="oxyloans-anniversary-title"
+              className="oxy-enter oxy-delay-1 mt-2.5 max-w-[630px] font-display text-[clamp(1.2rem,1.8vw,1.65rem)] font-bold leading-snug tracking-[-.025em]"
+            >
+              A Decade of Connecting{" "}
+              <span className="text-[#ffd5b1]">Lenders &amp; Borrowers</span>
             </h2>
             <p className="oxy-enter oxy-delay-1 mt-2 text-[12px] leading-relaxed text-white/75 sm:text-[13px]">
               RBI-registered NBFC-P2P lending platform.
             </p>
             <div className="oxy-enter oxy-delay-2 mt-4">
-              <p className="text-xs font-extrabold uppercase tracking-[.12em] text-white/85">Lend &amp; Earn</p>
+              <p className="text-xs font-extrabold uppercase tracking-[.12em] text-white/85">
+                Lend &amp; Earn
+              </p>
               <p className="oxy-rate mt-1 bg-gradient-to-r from-[#ffdab4] via-[#ffffff] to-[#ffc394] bg-clip-text font-display text-[clamp(1.7rem,3.3vw,3.15rem)] font-extrabold leading-[1.16] tracking-[-.047em] text-transparent">
                 Up to 1.75% Monthly
                 <span className="block">&amp; 24% Yearly ROI</span>
               </p>
             </div>
             <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <strong className="font-display text-[clamp(1.18rem,1.8vw,1.5rem)] font-extrabold text-white">₹1,800+ Crore</strong>
-              <span className="text-[11px] font-medium text-white/70 sm:text-xs">Cumulative Loan Disbursements</span>
+              <strong className="font-display text-[clamp(1.18rem,1.8vw,1.5rem)] font-extrabold text-white">
+                ₹1,800+ Crore
+              </strong>
+              <span className="text-[11px] font-medium text-white/70 sm:text-xs">
+                Cumulative Loan Disbursements
+              </span>
             </div>
             <div className="oxy-enter oxy-delay-3 mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-              <a href={OXYLOANS_LENDER_URL} target="_blank" rel="noopener noreferrer" className="oxy-action inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffd8b5] px-5 py-2.5 text-xs font-extrabold text-[#251b63] transition-[background,transform] hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#241b67]">
+              <a
+                href={OXYLOANS_LENDER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="oxy-action inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffd8b5] px-5 py-2.5 text-xs font-extrabold text-[#251b63] transition-[background,transform] hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#241b67]"
+              >
                 Start Lending Today <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
@@ -882,12 +980,11 @@ function OxyLoansAnniversarySection() {
             onPlay={() => oxyReveal.setPlayVideo(true)}
           />
         </div>
-
-       
-
-       
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/15" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/15"
+      />
     </section>
   );
 }
@@ -900,18 +997,40 @@ function OpportunityCards() {
     const track = trackRef.current;
     const card = track?.children[index] as HTMLElement | undefined;
     if (!track || !card) return;
-    track.scrollTo({ left: card.offsetLeft, behavior: smooth ? "smooth" : "auto" });
+    track.scrollTo({
+      left: card.offsetLeft,
+      behavior: smooth ? "smooth" : "auto",
+    });
   };
   useEffect(() => {
     const mobile = window.matchMedia("(max-width: 767px)");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const timer = window.setInterval(() => {
       const track = trackRef.current;
-      if (!track || !mobile.matches || reduced.matches || document.hidden || Date.now() - lastInteraction.current < 6500) return;
+      if (
+        !track ||
+        !mobile.matches ||
+        reduced.matches ||
+        document.hidden ||
+        Date.now() - lastInteraction.current < 6500
+      )
+        return;
       const rect = track.getBoundingClientRect();
-      if (rect.bottom <= 0 || rect.top >= window.innerHeight || track.contains(document.activeElement)) return;
+      if (
+        rect.bottom <= 0 ||
+        rect.top >= window.innerHeight ||
+        track.contains(document.activeElement)
+      )
+        return;
       const cards = Array.from(track.children) as HTMLElement[];
-      const current = cards.reduce((best, card, index) => Math.abs(card.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft) ? index : best, 0);
+      const current = cards.reduce(
+        (best, card, index) =>
+          Math.abs(card.offsetLeft - track.scrollLeft) <
+          Math.abs(cards[best].offsetLeft - track.scrollLeft)
+            ? index
+            : best,
+        0,
+      );
       const next = (current + 1) % OPPORTUNITY_CARDS.length;
       goTo(next, next !== 0);
     }, 3500);
@@ -931,12 +1050,24 @@ function OpportunityCards() {
         role="group"
         aria-label="Explore opportunities"
         className="oxy-opportunity-track relative flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-3 md:gap-3.5 lg:gap-4 md:overflow-visible md:pb-0"
-        onPointerDown={() => { lastInteraction.current = Date.now(); }}
+        onPointerDown={() => {
+          lastInteraction.current = Date.now();
+        }}
         onScroll={() => {
           const track = trackRef.current;
-          if (!track || !window.matchMedia("(max-width: 767px)").matches) return;
+          if (!track || !window.matchMedia("(max-width: 767px)").matches)
+            return;
           const cards = Array.from(track.children) as HTMLElement[];
-          setActive(cards.reduce((best, card, index) => Math.abs(card.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft) ? index : best, 0));
+          setActive(
+            cards.reduce(
+              (best, card, index) =>
+                Math.abs(card.offsetLeft - track.scrollLeft) <
+                Math.abs(cards[best].offsetLeft - track.scrollLeft)
+                  ? index
+                  : best,
+              0,
+            ),
+          );
         }}
       >
         {OPPORTUNITY_CARDS.map((card) => (
@@ -962,10 +1093,165 @@ function OpportunityCards() {
       </div>
       <div className="mt-1 flex items-center justify-center gap-2 md:hidden">
         {OPPORTUNITY_CARDS.map((card, index) => (
-          <button key={card.name} type="button" aria-label={`Show ${card.name}`} aria-current={active === index ? "true" : undefined} onClick={() => { lastInteraction.current = Date.now(); goTo(index, !window.matchMedia("(prefers-reduced-motion: reduce)").matches); }} className={`${focus} flex h-8 min-w-7 items-center justify-center rounded-full`}>
-            <span className={`h-1.5 rounded-full transition-all ${active === index ? "w-6 bg-[#ffd5a5]" : "w-2 bg-white/40"}`} />
+          <button
+            key={card.name}
+            type="button"
+            aria-label={`Show ${card.name}`}
+            aria-current={active === index ? "true" : undefined}
+            onClick={() => {
+              lastInteraction.current = Date.now();
+              goTo(
+                index,
+                !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+              );
+            }}
+            className={`${focus} flex h-8 min-w-7 items-center justify-center rounded-full`}
+          >
+            <span
+              className={`h-1.5 rounded-full transition-all ${active === index ? "w-6 bg-[#ffd5a5]" : "w-2 bg-white/40"}`}
+            />
           </button>
         ))}
+      </div>
+    </div>
+  );
+}
+/* =========================================================
+   PRIMARY BUSINESS — LOANS HIGHLIGHT
+   All colours and layout use plain CSS below (not Tailwind classes),
+   so the card looks the same in every build.
+========================================================= */
+const LOAN_APPLY_URL =
+  "https://www.oxyjourneys.com/br-loan-application?utm=TvRadhakrishna";
+type LoansHeroCardProps = {
+  onExploreEcosystem: () => void;
+};
+
+function LoansHeroCard({ onExploreEcosystem }: LoansHeroCardProps) {
+  return (
+    <div className="lhc-wrap">
+      <style>{`
+        .lhc-wrap{margin-top:14px;width:100%;max-width:752px}
+        .lhc-ring{position:relative;padding:1.5px;border-radius:16px;background:linear-gradient(120deg,#a8f0d2,#c9b6ff,#ff9ecd,#89e8ff,#a8f0d2);background-size:300% 300%;animation:lhc-ring 9s ease-in-out infinite}
+        .lhc-card{position:relative;overflow:hidden;border-radius:14.5px;background:#2a1f7a;padding:12px 16px;color:#fff}
+        .lhc-glow{position:absolute;top:-48px;right:-48px;width:136px;height:136px;border-radius:50%;background:rgba(168,240,210,.14);filter:blur(34px);pointer-events:none}
+        .lhc-grid{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px 18px}
+        .lhc-text{min-width:0;flex:1 1 auto}
+        .lhc-top{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+        .lhc-tag{display:inline-flex;align-items:center;gap:6px;padding:3.5px 10px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#1d1550;background:linear-gradient(100deg,#a8f0d2,#c9b6ff,#ff9ecd,#89e8ff,#a8f0d2);background-size:300% 100%;box-shadow:0 0 12px rgba(168,240,210,.38),inset 0 1px 0 rgba(255,255,255,.6);animation:lhc-flow 6s ease-in-out infinite}
+        .lhc-dot{width:6px;height:6px;flex-shrink:0;border-radius:50%;background:#1d1550;animation:lhc-dot 1.4s ease-in-out infinite}
+        .lhc-from{font-size:12px;font-weight:700;color:rgba(255,255,255,.9)}
+        .lhc-amount{margin:5px 0 0;font-family:'Sora','Segoe UI',Arial,sans-serif;font-size:clamp(1.2rem,1.8vw,1.46rem);font-weight:800;line-height:1.15;letter-spacing:-.035em;background:linear-gradient(100deg,#ffffff 0%,#a8f0d2 35%,#c9b6ff 70%,#ffffff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:lhc-shine 7s ease-in-out infinite}
+        .lhc-nowrap{white-space:nowrap}
+        .lhc-to{font-size:.66em}
+        .lhc-inr{display:inline-block;margin-right:.05em;font-family:'Noto Sans','Segoe UI','Nirmala UI',Roboto,Arial,sans-serif;font-weight:800;color:#a8f0d2;-webkit-text-fill-color:#a8f0d2;background:none}
+        .lhc-sub{margin:4px 0 0;font-size:11.5px;font-weight:600;line-height:1.4;color:rgba(255,255,255,.78)}
+        .lhc-actions{display:flex;flex-shrink:0;align-items:center;gap:8px}
+        .lhc-btn{box-sizing:border-box;display:inline-flex;cursor:pointer;font-family:inherit;align-items:center;justify-content:center;gap:5px;min-height:36px;padding:7px 14px;border-radius:9px;font-size:12px;font-weight:800;line-height:1.2;white-space:nowrap;text-decoration:none;transition:transform .2s ease,background .2s ease,color .2s ease}
+        .lhc-btn svg{width:14px;height:14px;flex-shrink:0}
+        .lhc-apply{background:#a8f0d2;color:#0b3d2c;border:0;animation:lhc-pulse 2.4s ease-out infinite}
+        .lhc-apply:hover{background:#ffffff;color:#0b3d2c;transform:translateY(-1.5px)}
+        .lhc-eco{background:rgba(255,255,255,.08);color:#ffffff;border:1.5px solid rgba(201,182,255,.65)}
+        .lhc-eco:hover{background:#c9b6ff;color:#1d1550;transform:translateY(-1.5px)}
+        .lhc-btn:focus-visible{outline:2px solid #ffffff;outline-offset:2px}
+        @keyframes lhc-ring{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        @keyframes lhc-flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        @keyframes lhc-shine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        @keyframes lhc-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+        @keyframes lhc-pulse{0%{box-shadow:0 0 0 0 rgba(168,240,210,.5)}70%{box-shadow:0 0 0 9px rgba(168,240,210,0)}100%{box-shadow:0 0 0 0 rgba(168,240,210,0)}}
+        @media(max-width:1279px) and (min-width:1024px){
+          .lhc-card{padding:12px 15px}
+          .lhc-grid{flex-direction:column;align-items:stretch;gap:11px}
+          .lhc-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px}
+          .lhc-btn{width:100%}
+        }
+        @media(max-width:1023px) and (min-width:768px){
+          .lhc-card{padding:12px 15px}
+          .lhc-grid{gap:12px}
+          .lhc-amount{font-size:clamp(1.18rem,2.3vw,1.42rem)}
+          .lhc-btn{padding:7px 12px;font-size:12px}
+        }
+        @media(max-width:767px){
+          .lhc-card{padding:12px 14px}
+          .lhc-grid{flex-direction:column;align-items:stretch;gap:11px}
+          .lhc-amount{font-size:clamp(1.18rem,3.6vw,1.42rem)}
+          .lhc-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px}
+          .lhc-btn{width:100%;min-width:0;padding:7px 10px}
+        }
+        @media(max-width:639px){
+          .lhc-wrap{margin-top:12px}
+          .lhc-ring{border-radius:15px}
+          .lhc-card{padding:11px 12px;border-radius:13.5px}
+          .lhc-grid{gap:10px}
+          .lhc-top{gap:4px 8px}
+          .lhc-tag{padding:3px 8px;font-size:9.5px;letter-spacing:.08em;gap:5px}
+          .lhc-dot{width:5.5px;height:5.5px}
+          .lhc-from{font-size:11.5px}
+          .lhc-amount{font-size:clamp(1.1rem,5.1vw,1.35rem);line-height:1.2}
+          .lhc-sub{font-size:11px}
+          .lhc-actions{gap:7px}
+          .lhc-btn{min-height:36px;padding:6px 8px;gap:4px;font-size:11.5px}
+          .lhc-btn svg{width:13px;height:13px}
+        }
+        @media(max-width:359px){
+          .lhc-amount{font-size:1.02rem}
+          .lhc-actions{grid-template-columns:minmax(0,1fr)}
+        }
+        @media(prefers-reduced-motion:reduce){.lhc-ring,.lhc-tag,.lhc-dot,.lhc-amount,.lhc-apply{animation:none!important}}
+      `}</style>
+      <div className="lhc-ring">
+        <div className="lhc-card">
+          <div aria-hidden="true" className="lhc-glow" />
+          <div className="lhc-grid">
+            <div className="lhc-text">
+              <div className="lhc-top">
+                <span className="lhc-tag">
+                  <span aria-hidden="true" className="lhc-dot" />
+                  Our Primary Business
+                </span>
+                <span className="lhc-from">Loans from</span>
+              </div>
+              <p className="lhc-amount">
+                <span className="lhc-nowrap">
+                  <span className="lhc-inr" aria-label="Rupees">
+                    &#8377;
+                  </span>
+                  5,000
+                </span>{" "}
+                <span className="lhc-to">to</span>{" "}
+                <span className="lhc-nowrap">
+                  <span className="lhc-inr" aria-label="Rupees">
+                    &#8377;
+                  </span>
+                  5,000 Crore
+                </span>
+              </p>
+              {/* <p className="lhc-sub">
+                For Education, Marriage, Home &amp; Funding &middot; OXY Ecosystem
+              </p> */}
+            </div>
+            <div className="lhc-actions">
+              <a
+                href={LOAN_APPLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Apply now for loans from ₹5,000 to ₹5,000 Crore (opens in a new tab)"
+                className="lhc-btn lhc-apply"
+              >
+                Apply Now <ArrowUpRight />
+              </a>
+              <button
+                type="button"
+                onClick={onExploreEcosystem}
+                aria-haspopup="dialog"
+                aria-label="Explore the OXY Global Ecosystem"
+                className="lhc-btn lhc-eco"
+              >
+                Explore Ecosystem <ArrowUpRight />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -980,9 +1266,9 @@ export default function CEOLandingPage({
   portraitUrl = HERO_IMAGE,
 }: CEOLandingPageProps) {
   const writeToUsDialogRef = useRef<HTMLDialogElement>(null);
+  const [ecosystemOpen, setEcosystemOpen] = useState(false);
   const [activeOpportunity, setActiveOpportunity] = useState(0);
   const [slideEnabled, setSlideEnabled] = useState(true);
-  const [walkinImageSourceIndex, setWalkinImageSourceIndex] = useState(0);
   const [motionEnabled, setMotionEnabled] = useState(true);
 
   // Smooth scroll to anchor on initial mount
@@ -993,7 +1279,8 @@ export default function CEOLandingPage({
         const el = document.getElementById(id);
         if (el) {
           const headerOffset = 84;
-          const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+          const y =
+            el.getBoundingClientRect().top + window.scrollY - headerOffset;
           window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
         }
       }, 180);
@@ -1011,16 +1298,26 @@ export default function CEOLandingPage({
   // Instagram art and text reveal only once the section is visible.
   useEffect(() => {
     const section = document.getElementById("instagram");
-    if (!section || !("IntersectionObserver" in window) ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      section.classList.add("ig-in-view");
-      observer.disconnect();
-    }, { threshold: 0.12, rootMargin: "0px 0px -25px 0px" });
+    if (
+      !section ||
+      !("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        section.classList.add("ig-in-view");
+        observer.disconnect();
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -25px 0px" },
+    );
     section.classList.add("ig-motion-enabled");
     observer.observe(section);
-    return () => { observer.disconnect(); section.classList.remove("ig-motion-enabled", "ig-in-view"); };
+    return () => {
+      observer.disconnect();
+      section.classList.remove("ig-motion-enabled", "ig-in-view");
+    };
   }, []);
 
   useEffect(() => {
@@ -1038,23 +1335,32 @@ export default function CEOLandingPage({
   // Elements remain visible when IntersectionObserver is unavailable.
   useEffect(() => {
     const root = document.querySelector<HTMLElement>(".ceo-modern");
-    if (!root || !("IntersectionObserver" in window) ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (
+      !root ||
+      !("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
 
-    const items = Array.from(root.querySelectorAll<HTMLElement>(
-      "#about h1, #about p, #about .hero-action-grid, #about .ceo-portrait-stage, " +
-      "#platforms .logo-link, #instagram .instagram-showcase, " +
-      "#platforms ~ section h2, #platforms ~ section .glass-card, " +
-      "#platforms ~ section .vision-card, #platforms ~ section .platform-visual, " +
-      "#platforms ~ section article, #platforms ~ section .liquid-glass"
-    ));
-    const observer = new IntersectionObserver((entries, observerInstance) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("motion-in");
-        observerInstance.unobserve(entry.target);
-      });
-    }, { threshold: 0.08, rootMargin: "0px 0px -24px 0px" });
+    const items = Array.from(
+      root.querySelectorAll<HTMLElement>(
+        "#about h1, #about p, #about .hero-action-grid, #about .ceo-portrait-stage, " +
+          "#platforms .logo-link, #instagram .instagram-showcase, " +
+          "#platforms ~ section h2, #platforms ~ section .glass-card, " +
+          "#platforms ~ section .vision-card, #platforms ~ section .platform-visual, " +
+          "#platforms ~ section article, #platforms ~ section .liquid-glass",
+      ),
+    );
+    const observer = new IntersectionObserver(
+      (entries, observerInstance) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("motion-in");
+          observerInstance.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -24px 0px" },
+    );
     items.forEach((el, index) => {
       // Never hide content already in the first viewport.
       if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
@@ -1062,10 +1368,18 @@ export default function CEOLandingPage({
       el.style.setProperty("--motion-delay", `${(index % 3) * 45}ms`);
       observer.observe(el);
     });
-    return () => { observer.disconnect(); items.forEach(el => {
-      el.classList.remove("motion-ready", "motion-in", "motion-from-left", "motion-from-right");
-      el.style.removeProperty("--motion-delay");
-    }); };
+    return () => {
+      observer.disconnect();
+      items.forEach((el) => {
+        el.classList.remove(
+          "motion-ready",
+          "motion-in",
+          "motion-from-left",
+          "motion-from-right",
+        );
+        el.style.removeProperty("--motion-delay");
+      });
+    };
   }, []);
 
   const handleOpportunitySlideEnd = () => {
@@ -1089,11 +1403,20 @@ export default function CEOLandingPage({
         aria-labelledby="write-to-us-title"
         aria-describedby="write-to-us-description"
         className="m-auto w-[calc(100%-32px)] max-w-[480px] rounded-2xl border-0 bg-white p-0 text-[#241b67] shadow-2xl"
-        style={{ width: "calc(100% - 32px)", maxHeight: "calc(100dvh - 32px)", overflowY: "auto" }}
+        style={{
+          width: "calc(100% - 32px)",
+          maxHeight: "calc(100dvh - 32px)",
+          overflowY: "auto",
+        }}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             const rect = event.currentTarget.getBoundingClientRect();
-            if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+            if (
+              event.clientX < rect.left ||
+              event.clientX > rect.right ||
+              event.clientY < rect.top ||
+              event.clientY > rect.bottom
+            ) {
               event.currentTarget.close();
             }
           }
@@ -1102,8 +1425,16 @@ export default function CEOLandingPage({
         <div className="p-5 sm:p-7">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 id="write-to-us-title" className="font-display text-xl font-bold sm:text-2xl">Write to Us</h2>
-              <p id="write-to-us-description" className="mt-2 text-sm leading-6 text-[#565064]">
+              <h2
+                id="write-to-us-title"
+                className="font-display text-xl font-bold sm:text-2xl"
+              >
+                Write to Us
+              </h2>
+              <p
+                id="write-to-us-description"
+                className="mt-2 text-sm leading-6 text-[#565064]"
+              >
                 Share your questions or feedback through ASKOXY.AI.
               </p>
             </div>
@@ -1117,9 +1448,18 @@ export default function CEOLandingPage({
             </button>
           </div>
           <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-6 text-[#565064]">
-            <li>Go to <strong className="text-[#241b67]">ASKOXY.AI</strong> and register or log in.</li>
-            <li>Open the sidebar and select <strong className="text-[#241b67]">Help &amp; Support</strong>.</li>
-            <li>Choose <strong className="text-[#241b67]">Write to Us</strong> and send your message.</li>
+            <li>
+              Go to <strong className="text-[#241b67]">ASKOXY.AI</strong> and
+              register or log in.
+            </li>
+            <li>
+              Open the sidebar and select{" "}
+              <strong className="text-[#241b67]">Help &amp; Support</strong>.
+            </li>
+            <li>
+              Choose <strong className="text-[#241b67]">Write to Us</strong> and
+              send your message.
+            </li>
           </ol>
           <a
             href="https://www.askoxy.ai/main/writetous"
@@ -1151,7 +1491,7 @@ export default function CEOLandingPage({
           white-space: nowrap;
           filter: drop-shadow(0 6px 17px rgba(255,205,150,.12));
         }
-        /* Preserve every pixel of tvrk.png: no crop, negative margins or fixed-height distortion. */
+        /* Preserve every pixel of tvrk.webp: no crop, negative margins or fixed-height distortion. */
         .ceo-page .tvrk-banner-section {
           width: 100%;
           overflow: hidden;
@@ -2144,206 +2484,243 @@ export default function CEOLandingPage({
         }
       `}</style>
       <InitiativeHeader active="home" />
+      <EcosystemModal
+        isOpen={ecosystemOpen}
+        onClose={() => setEcosystemOpen(false)}
+      />
       <main>
         {/* =====================================================
             HERO
         ===================================================== */}
-      <section
-                id="about"
-                aria-labelledby="hero-heading"
-                className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
+        <section
+          id="about"
+          aria-labelledby="hero-heading"
+          className="relative overflow-hidden pt-[90px] text-white sm:pt-[100px]"
+        >
+          <div className="tvrk-container mx-auto grid items-center gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-10 lg:pb-8 lg:pt-4 xl:gap-12">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              className="min-w-0 self-center"
+            >
+              <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
+                FinTech · BFSI · Artificial Intelligence
+              </p>
+              <h1
+                id="hero-heading"
+                className="ceo-gradient-heading hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:mt-4 sm:text-[clamp(2.5rem,4vw,3.6rem)] lg:mt-3"
               >
-                <div className="tvrk-container mx-auto grid items-end gap-6 pb-7 pt-6 sm:pb-9 sm:pt-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-10 lg:pb-10 lg:pt-9 xl:gap-12">
-                  <motion.div
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                    className="min-w-0 self-end"
+                <span className="block">Every Journey.</span>
+                <span className="mt-1 block sm:mt-1.5">One Partner.</span>
+              </h1>
+              <p className="mt-5 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:mt-6 lg:mt-4 sm:text-[17px] lg:text-[18px]">
+                From birth to legacy, we’re with you at every turn.
+              </p>
+              <p className="hero-copy mt-3 max-w-[640px] text-[13px] font-medium leading-6 sm:mt-3.5 sm:text-[15px] sm:leading-7">
+                Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding, Real
+                Estate and Loans for Education, Marriage &amp; Home.
+              </p>
+              <LoansHeroCard
+                onExploreEcosystem={() => setEcosystemOpen(true)}
+              />
+              {/* Walk-in Interview Hero Banner (borderless) */}
+              <div className="hero-opportunity-placement mt-6 max-w-[752px] sm:mt-7 lg:mt-5">
+                <OpportunityCards />
+              </div>
+              <div className="hero-action-grid mt-6 sm:mt-7 lg:mt-5">
+                <External
+                  href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
+                  ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
+                  className="hero-gloss-button hero-meet-button"
+                  style={{
+                    background: "linear-gradient(135deg, #dbeafe, #93c5fd)",
+                    color: "#123b72",
+                    border: "1px solid #60a5fa",
+                    fontWeight: 700,
+                  }}
+                >
+                  <span
+                    className="hero-meet-icon"
+                    aria-hidden="true"
+                    style={{
+                      background: "rgba(255,255,255,0.85)",
+                      color: "#0b5cff",
+                    }}
                   >
-                    <p className="hero-kicker text-[9px] font-extrabold uppercase tracking-[0.18em] sm:text-[11px]">
-                      FinTech · BFSI · Artificial Intelligence
-                    </p>
-                    <h1
-                      id="hero-heading"
-                      className="ceo-gradient-heading hero-journey-gradient font-display mt-3.5 max-w-[760px] text-[clamp(2rem,4.5vw,4.2rem)] font-extrabold leading-[0.96] tracking-[-0.05em] sm:mt-4 sm:text-[clamp(2.5rem,4.5vw,4.2rem)]"
-                    >
-                      <span className="block">Every Journey.</span>
-                      <span className="mt-1 block sm:mt-1.5">One Partner.</span>
-                    </h1>
-                    <p className="mt-5 max-w-[680px] text-[15px] font-semibold leading-7 text-white sm:mt-6 sm:text-[17px] lg:text-[18px]">
-                      From birth to legacy, we’re with you at every turn.
-                    </p>
-                    <p className="hero-copy mt-3 max-w-[640px] text-[13px] font-medium leading-6 sm:mt-3.5 sm:text-[15px] sm:leading-7">
-                      Jobs, Skills, Study Abroad, Gold &amp; Silver, AI, Funding,
-                      Real Estate and Loans for Education, Marriage &amp; Home.
-                    </p>
-                    {/* Walk-in Interview Hero Banner (borderless) */}
-                    <div className="hero-opportunity-placement mt-6 max-w-[752px] sm:mt-7">
-                      <OpportunityCards />
-                    </div>
-                    <div className="hero-action-grid mt-6 sm:mt-7">
-                      <External
-                        href="https://us06web.zoom.us/j/83426047733?pwd=BKaIwjmah7iidb2s9F1bPK8uv9tMDg.1"
-                        ariaLabel="Join daily Zoom session at 08:00 PM IST (opens in a new tab)"
-                        className="hero-gloss-button hero-meet-button"
-                        style={{
-                          background: "linear-gradient(135deg, #dbeafe, #93c5fd)",
-                          color: "#123b72",
-                          border: "1px solid #60a5fa",
-                          fontWeight: 700
-                        }}
-                      >
-                        <span className="hero-meet-icon" aria-hidden="true" style={{ background: "rgba(255,255,255,0.85)", color: "#0b5cff" }}>
-                          <SiZoom className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" style={{ color: "#0b5cff" }} />
-                        </span>
-                        <span className="hero-meet-label" style={{ color: "#123b72" }}>
-                          <span className="hero-meet-line1 block whitespace-nowrap font-bold">
-                            Live Q&amp;A · Daily Zoom
-                          </span>
-                          <span className="hero-meet-line2 block whitespace-nowrap font-extrabold" style={{ color: "#0b5cff" }}>
-                            8:00 PM IST
-                          </span>
-                        </span>
-                        <ArrowUpRight
-                          className="hero-meet-arrow h-3.5 w-3.5 shrink-0"
-                          style={{ color: "#1d4ed8" }}
-                        />
-                      </External>
-                      <button
-                        type="button"
-                        onClick={() => writeToUsDialogRef.current?.showModal()}
-                        aria-haspopup="dialog"
-                        aria-controls="write-to-us-dialog"
-                        className={`${focus} hero-gloss-button hero-gloss-peach`}
-                      >
-                        <MailIcon />
-                        <span>Write to Us</span>
-                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
-                      </button>
-      
-                      <External
-                        href="https://youtu.be/INIuPOKQMrE"
-                        ariaLabel="Watch Birth to Legacy Journey on YouTube (opens in a new tab)"
-                        className="hero-gloss-button hero-gloss-purple hero-video-button"
-                      >
-                        <span className="flex items-center justify-center gap-1.5">
-                          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-3.5 w-3.5 shrink-0">
-                            <path d="M6 3.5v13l10-6.5L6 3.5Z" />
-                          </svg>
-                          Watch Video
-                        </span>
-                      </External>
-
-                      <a
-                        href={TOLL_FREE_TEL}
-                        aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY} (24/7 Available)`}
-                        className={`${focus} hero-gloss-button hero-gloss-helpline`}
-                        style={{
-                          background: "linear-gradient(135deg, #1b1248 0%, #291b68 50%, #352184 100%)",
-                          border: "1px solid rgba(255, 216, 181, 0.45)",
-                          color: "#ffffff",
-                        }}
-                      >
-                        <span className="flex items-center justify-center gap-1.5 sm:gap-2">
-                          <span className="relative flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
-                            <PhoneCall className="h-2.5 w-2.5 sm:h-3 sm:w-3 animate-pulse" />
-                            <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-emerald-400 ring-1 ring-[#1b1248]" />
-                          </span>
-                          <span className="flex flex-col text-left leading-tight whitespace-nowrap">
-                            <span className="flex items-center gap-1 text-[7.5px] sm:text-[8.5px] font-extrabold uppercase tracking-tight text-[#ffd5b1] whitespace-nowrap">
-                              <span className="whitespace-nowrap">Toll Free Helpline</span>
-                              <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
-                              <span className="text-[7px] sm:text-[7.5px] font-bold text-emerald-300 lowercase whitespace-nowrap">24/7</span>
-                            </span>
-                            <span className="font-mono text-[10.5px] sm:text-xs font-extrabold tracking-tight text-white whitespace-nowrap">
-                              {TOLL_FREE_DISPLAY}
-                            </span>
-                          </span>
-                        </span>
-                      </a>
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-                    className="ceo-portrait-stage relative mx-auto flex w-full max-w-[490px] flex-col items-center justify-end self-end lg:mx-0 lg:justify-self-end"
-                    aria-label="CEO portrait"
-                  >
-                    {/* Subtle ambient lighting aura behind the portrait */}
-                    <motion.div
-                      animate={{
-                        opacity: [0.35, 0.62, 0.35],
-                        scale: [0.96, 1.04, 0.96],
-                      }}
-                      transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
-                      aria-hidden="true"
+                    <SiZoom
+                      className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]"
+                      style={{ color: "#0b5cff" }}
                     />
-      
-                    {/* Gently floating portrait with slight breathing motion */}
-                    <motion.div
-                      animate={{
-                        y: [0, -6, 0],
-                      }}
-                      transition={{
-                        duration: 5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      whileHover={{ scale: 1.015 }}
-                      className="relative z-10 flex w-full justify-center"
+                  </span>
+                  <span
+                    className="hero-meet-label"
+                    style={{ color: "#123b72" }}
+                  >
+                    <span className="hero-meet-line1 block whitespace-nowrap font-bold">
+                      Live Q&amp;A · Daily Zoom
+                    </span>
+                    <span
+                      className="hero-meet-line2 block whitespace-nowrap font-extrabold"
+                      style={{ color: "#0b5cff" }}
                     >
-                      <Portrait
-                        key={portraitUrl}
-                        src={portraitUrl}
-                        className="ceo-portrait-image relative z-10 max-w-[345px] self-end drop-shadow-[0_16px_36px_rgba(10,5,40,0.35)] transition-transform duration-300 sm:max-w-[400px] lg:max-w-[445px]"
-                      />
-                    </motion.div>
-      
-                    {/* Social logos displayed at the bottom of the right-side CEO image across all devices */}
-                    <div
-                      className="relative z-20 mt-3.5 flex items-center justify-center gap-2.5 sm:gap-3.5 pb-0 pt-1"
-                      role="group"
-                      aria-label="Connect with TV Radhakrishna on social media"
+                      8:00 PM IST
+                    </span>
+                  </span>
+                  <ArrowUpRight
+                    className="hero-meet-arrow h-3.5 w-3.5 shrink-0"
+                    style={{ color: "#1d4ed8" }}
+                  />
+                </External>
+                <button
+                  type="button"
+                  onClick={() => writeToUsDialogRef.current?.showModal()}
+                  aria-haspopup="dialog"
+                  aria-controls="write-to-us-dialog"
+                  className={`${focus} hero-gloss-button hero-gloss-peach`}
+                >
+                  <MailIcon />
+                  <span>Write to Us</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+                </button>
+
+                <External
+                  href="https://youtu.be/INIuPOKQMrE"
+                  ariaLabel="Watch Birth to Legacy Journey on YouTube (opens in a new tab)"
+                  className="hero-gloss-button hero-gloss-purple hero-video-button"
+                >
+                  <span className="flex items-center justify-center gap-1.5">
+                    <svg
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5 shrink-0"
                     >
-                      <External
-                        href={WHATSAPP_CHANNEL_URL}
-                        ariaLabel="Join TV Radhakrishna WhatsApp Channel"
-                        className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#25d366] hover:bg-[#25d366]/20"
-                      >
-                        <WhatsAppIcon className="h-5 w-5 text-white" />
-                        <span className="sr-only">WhatsApp Channel</span>
-                      </External>
-      
-                      <External
-                        href={INSTAGRAM_URL}
-                        ariaLabel="Follow @tvradhakrishna on Instagram"
-                        className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#e1306c] hover:bg-[#e1306c]/20"
-                      >
-                        <SocialIcon name="Instagram" className="h-5 w-5 text-white" />
-                        <span className="sr-only">Instagram</span>
-                      </External>
-      
-                      {heroSocials.map((item) => (
-                        <External
-                          key={item.name}
-                          href={item.href}
-                          ariaLabel={`Visit ${item.name} profile`}
-                          className={`hero-social-circle gloss-link transition-all duration-200 hover:scale-110 ${item.hoverBorder || "hover:border-white"} ${item.hoverBg || "hover:bg-white/20"}`}
-                        >
-                          <SocialIcon name={item.name} className="h-5 w-5" />
-                          <span className="sr-only">{item.name}</span>
-                        </External>
-                      ))}
-                    </div>
-                  </motion.div>
-                </div>
-              </section>
+                      <path d="M6 3.5v13l10-6.5L6 3.5Z" />
+                    </svg>
+                    Watch Video
+                  </span>
+                </External>
+
+                <a
+                  href={TOLL_FREE_TEL}
+                  aria-label={`Call Toll Free Helpline ${TOLL_FREE_DISPLAY} (24/7 Available)`}
+                  className={`${focus} hero-gloss-button hero-gloss-helpline`}
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #1b1248 0%, #291b68 50%, #352184 100%)",
+                    border: "1px solid rgba(255, 216, 181, 0.45)",
+                    color: "#ffffff",
+                  }}
+                >
+                  <span className="flex items-center justify-center gap-1.5 sm:gap-2">
+                    <span className="relative flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffd5b1] to-[#ffaa64] text-[#241b67] shadow-sm">
+                      <PhoneCall className="h-2.5 w-2.5 sm:h-3 sm:w-3 animate-pulse" />
+                      <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-emerald-400 ring-1 ring-[#1b1248]" />
+                    </span>
+                    <span className="flex flex-col text-left leading-tight whitespace-nowrap">
+                      <span className="flex items-center gap-1 text-[7.5px] sm:text-[8.5px] font-extrabold uppercase tracking-tight text-[#ffd5b1] whitespace-nowrap">
+                        <span className="whitespace-nowrap">
+                          Toll Free Helpline
+                        </span>
+                        <span className="h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
+                        <span className="text-[7px] sm:text-[7.5px] font-bold text-emerald-300 lowercase whitespace-nowrap">
+                          24/7
+                        </span>
+                      </span>
+                      <span className="font-mono text-[10.5px] sm:text-xs font-extrabold tracking-tight text-white whitespace-nowrap">
+                        {TOLL_FREE_DISPLAY}
+                      </span>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.75,
+                delay: 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="ceo-portrait-stage relative mx-auto flex w-full max-w-[490px] flex-col items-center justify-center self-center lg:mx-0 lg:justify-self-end"
+              aria-label="CEO portrait"
+            >
+              {/* Subtle ambient lighting aura behind the portrait */}
+              <motion.div
+                animate={{
+                  opacity: [0.35, 0.62, 0.35],
+                  scale: [0.96, 1.04, 0.96],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="pointer-events-none absolute inset-x-6 top-8 bottom-12 -z-0 rounded-full bg-gradient-to-tr from-[#7c3aed]/25 via-[#3b82f6]/20 to-[#f43f5e]/15 blur-3xl"
+                aria-hidden="true"
+              />
+
+              {/* Gently floating portrait with slight breathing motion */}
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={{ scale: 1.015 }}
+                className="relative z-10 flex w-full justify-center"
+              >
+                <Portrait
+                  key={portraitUrl}
+                  src={portraitUrl}
+                  className="ceo-portrait-image relative z-10 max-w-[345px] self-end drop-shadow-[0_16px_36px_rgba(10,5,40,0.35)] transition-transform duration-300 sm:max-w-[400px] lg:max-w-[445px]"
+                />
+              </motion.div>
+
+              {/* Social logos displayed at the bottom of the right-side CEO image across all devices */}
+              <div
+                className="relative z-20 mt-3.5 flex items-center justify-center gap-2.5 sm:gap-3.5 pb-0 pt-1"
+                role="group"
+                aria-label="Connect with TV Radhakrishna on social media"
+              >
+                <External
+                  href={WHATSAPP_CHANNEL_URL}
+                  ariaLabel="Join TV Radhakrishna WhatsApp Channel"
+                  className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#25d366] hover:bg-[#25d366]/20"
+                >
+                  <WhatsAppIcon className="h-5 w-5 text-white" />
+                  <span className="sr-only">WhatsApp Channel</span>
+                </External>
+
+                <External
+                  href={INSTAGRAM_URL}
+                  ariaLabel="Follow @tvradhakrishna on Instagram"
+                  className="hero-social-circle gloss-link transition-all duration-200 hover:scale-110 hover:border-[#e1306c] hover:bg-[#e1306c]/20"
+                >
+                  <SocialIcon name="Instagram" className="h-5 w-5 text-white" />
+                  <span className="sr-only">Instagram</span>
+                </External>
+
+                {heroSocials.map((item) => (
+                  <External
+                    key={item.name}
+                    href={item.href}
+                    ariaLabel={`Visit ${item.name} profile`}
+                    className={`hero-social-circle gloss-link transition-all duration-200 hover:scale-110 ${item.hoverBorder || "hover:border-white"} ${item.hoverBg || "hover:bg-white/20"}`}
+                  >
+                    <SocialIcon name={item.name} className="h-5 w-5" />
+                    <span className="sr-only">{item.name}</span>
+                  </External>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
         {/* =====================================================
             OXY COMPANY LOGOS (Scrolling Marquee)
         ===================================================== */}
@@ -2359,7 +2736,12 @@ export default function CEOLandingPage({
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-20 lg:w-28 bg-gradient-to-l from-white via-white/80 to-transparent" />
 
             <div className="logo-marquee flex items-center py-1 sm:py-2">
-              {[...brandPlatforms, ...brandPlatforms, ...brandPlatforms, ...brandPlatforms].map((item, index) => (
+              {[
+                ...brandPlatforms,
+                ...brandPlatforms,
+                ...brandPlatforms,
+                ...brandPlatforms,
+              ].map((item, index) => (
                 <External
                   key={`${item.name}-${index}`}
                   href={item.href}
@@ -2472,7 +2854,11 @@ export default function CEOLandingPage({
               @media(prefers-reduced-motion:reduce){#instagram .ig-heading{animation:none!important}#instagram.ig-motion-enabled .ig-open-visual img,#instagram.ig-motion-enabled .ig-copy>*{opacity:1!important;transform:none!important;transition:none!important}#instagram .ig-open-visual:hover img{transform:none!important}}
             `}</style>
             <div className="ig-open-layout">
-              <External href={INSTAGRAM_URL} ariaLabel="Open @tvradhakrishna on Instagram" className="ig-open-visual group">
+              <External
+                href={INSTAGRAM_URL}
+                ariaLabel="Open @tvradhakrishna on Instagram"
+                className="ig-open-visual group"
+              >
                 <img
                   src={INSTAGRAM_CARD_IMAGE}
                   alt="@tvradhakrishna Instagram profile illustration"
@@ -2487,15 +2873,26 @@ export default function CEOLandingPage({
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[linear-gradient(145deg,#833ab4,#e1306c,#f77737)] text-white">
                     <SocialIcon name="Instagram" className="h-4 w-4" />
                   </span>
-                  <p className="ig-kicker text-[10px] font-extrabold uppercase tracking-[.12em] sm:text-xs">Instagram · @tvradhakrishna</p>
+                  <p className="ig-kicker text-[10px] font-extrabold uppercase tracking-[.12em] sm:text-xs">
+                    Instagram · @tvradhakrishna
+                  </p>
                 </div>
-                <h2 id="instagram-heading" className="ig-heading font-display mt-4 max-w-xl text-[clamp(1.85rem,3.3vw,3.05rem)] font-extrabold leading-[1.12] tracking-[-.045em]">
+                <h2
+                  id="instagram-heading"
+                  className="ig-heading font-display mt-4 max-w-xl text-[clamp(1.85rem,3.3vw,3.05rem)] font-extrabold leading-[1.12] tracking-[-.045em]"
+                >
                   Connect. Discover. Stay inspired.
                 </h2>
                 <p className="ig-description mt-4 max-w-xl text-sm font-medium leading-7 sm:text-[15px]">
-                  Explore practical ideas across AI, financial services, technology, and entrepreneurial journeys. Follow <strong>@tvradhakrishna</strong> on Instagram.
+                  Explore practical ideas across AI, financial services,
+                  technology, and entrepreneurial journeys. Follow{" "}
+                  <strong>@tvradhakrishna</strong> on Instagram.
                 </p>
-                <External href={INSTAGRAM_URL} className="insta-follow-cta mt-6 inline-flex min-h-[50px] w-fit max-w-full items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-extrabold text-white sm:text-[15px]" ariaLabel="Follow @tvradhakrishna on Instagram">
+                <External
+                  href={INSTAGRAM_URL}
+                  className="insta-follow-cta mt-6 inline-flex min-h-[50px] w-fit max-w-full items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-extrabold text-white sm:text-[15px]"
+                  ariaLabel="Follow @tvradhakrishna on Instagram"
+                >
                   <SocialIcon name="Instagram" className="h-5 w-5" />
                   Follow on Instagram
                   <ArrowUpRight className="h-4 w-4" />
@@ -2624,7 +3021,9 @@ export default function CEOLandingPage({
             </div>
           </div>
         </section>
-        <React.Suspense fallback={<div className="min-h-[380px] w-full" aria-hidden="true" />}>
+        <React.Suspense
+          fallback={<div className="min-h-[380px] w-full" aria-hidden="true" />}
+        >
           <FourPSection />
         </React.Suspense>
         {/* =====================================================
@@ -2887,7 +3286,9 @@ export default function CEOLandingPage({
                   >
                     <PhoneCall className="h-4 w-4 text-[#211b67] animate-pulse" />
                     <span>Toll Free: {TOLL_FREE_DISPLAY}</span>
-                    <span className="rounded-full bg-[#211b67]/15 px-2 py-0.5 text-[10px] font-extrabold text-[#211b67]">24/7 · 365 Days</span>
+                    <span className="rounded-full bg-[#211b67]/15 px-2 py-0.5 text-[10px] font-extrabold text-[#211b67]">
+                      24/7 · 365 Days
+                    </span>
                   </a>
                   <a
                     href={OFFICE_MAP_URL}
@@ -3002,15 +3403,16 @@ export default function CEOLandingPage({
               <button
                 type="button"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/[0.08] px-2 py-0.5 text-[11px] font-medium leading-5 text-white/[0.78] backdrop-blur-sm transition-all hover:border-white/30 hover:bg-white/[0.16] hover:text-white active:scale-95"
+                className="inline-flex items-center gap-1 text-[10px] font-medium leading-5 text-white/[0.72] transition-colors hover:text-white"
                 title="Scroll to top of page"
                 aria-label="Scroll to top of page"
               >
-                <ArrowUp className="h-3 w-3" /> Back to Top
+                <ArrowUp className="h-2.5 w-2.5" /> Back to Top
               </button>
               <span className="hidden text-white/30 sm:inline">•</span>
-              <p className="text-[11px] font-medium leading-5 text-white/[0.72]">
-                © {new Date().getFullYear()} Radhakrishna T. All rights reserved.
+              <p className="text-[10px] font-medium leading-5 text-white/[0.72]">
+                © {new Date().getFullYear()} Radhakrishna T. All rights
+                reserved.
               </p>
               <External
                 href={HIDDEN_DRIVE_URL}

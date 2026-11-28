@@ -12,7 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import InitiativeHeader from "./InitiativeHeader";
-import festivalImage from "./assets/film_fesv.jpeg";
+import festivalImage from "./assets/film_fesv.webp";
 
 const SUBMISSION_URL = "https://filmfreeway.com/HISFF2026";
 
